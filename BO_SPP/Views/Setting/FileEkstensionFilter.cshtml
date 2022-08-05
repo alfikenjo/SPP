@@ -1,0 +1,67 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+
+    <script src="@Url.Content("~/Scripts/Pages/FileEkstensionFilter.js")"></script>
+}
+
+<div class="row">
+    <div class="col-lg-12 mb-3">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="navbar-breadcrumb">
+                <h5 class="mb-0">Daftar whitelist File Ekstension</h5>
+                <small>System Administrator - Setting</small>
+            </div>
+            <div class="btn-group btn-group-toggle">
+                <button id="btnAdd" onclick="return false;" class="btn btn-info button-icon"><i class="ri-add-line m-0"></i>Add Ekstension</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="LoaderOnGrid">
+                    <div class="overlay ModalLoader">
+                        <i class="fas fa-2x fa-spinner fa-spin" style="font-size:48px;color:red"></i>
+                    </div>
+                </div>
+                <table class="table table-borderless" id="TableData" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Ekstension</th>
+                            <th>UpdatedOn</th>
+                            <th>UpdatedBy</th>
+                        </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </div>
+
+        <form id="FormInput">
+            <input type="hidden" class="form-control text-sm" id="Action">
+            <input type="hidden" class="form-control text-sm" id="ID">
+
+            <div id="divInput" class="card" style="display: none">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="header-title">
+                        <h4 id="FormTitle" class="card-title">Form Input</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Ekstension</label>
+                        <input type="text" id="Name" name="Name" class="form-control" maxlength="10" />
+                    </div>
+
+                    <button type="submit" id="btnSave" class="btn btn-outline-success"><i class="fa fa-spinner fa-spin button-spinner"></i>Save</button>
+                    <button id="btnCloseForm" onclick="CloseForm(); return false;" class="btn bg-danger">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

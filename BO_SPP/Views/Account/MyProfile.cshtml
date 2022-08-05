@@ -1,0 +1,188 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "My Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+
+    <script src="@Url.Content("~/Scripts/Pages/MyProfile.js")"></script>
+}
+
+<style>
+    .ClearFile {
+        display: none;
+    }
+</style>
+
+<input type="hidden" name="UserID" id="UserID" />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="iq-edit-list usr-edit">
+                    <ul class="iq-edit-profile d-flex nav nav-pills">
+                        <li class="col-md-4 p-0">
+                            <a class="nav-link active" data-toggle="pill" href="#personal-information">
+                                Personal Information
+                            </a>
+                        </li>
+                        <li class="col-md-4 p-0" style="display: none">
+                            <a class="nav-link" data-toggle="pill" href="#chang-pwd">
+                                Change Password
+                            </a>
+                        </li>
+                        <li class="col-md-4 p-0">
+                            <a class="nav-link" data-toggle="pill" href="#emailandsms">
+                                Account
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="iq-edit-list-data">
+            <div class="tab-content">
+                <div class="tab-pane fade active show" id="personal-information" role="tabpanel">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Personal Information</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form id="FormInput" name="FormInput">
+                                <div class="form-group row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="profile-img-edit">
+                                            <div class="crm-profile-img-edit">
+                                                <img id="imgempPicture" class="crm-profile-pic rounded-circle avatar-100" src="@HttpContextAccessor.HttpContext.Session.GetString("img")" alt="profile-pic" />
+                                                <div class="crm-p-image bg-primary">
+                                                    <i class="las la-pen upload-button"></i>
+                                                    <input type="file" id="fuempPicture" name="fuempPicture" class="file-upload" />
+                                                </div>
+                                                <div class="crm-p-image bg-danger" style="left: 0 !important; font-size: 13px;line-height: 26px;">
+                                                    <i class="las la-trash" onclick="ClearFile('fuempPicture');"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" row align-items-center">
+                                    <div class="form-group col-12">
+                                        <label>Nama Lengkap *)</label>
+                                        <input type="text" id="txtFullname" name="txtFullname" class="form-control" maxlength="100" />
+                                    </div>                                    
+                                    <div class="form-group col-sm-6">
+                                        <label>Gender</label>
+                                        <select id="ddlGender" class="form-control">
+                                            <option value="" selected>- Pilih -</option>
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label>Divisi</label>
+                                        <input type="text" id="txt_Divisi" name="txt_Divisi" class="form-control" maxlength="200" placeholder="Nama Divisi" />
+                                    </div>
+
+                                    <div class="form-group col-sm-6">
+                                        <label>NIP</label>
+                                        <input type="text" id="txt_NIP" name="txt_NIP" class="form-control" maxlength="100" placeholder="Nomor Induk Pegawai" />
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label>Jabatan</label>
+                                        <input type="text" id="txt_Jabatan" name="txt_Jabatan" class="form-control" maxlength="100" placeholder="" />
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label>Role(s)</label>
+                                        <div id="div_Role"></div>
+                                    </div>
+
+                                    <div class="form-group col-sm-12">
+                                        <label>Alamat</label>
+                                        <textarea style="text-align: justify" id="txtAddress" name="txtAddress" class="form-control" maxlength="250" height="75px"></textarea>
+                                    </div>
+                                </div>
+                                <button id="btn_UpdateProfil" type="submit" form="FormInput" class="btn btn-primary"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save"></i>&nbsp;Update Profile</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="chang-pwd" role="tabpanel">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Change Password</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form id="FormChangePassword" name="FormChangePassword">
+                                <div class="form-group">
+                                    <label>Current Password:</label>
+                                    <input type="password" id="CurrentPassword" name="CurrentPassword" placeholder="Kata Sandi Sebelumnya" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>New Password:</label>
+                                    <input type="password" id="NewPassword" name="NewPassword" placeholder="Kata Sandi Baru" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Verify Password:</label>
+                                    <input type="password" id="NewPasswordVerifiy" name="NewPasswordVerifiy" placeholder="Ulangi Kata Sandi Baru" class="form-control" />                                    
+                                </div>
+
+                                <button id="btn_ChangePassword" type="submit" form="FormChangePassword" class="btn btn-primary"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save"></i>&nbsp;Change Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="emailandsms" role="tabpanel">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Email</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form id="FormUpdateEmail" name="FormUpdateEmail">
+                                <div class="form-group">
+                                    <label>Email Address *)</label>
+                                    <input type="email" id="txtEmail" name="txtEmail" readonly class="form-control" maxlength="200" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Nomor Handphone</label>
+                                    <input type="tel" id="txtMobile" name="txtMobile" maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^]/, '0');" value="" class="form-control phone" />
+                                </div>
+
+                                <div class="checkbox d-inline-block mr-3">
+                                    <input type="checkbox" class="checkbox-input" id="chk_EmailNotification" name="chk_EmailNotification" checked>
+                                    <label for="checkbox1">Email Notification</label>
+                                </div>
+
+                                <button id="btn_UpdateEmail" type="submit" form="FormUpdateEmail" class="btn btn-primary"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save"></i>&nbsp;Simpan</button>
+                            </form>
+
+                            <form id="FormSubmitOTP" name="FormSubmitOTP" style="display: none">
+                                <div class="form-group">
+                                    <label>Kode OTP *)</label>
+                                    <input type="text" id="OTP" name="OTP" maxlength="6" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="" class="form-control" />
+                                </div>
+
+                                <button type="submit" formaction="FormSubmitOTP" class="btn btn-primary"><i class="fa fa-spinner fa-spin button-spinner"></i>SUBMIT</button>
+                                <button type="button" class="btn btn-outline-secondary" onclick="ShowUpdateAkunForm(); return false;">Batal</button><br /><br />
+                                <a style="cursor: pointer" onclick="ResendOTP()" class="float-end mt-2"><i class="fa fa-spinner fa-spin button-spinner"></i>Kirim ulang kode OTP</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

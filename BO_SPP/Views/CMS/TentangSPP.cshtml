@@ -1,0 +1,155 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Pages/TentangSPP.js")"></script>
+}
+
+<div class="row">
+    <div class="col-lg-12 mb-3">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="navbar-breadcrumb">
+                <h5 class="mb-0">Tentang SPP</h5>
+                <small>Content Management System</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <form id="FormInput">
+            <input type="hidden" class="form-control text-sm" id="Action">
+            <input type="hidden" class="form-control text-sm" id="ID">
+            <input type="hidden" class="form-control text-sm" id="Tipe" value="Tentang SPP">
+
+            <div id="divInput" class="card">
+                <div class="card-header">
+                    <p class="float-left">Konten Tentang SPP disediakan dalam dua versi bahasa</p>
+                    <div class="float-right">
+                        <button type="submit" id="btnSave" class="btn bg-primary"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save mr-2"></i>Save</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    
+                    <ul class="nav nav-tabs" id="myTab-1" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="nav_ID" data-toggle="tab" href="#tab_ID" role="tab" aria-controls="tab_ID" aria-selected="true"><span class="flag-icon flag-icon-idn header-misc-icon mr-2"></span>ID (Bahasa)</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="nav_EN" data-toggle="tab" href="#tab_EN" role="tab" aria-controls="tab_EN" aria-selected="false"><span class="flag-icon flag-icon-gbr header-misc-icon mr-2"></span>EN (English)</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent-2">
+                        <div id="tab_ID" class="tab-pane fade show active" role="tabpanel" aria-labelledby="nav_ID">
+                            <div class="col-md-6 col-sm-12 float-left">
+                                <div class="form-group">
+                                    <label>Gambar Sidebar Kiri *)</label>
+                                    <div class="custom-file mb-3">
+                                        <input type="file" id="Filename_ID" name="Filename_ID" class="custom-file-input" accept="image/*">
+                                        <label class="custom-file-label" for="customFile">Pilih gambar</label>
+                                    </div>
+                                    <small>(Format JPG/JPEG/PNG dengan ukuran 600 x 500 pixel)</small>
+                                </div>
+
+                                <div id="div_Preview_ID" class="form-group">
+                                    <label>Pratinjau Gambar</label>
+                                    <img id="Preview_ID" class="img-banner vw-100" />
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 col-sm-12 float-right">
+                                <div class="form-group">
+                                    <label>Title *)</label>
+                                    <input type="text" id="Title_ID" name="Title_ID" class="form-control" maxlength="255" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Sub-title *)</label>
+                                    <input type="text" id="SubTitle_ID" name="SubTitle_ID" class="form-control" maxlength="255" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Deskripsi *)</label>
+                                    <textarea style="text-align: justify" id="Description_ID" name="Description_ID" class="form-control h100"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Label Tombol *)</label>
+                                    <input type="text" id="LabelTombol_ID" name="LabelTombol_ID" class="form-control" maxlength="50" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Lampiran Pedoman *)</label><small class="ml-2">(Format PDF)</small>
+                                    <input type="file" id="Filename1_ID" name="Filename1_ID" class="form-control-file" accept="application/pdf">
+                                </div>
+
+                                <div class="form-group">
+                                    <div id="div_Filename1_ID" class="custom-badge"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="tab_EN" class="tab-pane fade" role="tabpanel" aria-labelledby="nav_EN">
+                            <div class="col-md-6 col-sm-12 float-left">
+                                <div class="form-group">
+                                    <label>Left sidebar Image</label>
+                                    <div class="custom-file mb-3">
+                                        <input type="file" id="Filename_EN" name="Filename_EN" class="custom-file-input" accept="image/*">
+                                        <label class="custom-file-label" for="customFile">Choose Image</label>
+                                    </div>
+                                    <small>(JPG/JPEG/PNG within 600 x 500 pixel size)</small>
+                                </div>
+
+                                <div id="div_Preview_EN" class="form-group">
+                                    <label>Image Preview</label>
+                                    <img id="Preview_EN" class="img-banner vw-100" />
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 col-sm-12 float-right">
+                                <div class="form-group">
+                                    <label>Title *)</label>
+                                    <input type="text" id="Title_EN" name="Title_EN" class="form-control" maxlength="255" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Sub-title *)</label>
+                                    <input type="text" id="SubTitle_EN" name="SubTitle_EN" class="form-control" maxlength="255" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Description *)</label>
+                                    <textarea style="text-align: justify" id="Description_EN" name="Description_EN" class="form-control h100"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Button Label *)</label>
+                                    <input type="text" id="LabelTombol_EN" name="LabelTombol_EN" class="form-control" maxlength="50" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Guidelines Attachment</label><small class="ml-2">(PDF Format)</small>
+                                    <input type="file" id="Filename1_EN" name="Filename1_EN" class="form-control-file" accept="application/pdf">
+                                </div>
+
+                                <div class="form-group">
+                                    <div id="div_Filename1_EN" class="custom-badge"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-group">
+                        
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

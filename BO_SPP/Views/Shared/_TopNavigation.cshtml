@@ -1,0 +1,148 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<div class="iq-top-navbar">
+    <div class="iq-navbar-custom">
+        <nav class="navbar navbar-expand-lg navbar-light p-0">
+            <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
+                <i class="ri-menu-line wrapper-menu"></i>
+                <a href="/" class="header-logo">
+                    <img src="~/image/logo-ptsmi-sidebar.png" class="img-fluid rounded-normal" alt="logo" />
+                </a>
+            </div>
+
+            <div class="navbar-breadcrumb d-none d-sm-block">
+                <nav aria-label="breadcrumb">
+                    <ul class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")">Home</a></li>
+                        @if (ViewData["CurrentControllerName"].ToString() != "")
+                        {
+                            <li class="breadcrumb-item">@ViewData["CurrentControllerName"]</li>
+                        }
+
+                        <li class="breadcrumb-item active" aria-current="page">@ViewData["CurrentActionName"]</li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <div class="change-mode">
+                    <div class="custom-control custom-switch custom-switch-icon custom-control-inline">
+                        <div class="custom-switch-inner">
+                            <p class="mb-0"></p>
+                            <input type="checkbox" class="custom-control-input" id="dark-mode" data-active="false">
+                            <label class="custom-control-label" for="dark-mode" data-mode="toggle">
+                                <span class="switch-icon-left"><i class="a-left"></i></span>
+                                <span class="switch-icon-right"><i class="a-right"></i></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
+                    <i class="ri-menu-3-line"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto navbar-list align-items-center">
+
+                        @if (@HttpContextAccessor.HttpContext.Session.GetString("spp") != "")
+                        {
+                            <li id="EksternalNotification" class="nav-item nav-icon dropdown">
+                                <a href="#" title="Notifkasi pesan dari pelapor" class="search-toggle dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="ri-mail-line text-danger"></i>
+                                    <span id="msg_dot" name="msg_dot" class="bg-danger count-mail" style="display: none"></span>
+                                </a>
+                                <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                    <div class="card shadow-none m-0">
+                                        <div class="card-body p-0 ">
+                                            <div class="cust-title p-3">
+                                                <h5 name="msg_count" id="msg_count" class="mb-0">No Messages</h5>
+                                            </div>
+                                            <div name="div_msg" id="div_msg" class="p-3">
+
+                                            </div>
+                                            <a name="msg_link" id="msg_link" style="display: none" href="@Url.Action("DaftarPengaduan", "Pengaduan")" class="right-ic btn btn-primary btn-block position-relative p-2" role="button">
+                                                <div class="dd-icon"><i class="las la-arrow-right mr-0"></i></div>
+                                                View All
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+                        <li id="InternalNotification" class="nav-item nav-icon dropdown">
+                            <a href="#" title="Notifkasi pesan internal" class="search-toggle dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="ri-mail-line"></i>
+                                <span id="msg_dot_internal" name="msg_dot_internal" class="bg-primary count-mail" style="display: none"></span>
+                            </a>
+                            <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                <div class="card shadow-none m-0">
+                                    <div class="card-body p-0 ">
+                                        <div class="cust-title p-3">
+                                            <h5 name="msg_count_internal" id="msg_count_internal" class="mb-0">No Messages</h5>
+                                        </div>
+                                        <div name="div_msg_internal" id="div_msg_internal" class="p-3">
+
+                                        </div>
+                                        <a name="msg_link_internal" id="msg_link_internal" style="display: none" href="@Url.Action("DaftarPengaduan", "Pengaduan")" class="right-ic btn btn-primary btn-block position-relative p-2" role="button">
+                                            <div class="dd-icon"><i class="las la-arrow-right mr-0"></i></div>
+                                            View All
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item iq-full-screen"><a href="#" class="" id="btnFullscreen"><i class="ri-fullscreen-line"></i></a></li>
+                        <li id="UserProfile" class="caption-content">
+                            <a href="#" class="iq-user-toggle">
+                                <image id="img_Profile_1" src="@HttpContextAccessor.HttpContext.Session.GetString("img")" class="img-fluid rounded" alt="user"></image>
+                            </a>
+                            <div class="iq-user-dropdown">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center mb-0">
+                                        <div class="header-title">
+                                            <h4 class="card-title mb-0">Profile</h4>
+                                        </div>
+                                        <div class="close-data text-right badge badge-primary cursor-pointer"><i class="ri-close-fill"></i></div>
+                                    </div>
+                                    <div class="data-scrollbar" data-scroll="2">
+                                        <div class="card-body">
+                                            <div class="profile-header">
+                                                <div class="cover-container text-center">
+                                                    <image id="img_Profile_2" src="@HttpContextAccessor.HttpContext.Session.GetString("img")" class="rounded img-fluid avatar-80" alt="profile-bg"></image>
+                                                    <div class="profile-detail mt-3">
+                                                        <h3 id="span_Fullname">@HttpContextAccessor.HttpContext.Session.GetString("fn")</h3>
+                                                        <p id="span_Roles" class="mb-1">@HttpContextAccessor.HttpContext.Session.GetString("fr")</p>
+                                                    </div>
+                                                    <a href="@Url.Action("Signout", "Account")" class="btn btn-primary">Sign Out</a>
+
+                                                </div>
+                                                <div class="profile-details my-4">
+                                                    <a href="@Url.Action("MyProfile", "Account")" class="iq-sub-card bg-danger-light rounded-small p-2">
+                                                        <div class="media align-items-center">
+                                                            <div class="rounded iq-card-icon-small">
+                                                                <i class="ri-profile-line"></i>
+                                                            </div>
+                                                            <div class="media-body ml-3">
+                                                                <h6 class="mb-0 ">Edit Profile</h6>
+                                                                <p class="mb-0 font-size-12">Modify your personal details.</p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                            <div class="p-3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+    </div>
+</div>

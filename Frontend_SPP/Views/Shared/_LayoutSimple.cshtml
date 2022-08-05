@@ -1,0 +1,298 @@
+﻿@using Frontend_SPP.Resources.Home
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="SPP PT.SMI" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Stylesheets
+    ============================================= -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Poppins:300,400,500,600,700|PT+Serif:400,400i&display=swap" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/bootstrap.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/style.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/swiper.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/dark.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/font-icons.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/animate.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/magnific-popup.css")" type="text/css" />
+
+    <link rel="stylesheet" href="@Url.Content("~/css/custom.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/sweetalert.css")" />
+
+    <link rel="stylesheet" href="@Url.Content("~/css/intlTelInput.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/flag-icon.css")" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>SPP PT.SMI</title>
+
+    <style>
+        .button-spinner {
+            margin-right: 10px !important;
+        }
+
+        .content-wrap {
+            padding-bottom: 0 !important;
+            /*padding-top: 0 !important;*/
+        }
+    </style>
+
+</head>
+<body class="stretched">
+
+    <div id="wrapper" class="clearfix">
+        <header id="header" class="transparent-header page-section" data-sticky-class="not-dark">
+            <div id="header-wrap">
+                <div class="container">
+                    <div class="header-row">
+
+                        <!-- Logo
+                    ============================================= -->
+                        <div id="logo">
+                            <a href="#" data-href="#slider" class="standard-logo" data-dark-logo="/images/logo-dark-ptsmi.png"><img src="/images/logo-ptsmi.png" alt="Logo PTSMI"></a>
+                            <a href="#" data-href="#slider" class="retina-logo" data-dark-logo="/images/logo-dark-ptsmi@2x.png"><img src="/images/logo-ptsmi@2x.png" alt="Logo PTSMI"></a>
+                        </div><!-- #logo end -->
+
+                        <div class="header-misc">
+
+                            @{
+                                var routeValues = this.ViewContext.RouteData.Values;
+                                var controller = routeValues["controller"] as string;
+                                var action = routeValues["action"] as string;
+                            }
+
+                            @Html.ActionLink("", @action, @controller, new { culture = "id" }, new { rel = "alternate", hreflang = "id", @class = "flag-icon flag-icon-idn header-misc-icon" }) | @Html.ActionLink("", @action, @controller, new { culture = "en" }, new { rel = "alternate", hreflang = "en", @class = "flag-icon flag-icon-gbr header-misc-icon" })
+                        </div>
+
+                        <div id="primary-menu-trigger">
+                            <svg class="svg-trigger" viewBox="0 0 100 100"><path d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20"></path><path d="m 30,50 h 40"></path><path d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20"></path></svg>
+                        </div>
+
+                        <!-- Primary Navigation
+                    ============================================= -->
+                        <nav class="primary-menu">
+
+                            <ul class="menu-container one-page-menu">
+                                <li class="menu-item current"><a class="menu-link" href="@Url.Action("Index", "Home")"><div>@R_Home.Tentang_SPP</div></a></li>
+                            </ul>
+
+                        </nav><!-- #primary-menu end -->
+
+                    </div>
+                </div>
+            </div>
+            <div class="header-wrap-clone"></div>
+        </header>
+
+        <section id="slider" class="slider-element slider-parallax min-vh-60 min-vh-md-100 include-header" style="background: url(/images/landing/landing3.jpg) center;">
+            <div class="slider-inner">
+
+                <div class="vertical-middle slider-element-fade">
+                    <div class="container py-5">
+
+                        <div class="heading-block center border-bottom-0">
+                            <h1 data-animate="fadeInUp">WHISTLEBLOWING SYSTEM</h1>
+                            <span data-animate="fadeInUp" data-delay="300">GOOD CORPORATE GOVERNANCE <strong>PT SMI</strong></span>
+                        </div>
+
+                    </div>
+
+                    <a href="#" data-scrollto="#section-features" class="one-page-arrow"><i class="icon-angle-down infinite animated fadeInDown"></i></a>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="content">
+            <div class="content-wrap">
+                @RenderBody()
+            </div>
+        </section>
+
+        <footer id="footer" class="dark">
+            <div class="container">
+
+                <!-- Footer Widgets
+            ============================================= -->
+                <div class="footer-widgets-wrap">
+
+                    <div class="row col-mb-50">
+                        <div class="col-lg-12">
+
+                            <div class="row col-mb-50">
+                                <div class="col-md-4">
+
+                                    <div class="widget clearfix">
+
+                                        <img src="/images/logo-ptsmi-iso37001.png" alt="Image" class="footer-logo">
+
+                                        <p><strong>PT Sarana Multi Infrastruktur (Persero)</strong></p>
+
+
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="widget clearfix">
+                                        <div style="background: url('images/world-map.png') no-repeat center center; background-size: 100%;">
+                                            <address>
+                                                <strong>Headquarters:</strong><br>
+                                                Sahid Sudirman Center, Lantai 47-48<br>
+                                                Jl. Jenderal Sudirman No. 86 <br>
+                                                Jakarta 10220, Indonesia<br>
+                                            </address>
+                                            <a title="Phone Number"><strong>Phone:</strong></a> (62-21) 8082 5288 (ext. 1004)<br>
+                                            <a title="Fax"><strong>Fax:</strong></a> (62-21) 8082 5258<br>
+                                            <a href="mailto:spp@ptsmi.co.id" title="Email Address"><strong>Email:</strong></a> spp@ptsmi.co.id
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    <div class="widget widget_links clearfix">
+
+                                        <ul style="margin-top:50px">
+                                            <li><a href="#FAQ">FAQ</a></li>
+                                            <li><a href="https://ptsmi.co.id/fraud-alert" target="_blank">Fraud Alert</a></li>
+                                            <li><a href="https://ptsmi.co.id/policies-of-covid-19">PT SMI's Policies about Covid-19</a></li>
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div><!-- .footer-widgets-wrap end -->
+
+            </div>
+
+            <!-- Copyrights
+        ============================================= -->
+            <div id="copyrights">
+                <div class="container">
+
+                    <div class="row col-mb-30">
+
+                        <div class="col-md-6 text-center text-md-start">
+                            Copyrights &copy;2022 PT Sarana Multi Infrastruktur (Persero). All Rights Reserved..<br>
+                            <div class="copyright-links"><a>Disclaimer</a> / <a href="https://ptsmi.co.id/privacy-policy" target="_blank">Privacy Policy</a></div>
+                        </div>
+
+                        <div class="col-md-6 text-center text-md-end">
+                            <div class="d-flex justify-content-center justify-content-md-end">
+                                <a href="https://www.facebook.com/ptsmi/" target="_blank" class="social-icon si-small si-borderless si-facebook">
+                                    <i class="icon-facebook"></i>
+                                    <i class="icon-facebook"></i>
+                                </a>
+
+                                <a href="https://www.instagram.com/ptsmi_id/" target="_blank" class="social-icon si-small si-borderless si-instagram">
+                                    <i class="icon-instagram"></i>
+                                    <i class="icon-instagram"></i>
+                                </a>
+
+                                <a href="https://www.youtube.com/channel/UCOvLDEbU4qetnKoiwNO0Oyg" target="_blank" class="social-icon si-small si-borderless si-youtube">
+                                    <i class="icon-youtube"></i>
+                                    <i class="icon-youtube"></i>
+                                </a>
+
+                                <a href="https://www.linkedin.com/company/ptsmi" target="_blank" class="social-icon si-small si-borderless si-linkedin">
+                                    <i class="icon-linkedin"></i>
+                                    <i class="icon-linkedin"></i>
+                                </a>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div><!-- #copyrights end -->
+        </footer>
+    </div>
+
+    <div id="gotoTop" class="icon-angle-up"></div>
+
+    <!-- JavaScripts
+    ============================================= -->
+    <script src="@Url.Content("~/js/jquery.js")"></script>
+    <script src="@Url.Content("~/js/plugins.min.js")"></script>
+
+    <!-- Footer Scripts
+    ============================================= -->
+    <script src="~/js/functions.js"></script>
+
+    <script src="@Url.Content("~/plugins/jquery-validation/jquery.validate.min.js")"></script>
+    <script src="@Url.Content("~/script/JValCustom.js")"></script>
+    <script src="@Url.Content("~/plugins/jquery-validation/additional-methods.min.js")"></script>    
+
+
+    @*<script src="@Url.Content("~/plugins/sweetalert2/sweetalert2.js")"></script>*@
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    
+
+    
+
+    <script type="text/javascript">
+        var VP = '@Url.Content("~/")';
+    </script>
+
+    <script>
+        function CustomNotif(msg) {
+            var msgs = msg.split("|");
+            var _type = msgs[0];
+            var _title = msgs[1];
+            var _html = msgs[2];
+            var _script = msgs[3];
+            _html = _html.toString().replace('\\n', '<br>');
+
+            if (_script != "") {
+                Swal.fire({
+                    title: _title,
+                    buttonsStyling: true,
+                    confirmButtonClass: "btn btn-success",
+                    html: _html,
+                    type: _type
+                }).then(function (result) { //RUNNING GIVEN SCRIPT ON CLOSE
+                    eval(_script);
+                }).catch(Swal.noop);
+            }
+            else {
+                Swal.fire({
+                    title: _title,
+                    buttonsStyling: true,
+                    confirmButtonClass: "btn btn-success",
+                    html: _html,
+                    type: _type
+                }).catch(Swal.noop);
+            }
+
+        }
+
+        $(".button-spinner").hide();
+        $(document)
+            .ajaxStart(function () {
+                $(".button-spinner").show();
+            })
+            .ajaxStop(function () {
+                $(".button-spinner").hide();
+            });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Back Office SPP PTSMI</title>
+    <link rel="shortcut icon" href="@Url.Content("~/favicon.ico")">
+    <partial name="_Styles" />
+    <style type="text/css">
+        .dark .login-content {
+            background: url(../assets/images/bg-login.png);
+        }
+    </style>
+</head>
+<body class=" dark ">
+
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+
+    <div>
+        @RenderBody()
+    </div>
+
+    <div id="loading-image" style="display: none">
+        <img src="@Url.Content("~/img/ajax-loader.gif")" class="ajax-loader" />
+    </div>
+
+</body>
+<partial name="_Scripts" />
+@await RenderSectionAsync("Scripts", required: false)
+</html>

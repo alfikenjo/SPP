@@ -1,0 +1,446 @@
+﻿<!-- Backend Bundle JavaScript -->
+<script src="~/assets/js/backend-bundle.min.js"></script>
+
+<script src="~/plugins/summernote/summernote-bs4.js"></script>
+
+<!-- Flextree Javascript-->
+<script src="~/assets/js/flex-tree.min.js"></script>
+<script src="~/assets/js/tree.js"></script>
+
+<!-- Table Treeview JavaScript -->
+<script src="~/assets/js/table-treeview.js"></script>
+
+<!-- Masonary Gallery Javascript -->
+<script src="~/assets/js/masonry.pkgd.min.js"></script>
+<script src="~/assets/js/imagesloaded.pkgd.min.js"></script>
+
+<!-- Fullcalender Javascript -->
+<script src='~/assets/vendor/fullcalendar/core/main.js'></script>
+<script src='~/assets/vendor/fullcalendar/daygrid/main.js'></script>
+<script src='~/assets/vendor/fullcalendar/timegrid/main.js'></script>
+<script src='~/assets/vendor/fullcalendar/list/main.js'></script>
+
+<!-- SweetAlert JavaScript -->
+<script src="~/assets/js/sweetalert.js"></script>
+
+<!-- Vectoe Map JavaScript -->
+<script src="~/assets/js/vector-map-custom.js"></script>
+
+<!-- Chart Custom JavaScript -->
+<script src="~/assets/js/customizer.js"></script>
+
+<!-- slider JavaScript -->
+<script src="~/assets/js/slider.js"></script>
+
+<!-- app JavaScript -->
+<script src="~/assets/js/app.js"></script>
+
+<script src="~/assets/js/jquery.mask.min.js"></script>
+<script src="~/assets/js/jquery.inputmask.bundle.js"></script>
+
+@*<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>*@
+<script src="@Url.Content("~/plugins/jquery-validation/jquery.validate.min.js")"></script>
+<script src="@Url.Content("~/Scripts/JValCustom.js")"></script>
+<script src="@Url.Content("~/plugins/jquery-validation/additional-methods.min.js")"></script>
+
+<script src="@Url.Content("~/js/telephone/intlTelInput.js")"></script>
+<script src="@Url.Content("~/js/FileValidation.js")"></script>
+<script type="text/javascript">
+    function reset_html(id) {
+        $('#' + id).html($('#' + id).html());
+    }
+
+    function show_image(path, title) {
+        //console.log(path);
+        //var object = '<iframe id="iframe_pdf" src="' + path + '" frameborder="0" style="overflow:hidden;height:100vh;width:100%" height="100vh" width="100%"></iframe>';
+        var object = '<img src="' + path + '" height="auto" width="100%" />';
+        $("#modal_image_body").html(object);
+        document.getElementById('span_title_modal_image').innerHTML = title;
+        $("#modal_image").modal();
+    };
+
+    $('.numeric').inputmask("numeric", {
+        radixPoint: ".",
+        groupSeparator: ",",
+        digits: 4,
+        autoGroup: true,
+        prefix: '', //No Space, this will truncate the first character
+        rightAlign: false,
+        //oncleared: function () { self.Value(''); },
+        allowMinus: false
+    });
+
+
+    $('.money').mask("#,##0.00", { reverse: true });
+
+    function selectElement(id, valueToSelect) {
+        let element = document.getElementById(id);
+        element.value = valueToSelect;
+    };
+
+    function forceLower(strInput) {
+        strInput.value = strInput.value.toLowerCase();
+    };
+
+    $(".select2").select2({
+        allowClear: true
+    });
+
+    function ErrorMsg(Title, Msg) {
+        Swal.fire({
+            icon: 'error',
+            title: Title,
+            text: Msg,
+            showConfirmButton: false,
+        })
+    };
+
+    function Confirm(Title, ConfirmMsg, ConfirmResult) {
+        Swal.fire({
+            title: Title,
+            text: ConfirmMsg,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    Swal.fire(ConfirmResult, {
+                        icon: "success",
+                    });
+                } else {
+
+                }
+            });
+    };
+
+    function ShowNotif_add(msg) {
+        if (msg == null) msg = "";
+        Swal.fire({
+            icon: 'success',
+            title: '<strong>Saved</strong>: ',
+            text: msg,
+            showConfirmButton: false,
+        })
+    }
+
+    function ShowNotif_Delete(msg) {
+        if (msg == null) msg = "";
+        Swal.fire({
+            icon: 'success',
+            title: '<strong>Deleted</strong>: ',
+            text: msg,
+            showConfirmButton: false,
+        })
+    }
+
+    function ShowNotif_Error(msg) {
+        if (msg == null) msg = "";
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops!!',
+            text: 'Something went wrong, ' + msg,
+            showConfirmButton: false,
+        })
+    }
+
+    $(document).ready(function () {
+        var file_input_index = 0;
+        $('input[type=file].form-control-file').each(function (e) {
+            file_input_index++;
+            $(this).wrap('<div class="d-flex" id="file_input_container_' + file_input_index + '"></div>');
+            $(this).before('<button type="button" class="btn btn-outline-danger btn-sm mr-1" id="btn_clear_' + $('input[type=file]')[e].id +'" onclick="reset_html(\'file_input_container_' + file_input_index + '\'); return false;"><i class="fa fa-trash"></i></button>');
+        });
+
+        SetMenu();
+        var div_msg = document.getElementById('div_msg');
+        if (div_msg) {
+            SetNotifikasi();
+        }
+
+        var div_msg_internal = document.getElementById('div_msg_internal');
+        if (div_msg_internal) {
+            SetNotifikasiInternal();
+        }
+
+        // Summernote
+        $('.ContentHMTL').summernote({
+            height: 300,
+            placeholder: 'Ketik disini..',
+            toolbar: [
+                ['style', ['style']],
+                ['fontsize', ['fontsize']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['picture', 'hr']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ],
+            fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48', '64', '82', '150']
+        });
+
+    })
+
+    function SetMenu() {
+        $.ajax({
+            url: VP + 'Account/GetAccountByUserID',
+            type: 'POST',
+            success: function (Result) {
+                if (Result.Error == false) {
+
+                    var Roles = '';
+
+                    for (var i = 0; i < Result.Message.length; ++i) {
+                        Roles += Result.Message[i].Role + ';';
+                    }
+
+                    //console.log('Roles = ' + Roles);
+
+                    if (Roles.includes("System Administrator")) {
+                        document.getElementById("mn_parent_administrator").style.display = "block";
+                        document.getElementById("mn_Parent_CMS").style.display = "block";
+                        document.getElementById("mn_Role").style.display = "block";
+                        document.getElementById("mn_userlist").style.display = "block";
+                        document.getElementById("mn_Setting").style.display = "block";
+                    }
+
+                    if (Roles.includes("Admin SPP")) {
+                        document.getElementById("mn_parent_administrator").style.display = "block";
+                        document.getElementById("mn_Manajemen_Delegator").style.display = "block";
+                        document.getElementById("mn_Pusat_Pengaduan").style.display = "block";
+                        document.getElementById("mn_Laporan").style.display = "block";
+                        document.getElementById("mn_AuditTrail").style.display = "block";
+                        document.getElementById("mn_Manajemen_Kuesioner").style.display = 'block';
+                    }
+
+                    if (Roles.includes("Delegator")) {
+                        document.getElementById("mn_Pusat_Pengaduan").style.display = "block";
+                        document.getElementById("mn_Laporan").style.display = "block";
+                    }
+
+                }
+            },
+            error: function (xhr, status, error) {
+                CustomNotif("error|Oops|" + error + "");
+            }
+        })
+    }
+
+    function SetNotifikasi() {
+        var div_msg = document.getElementById('div_msg');
+        if (div_msg)
+            div_msg.innerHTML = '';
+        else
+            return;
+
+        document.getElementById('msg_dot').style.display = 'none';
+        document.getElementById('msg_count').innerHTML = 'No Messages';
+
+        $.ajax({
+            url: VP + 'Pengaduan/Get_Msg_Tanggapan_by_Email',
+            type: 'POST',
+            success: function (Result) {
+                if (Result.Error == false) {
+
+                    var RowCount = Result.RowCount;
+                    if (RowCount != "0") {
+                        document.getElementById('msg_dot').style.display = 'inline-block';
+                        document.getElementById('msg_count').innerHTML = RowCount + ' Messages';
+
+                        if (RowCount > 5)
+                            document.getElementById('msg_link').style.display = 'inline-block';
+
+                        for (var i = 0; i < Result.Message.length; ++i) {
+
+                            var TipePengirim = Result.Message[i].TipePengirim;
+                            var s_TipePengirim = TipePengirim;
+                            if (TipePengirim == 'Internal - Admin SPP')
+                                s_TipePengirim = 'Admin SPP';
+                            else if (TipePengirim == 'Internal - Delegator')
+                                s_TipePengirim = 'Delegator';
+
+                            var div = document.getElementById('div_msg');
+                            var sb = '<a href="' + Result.Message[i].Msg_Link + '&v=eks" class="iq-sub-card">' +
+                                '<div class="media align-items-center">' +
+                                '<div class="media-body">' +
+                                '<h6 class="mb-0" style="font-size: 14px;">Tanggapan ' + s_TipePengirim + '</h6><small class="badge badge-danger float-right" style="font-size: 12px !important;" >New</small>' +
+                                '<small class="float-left font-size-12">' + Result.Message[i].Nomor + '</small><br>' +
+                                '<small class="float-left font-size-12">' + Result.Message[i].s_CreatedOn + '</small>' +
+                                '</div>' +
+                                '</div>' +
+                                '</a>';
+
+                            div.innerHTML += sb;
+                        }
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                CustomNotif("error|Oops|" + error + "");
+            }
+        })
+    }
+
+    function SetNotifikasiInternal() {
+        var div_msg_internal = document.getElementById('div_msg_internal');
+        if (div_msg_internal)
+            div_msg_internal.innerHTML = '';
+        else
+            return;
+
+        document.getElementById('msg_dot_internal').style.display = 'none';
+        document.getElementById('msg_count_internal').innerHTML = 'No Internal Messages';
+
+        $.ajax({
+            url: VP + 'Pengaduan/Get_Msg_Tanggapan_Internal_by_Email',
+            type: 'POST',
+            success: function (Result) {
+                if (Result.Error == false) {
+
+                    var RowCount = Result.RowCount;
+                    if (RowCount != "0") {
+                        document.getElementById('msg_dot_internal').style.display = 'inline-block';
+                        document.getElementById('msg_count_internal').innerHTML = RowCount + ' Internal Messages';
+
+                        if (RowCount > 5)
+                            document.getElementById('msg_link_internal').style.display = 'inline-block';
+
+                        for (var i = 0; i < Result.Message.length; ++i) {
+
+                            var DelegatorName = Result.Message[i].DelegatorName;
+                            if (DelegatorName.length > 30)
+                                DelegatorName = '<span style="cursor: pointer;" title="' + DelegatorName + '">' + DelegatorName.substring(0, 30) + '...</span>';
+
+                            var TipePengirim = Result.Message[i].TipePengirim;
+                            if (TipePengirim == 'Internal - Admin SPP')
+                                DelegatorName = 'Admin SPP';
+
+                            var div = document.getElementById('div_msg_internal');
+                            var sb = '<a href="' + Result.Message[i].Msg_Link + '&v=int" class="iq-sub-card">' +
+                                '<div class="media align-items-center">' +
+                                '<div class="media-body">' +
+                                '<h6 class="mb-0" style="font-size: 14px;">' + DelegatorName + '</h6><small class="badge badge-danger float-right" style="font-size: 12px !important;" >New</small>' +
+                                '<small class="float-left font-size-12">' + Result.Message[i].Nomor + '</small><br>' +
+                                '<small class="float-left font-size-12">' + Result.Message[i].s_CreatedOn + '</small>' +
+                                '</div>' +
+                                '</div>' +
+                                '</a>';
+
+                            div.innerHTML += sb;
+                        }
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                CustomNotif("error|Oops|" + error + "");
+            }
+        })
+    }
+
+</script>
+
+
+<script type="text/javascript">
+
+    
+
+    function escapeHtml(str) {
+        return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    var VP = '@Url.Content("~/")';
+
+    //Initialize Select2 Elements
+    //$('.select2').select2()
+
+    $('.select2').select2({
+        theme: 'bootstrap4',
+        placeholder: "- Select -",
+        allowClear: true
+    })
+
+    $('.select2_filter').select2({
+        theme: 'bootstrap4',
+        placeholder: "- Semua -",
+        allowClear: true
+    })
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+        theme: 'bootstrap4',
+        placeholder: "- Select -",
+        allowClear: true
+    })
+
+    function CustomNotif(msg) {
+        var msgs = msg.split("|");
+        var _icon = msgs[0];
+        var _title = msgs[1];
+        var _html = msgs[2];
+        var _script = msgs[3];
+        _html = _html.toString().replace('\\n', '<br>');
+
+        if (_script != null) {
+            Swal.fire({
+                icon: _icon,
+                title: _title,
+                html: _html,
+                showConfirmButton: true,
+            }).then(function (result) {
+                eval(_script);
+            });
+        }
+        else {
+            Swal.fire({
+                icon: _icon,
+                title: _title,
+                html: _html,
+                showConfirmButton: true,
+            });
+        }
+    }
+
+    function hexToBase64(str) {
+        return btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
+    }
+
+    function NewGUID() {
+        return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        );
+    }
+
+    function LaunchModal(ModalName) {
+        var container = document.getElementById("maincontent");
+        var modal = document.getElementById(ModalName);
+        container.appendChild(modal);
+        $("#" + ModalName).modal();
+    }
+
+    var DefaultURL = {
+
+    };
+
+    $(".ModalLoader").hide();
+    $(".button-spinner").hide();
+    $(document)
+        .ajaxStart(function () {
+            $(".ModalLoader").show();
+            $(".button-spinner").show();
+            for (let el of document.querySelectorAll('.btn')) {
+                el.classList.add("disabled");
+            }
+        })
+        .ajaxStop(function () {
+            $(".ModalLoader").hide();
+            $(".button-spinner").hide();
+            for (let el of document.querySelectorAll('.btn')) {
+                el.classList.remove("disabled");
+            }
+        });
+</script>
+

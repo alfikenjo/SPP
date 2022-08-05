@@ -1,0 +1,535 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Pages/PengaduanForm.js")"></script>
+
+    <script>
+        function SetRole() {
+            let Role = '@ViewBag.Role';
+            document.getElementById('hf_Role').value = Role;
+            sessionStorage.setItem("Role", Role);
+        }
+    </script>
+}
+
+<style>
+    .dataTables_length,
+    .dataTables_filter,
+    .dataTables_info,
+    .dataTables_paginate {
+        display: none !important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="iq-edit-list usr-edit">
+                    <input type="hidden" id="hf_Username" name="hf_Username" />
+                    <input type="hidden" id="hf_tab" name="hf_tab" />
+                    <input type="hidden" id="Action" name="Action" />
+                    <input type="hidden" id="ID" name="ID" />
+                    <input type="hidden" id="hf_Role" name="hf_Role" />
+
+                    <ul class="iq-edit-profile d-flex nav nav-pills">
+                        <li class="col-md-3 col-sm-12 p-0">
+                            <a class="nav-link active" data-toggle="pill" href="#Pengaduan" id="tabPengaduan">
+                                INFORMASI PENGADUAN
+                            </a>
+                        </li>
+                        <li id="tab_tanggapan" class="col-md-3 col-sm-12 p-0">
+                            <a id="nav_tanggapan" class="nav-link" data-toggle="pill" href="#tanggapan" onclick="FillTanggapan()">
+                                DISKUSI DENGAN PELAPOR
+                            </a>
+                        </li>
+                        <li id="tab_tanggapan_internal" style="display: none" class="col-md-3 col-sm-12 p-0">
+                            <a id="nav_tanggapan_internal" class="nav-link" data-toggle="pill" href="#tanggapan_internal" onclick="FillTanggapanInternal()">
+                                DISKUSI INTERNAL
+                            </a>
+                        </li>
+                        <li id="tab_proses" class="col-md-3 col-sm-12 p-0">
+                            <a id="nav_proses" class="nav-link" data-toggle="pill" href="#proses">
+                                RESPON / TINDAK LANJUT
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="iq-edit-list-data">
+            <div class="tab-content">
+
+                <div class="tab-pane fade active show" id="Pengaduan" role="tabpanel">
+
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <a class="btn btn-sm btn-danger mr-3" href="@Url.Action("DaftarPengaduan", "Pengaduan")"><i class="fa fa-arrow-left"></i>&nbsp;Back</a>
+                                <span id="sp_Nomor" name="sp_Nomor" class="custom-badge-nomor sp_Nomor" style="font-size: 14px"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <form id="FormInput" name="FormInput">
+                        <input type="hidden" id="ID" name="ID" />
+                        <input type="hidden" id="ID_Header" name="ID_Header" />
+                        <input type="hidden" id="Action" name="Action" />
+
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div class="iq-header-title">
+                                    <h4>Identitas Pelapor</h4>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+
+                                <div class="row align-items-center">
+                                    <div class="form-group col-sm-6">
+                                        <label>Email *)</label>
+                                        <input type="email" name="txt_Email" id="txt_Email" required class="form-control" placeholder="Email Pelapor" />
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label>Nomor Handphone</label>
+                                        <input type="tel" id="txt_Handphone" name="txt_Handphone" maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^]/, '0');" value="" class="form-control phone" />
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="form-group col-12">
+                                        <label>Laporan bersumber dari *)</label>
+                                        <select id="Sumber" name="Sumber" class="form-control">
+                                            <option Value="">- Pilih -</option>
+                                            <option Value="Portal KYC">Web Portal KYC</option>
+                                            <option Value="Email">Email</option>
+                                            <option Value="Surat">Surat</option>
+                                            <option Value="Telepon">Telepon</option>
+                                            <option Value="Fax">Fax</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div class="iq-header-title">
+                                    <h4>Identitas Pihak Terlapor</h4>
+                                    <small>Anda dapat menyampaikan identitas pihak terlapor lebih dari satu</small>
+                                </div>
+                                <div id="div_btnAdd_Terlapor">
+                                    <button id="btnAdd_Detail_1" onclick="AddTerlapor()" class="btn btn-outline-primary btn-sm" type="button"><span class="fa fa-plus mr-2"></span>Tambah Data</button>
+                                </div>
+                            </div>
+
+                            <div id="div_daftar_terlapor" style="display: none" class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-12">
+                                        <div style="overflow-x: auto">
+                                            <table id="tbl_daftar_terlapor" class="table-bordered text-sm nowrap" cellspacing="0" width="100%">
+                                                <thead style="text-align: left">
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Nama</th>
+                                                        <th>Nomor Handphone</th>
+                                                        <th>Departemen/Divisi</th>
+                                                        <th>Jabatan</th>
+                                                        <th>Foto</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div id="div_form_terlapor" style="display: none" class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="form-group col-sm-6 ">
+                                        <label>Nama Terlapor *)</label>
+                                        <input type="text" name="txt_Nama_Terlapor" id="txt_Nama_Terlapor" required class="form-control" />
+                                    </div>
+
+                                    <div class="form-group col-sm-6">
+                                        <label>Nomor Handphone</label>
+                                        <input type="tel" id="txt_Handphone_Terlapor" name="txt_Handphone_Terlapor" maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^]/, '0');" value="" class="form-control phone" />
+                                    </div>
+
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="form-group col-sm-6">
+                                        <label>Departemen/Divisi</label>
+                                        <input type="text" name="txt_Departemen_Terlapor" id="txt_Departemen_Terlapor" class="form-control" maxlength="200" />
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label>Jabatan</label>
+                                        <input type="text" name="txt_Jabatan_Terlapor" id="txt_Jabatan_Terlapor" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="form-group col-sm-12">
+                                        <label>Foto Identitas</label><small>&nbsp; (Format JPG/PNG)</small>
+                                        <input type="file" id="fu_FileIdentitas" onchange="validateimage(this)" class="form-control-file" />
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="LoaderOnGrid">
+                                        <div class="overlay ModalLoader">
+                                            <i class="fas fa-2x fa-spinner fa-spin" style="font-size:48px;color:red"></i>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6 col-sm-12 text-left">
+                                        <button id="btn_SaveTerlapor" onclick="SaveTerlapor();" class="btn btn-success btn-sm" type="button"><i class="fa fa-spinner fa-spin button-spinner"></i><span class="fa fa-save mr-2"></span><span id="span_btn_SaveTerlapor">Submit</span></button>
+                                    </div>
+                                    <div class="form-group col-md-6 col-sm-12 text-right">
+                                        <button id="btn_SaveTerlapor" onclick="CancelTerlapor()" class="btn btn-outline-danger btn-sm" type="button">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div class="iq-header-title">
+                                    <h4>Penjelasan Aduan/Kronologi</h4>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+
+                                <div class="row align-items-center">
+                                    <div class="form-group col-sm-12">
+                                        <label>Lokasi Kejadian *)</label>
+                                        <textarea style="text-align: justify" id="txt_TempatKejadian" name="txt_TempatKejadian" class="form-control h100" required></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center">
+                                    <div class="form-group col-sm-6">
+                                        <label>Tanggal Kejadian *)</label>
+                                        <input type="datetime-local" id="txt_WaktuKejadian" name="txt_WaktuKejadian" required class="form-control" />
+                                    </div>
+
+                                    <div id="form_File_Bukti_Pendukung" class="form-group col-sm-6">
+                                        <label>File Bukti Pendukung</label><small class="ml-2">(Format PDF / Gambar / Video)</small>
+                                        <div id="div_FileEvidence" style="display: none" class="custom-badge"><a id="a_FileEvidence" target="_blank" class="badge badge-danger ml-2" style="cursor: pointer">Preview File</a></div>
+                                        <input type="file" id="fu_FileEvidence" name="fu_FileEvidence" multiple onchange="validatefile(this)" class="form-control-file" />
+                                    </div>
+
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="form-group col-sm-12">
+                                        <label>Keterangan/Kronologi *)</label>
+                                        <textarea style="text-align: justify" id="txt_Kronologi" name="txt_Kronologi" class="form-control h150" required></textarea>
+                                    </div>
+                                </div>
+
+                                <div id="div_File_Bukti_Pendukung" style="display: none" class="row align-items-center">
+                                    <div class="form-group col-sm-12">
+                                        <label>File Bukti Pendukung</label>
+                                        <div id="File_Bukti_Pendukung"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-end">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <button type="submit" id="btn_Kirim" form="FormInput" class="btn btn-sm btn-primary"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save"></i>&nbsp;Kirim Pengaduan</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="tab-pane fade" id="tanggapan" role="tabpanel">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <a class="btn btn-sm btn-danger mr-3" href="@Url.Action("DaftarPengaduan", "Pengaduan")"><i class="fa fa-arrow-left"></i>&nbsp;Back</a>
+                                <span id="sp_Nomor" name="sp_Nomor" class="custom-badge-nomor sp_Nomor" style="font-size: 14px"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="div_Riwayat_Tanggapan" class="card card-block card-stretch card-height">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">Riwayat diskusi Admin KYC dengan Pelapor</h4>
+                            </div>
+                        </div>
+                        <div class="card-body timeline-page">
+                            <div class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
+                                <ul id="ul_Tanggapan" class="list-inline p-0 m-0">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="div_input_Tanggapan" class="card">
+                        <form id="FormTanggapan" name="FormTanggapan">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="header-title">
+                                    <h4 class="card-title">Tanggapan / Permintaan Informasi kepada Pelapor *)</h4>
+                                </div>
+                                <p class="mb-0">
+                                    <button type="submit" id="btn_Tanggapan" form="FormTanggapan" class="btn btn-sm btn-primary"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save"></i>&nbsp;Kirim Tanggapan</button>
+                                </p>
+                            </div>
+
+                            <div class="card-body">
+
+                                <div class="row align-items-center">
+                                    <div class="form-group col-sm-12">
+                                        <label><small>Apakah informasi pengaduan ini sudah lengkap? Anda dapat menyampaikan pertanyaan atau menanggapi pengaduan ini kepada Pelapor dengan mengisi keterangan pada kolom dibawah ini.</small></label>
+                                        <textarea style="text-align: justify" id="txt_Tanggapan" name="txt_Tanggapan" required class="form-control h150"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center">
+                                    <div class="form-group col-sm-6">
+                                        <label>File Lampiran</label><small class="ml-2">(Format PDF / Gambar / Video)</small>
+                                        <input type="file" id="fu_FileLampiran" name="fu_FileLampiran" onchange="validatefile(this)" class="form-control-file" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+
+
+                </div>
+
+                <div id="tanggapan_internal" class="tab-pane fade" role="tabpanel">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <a class="btn btn-sm btn-danger mr-3" href="@Url.Action("DaftarPengaduan", "Pengaduan")"><i class="fa fa-arrow-left"></i>&nbsp;Back</a>
+                                <span id="sp_Nomor" name="sp_Nomor" class="custom-badge-nomor sp_Nomor" style="font-size: 14px"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="div_Riwayat_Tanggapan_Internal" class="card card-block card-stretch card-height">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">Riwayat Diskusi Internal</h4>
+                            </div>
+                        </div>
+                        <div class="card-body timeline-page">
+                            <div class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
+                                <ul id="ul_Tanggapan_Internal" class="list-inline p-0 m-0">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="div_input_Tanggapan_Internal" class="card">
+                        <form id="FormTanggapan_Internal" name="FormTanggapan_Internal">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="header-title">
+                                    <h4 class="card-title">Tanggapan / Permintaan Informasi Internal *)</h4>
+                                </div>
+                                <p class="mb-0">
+                                    <button type="submit" id="btn_Tanggapan_Internal" form="FormTanggapan_Internal" class="btn btn-sm btn-primary"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save"></i>&nbsp;Kirim Tanggapan</button>
+                                </p>
+                            </div>
+
+                            <div class="card-body">
+
+                                <div class="row align-items-center">
+                                    <div class="form-group col-sm-12">
+                                        <label><small>Admin KYC & Delegator dapat saling berdiskusi terkait pengaduan ini dengan mengisi keterangan pada kolom dibawah ini.</small></label>
+                                        <textarea style="text-align: justify" id="txt_Tanggapan_Internal" name="txt_Tanggapan_Internal" required class="form-control h150"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row align-items-center">
+                                    <div class="form-group col-sm-6">
+                                        <label>File Lampiran</label><small class="ml-2">(Format PDF / Gambar / Video)</small>
+                                        <input type="file" id="fu_FileLampiran_Internal" name="fu_FileLampiran_Internal" onchange="validatefile(this)" class="form-control-file" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+
+
+                </div>
+
+                <div class="tab-pane fade" id="proses" role="tabpanel">
+
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <a class="btn btn-sm btn-danger mr-3" href="@Url.Action("DaftarPengaduan", "Pengaduan")"><i class="fa fa-arrow-left"></i>&nbsp;Back</a>
+                                <span id="sp_Nomor" name="sp_Nomor" class="custom-badge-nomor sp_Nomor" style="font-size: 14px"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="div_respon_Admin_SPP" class="card">
+                        <div class="LoaderOnGrid">
+                            <div class="overlay ModalLoader">
+                                <i class="fas fa-2x fa-spinner fa-spin" style="font-size:48px;color:red"></i>
+                            </div>
+                        </div>
+                        <form id="formResponAdminSPP">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="header-title">
+                                    <h4 class="card-title">Respon Pengaduan</h4>
+                                    <small id="PenyaluranByDate">Respon diisi oleh Admin KYC</small>
+                                </div>
+                                <p class="mb-0">
+                                    <button type="submit" id="btn_ResponAdminSPP" form="formResponAdminSPP" class="btn btn-sm btn-primary"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save"></i>&nbsp;Submit Respon</button>
+                                </p>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="form-group col-md-3">
+                                        <label>Respon Pengaduan *)</label>
+                                        <select id="ddl_Status_Respon" name="ddl_Status_Respon" onchange="SetStatus_Respon(this.value)" class="form-control">
+                                            <option Value='Diproses'>Proses ke tahapan delegasi</option>
+                                            <option Value='Ditolak Admin KYC'>Tolak Pengaduan</option>
+                                        </select>
+                                    </div>
+                                    <div id="div_ddl_Delegator" style="display: none" class="form-group col-md-9">
+                                        <label>Grup Delegator *)</label>
+                                        <select id="ddl_Delegator" name="ddl_Delegator" class="form-control">
+                                        </select>
+                                        <input type="text" readonly id="DelegatorName" name="DelegatorName" class="form-control" style="display: none" />
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="form-group col-sm-12">
+                                        <label><small id="keterangan_penolakan">Keterangan</small></label>
+                                        <textarea style="text-align: justify" id="txt_Keterangan_Penyaluran" name="txt_Keterangan_Penyaluran" class="form-control h150"></textarea>
+                                    </div>
+                                    <div id="form_File_Keterangan_Penyaluran_Filename" class="form-group col-sm-12">
+                                        <label>Lampiran</label><small class="ml-2">(Format PDF / Gambar / Video)</small>
+                                        <div id="div_fu_Keterangan_Penyaluran_Filename" style="display: none" class="custom-badge"><a id="a_fu_Keterangan_Penyaluran_Filename" target="_blank" class="badge badge-danger ml-2" style="cursor: pointer">Preview File</a></div>
+                                        <input type="file" id="fu_Keterangan_Penyaluran_Filename" name="fu_Keterangan_Penyaluran_Filename" onchange="validatefile(this)" class="form-control-file" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="div_respon_Delegator" style="display: none" class="card">
+                        <div class="LoaderOnGrid">
+                            <div class="overlay ModalLoader">
+                                <i class="fas fa-2x fa-spinner fa-spin" style="font-size:48px;color:red"></i>
+                            </div>
+                        </div>
+                        <form id="formResponDelegator">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="header-title">
+                                    <h4 class="card-title">Hasil Tindak Lanjut Pengaduan</h4>
+                                    <small id="TindakLanjutByDate">Hasil dilaporkan oleh Tim Delegator</small>
+                                </div>
+                                <p class="mb-0">
+                                    <button type="button" id="btn_HentikanDelegator" onclick="HentikanDelegator(); return false;" class="btn btn-sm btn-danger"><i class="fa fa-spinner fa-spin button-spinner"></i> <i class="fa fa-stop"></i>&nbsp;Hentikan Investigasi</button>
+                                </p>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <label>Kesimpulan *)</label>
+                                        <select id="ddl_Status_Delegator" name="ddl_Status_Delegator" class="form-control">
+                                            <option Value='Ditindak lanjut'>Proses Mitigasi Selesai</option>
+                                            <option Value='Ditolak Delegator'>Tolak (Kembali ke Admin KYC)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6 col-sm-12">
+                                        <button type="submit" id="btn_ResponDelegator" form="formResponDelegator" class="btn btn-sm btn-primary mt-2"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save"></i>&nbsp;Kirim Hasil Tindak Lanjut</button>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label><small>Keterangan Hasil Investigasi *)</small></label>
+                                        <textarea style="text-align: justify" id="txt_Keterangan_Pemeriksaan" name="txt_Keterangan_Pemeriksaan" class="form-control h150"></textarea>
+                                    </div>
+                                    <div id="form_File_Keterangan_Pemeriksaan_Filename" class="form-group col-sm-12">
+                                        <label>File Lampiran Hasil Investigasi</label><small class="ml-2">(Format PDF / Gambar / Video)</small>
+                                        <div id="div_fu_Keterangan_Pemeriksaan_Filename" style="display: none" class="custom-badge"><a id="a_fu_Keterangan_Pemeriksaan_Filename" target="_blank" class="badge badge-danger ml-2" style="cursor: pointer">Preview File</a></div>
+                                        <input type="file" id="fu_Keterangan_Pemeriksaan_Filename" name="fu_Keterangan_Pemeriksaan_Filename" onchange="validatefile(this)" class="form-control-file" />
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label><small>Hasil Konfirmasi/Klarifikasi *)</small></label>
+                                        <textarea style="text-align: justify" id="txt_Keterangan_Konfirmasi" name="txt_Keterangan_Konfirmasi" class="form-control h150"></textarea>
+                                    </div>
+                                    <div id="form_File_Keterangan_Konfirmasi_Filename" class="form-group col-sm-12">
+                                        <label>File Lampiran Hasil Konfirmasi/Klarifikasi</label><small class="ml-2">(Format PDF / Gambar / Video)</small>
+                                        <div id="div_fu_Keterangan_Konfirmasi_Filename" style="display: none" class="custom-badge"><a id="a_fu_Keterangan_Konfirmasi_Filename" target="_blank" class="badge badge-danger ml-2" style="cursor: pointer">Preview File</a></div>
+                                        <input type="file" id="fu_Keterangan_Konfirmasi_Filename" name="fu_Keterangan_Konfirmasi_Filename" onchange="validatefile(this)" class="form-control-file" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="div_respon_Final" style="display: none" class="card">
+                        <form id="formResponFinal">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="header-title">
+                                    <h4 class="card-title">Respon Final</h4>
+                                    <small id="ResponByDate">Direspon oleh Admin KYC</small>
+                                    <small>Informasi dibawah ini disampaikan kepada Pelapor sebagai hasil dari penanganan pengaduan.</small>
+                                </div>
+                                <p class="mb-0">
+                                    <button type="submit" id="btn_ResponFinal" form="formResponFinal" class="btn btn-sm btn-primary"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save"></i>&nbsp;Submit Hasil</button>
+                                </p>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="form-group col-md-3 col-sm-12">
+                                        <label>Kesimpulan Akhir</label>
+                                        <select id="ddl_Status_Final" name="ddl_Status_Final" class="form-control">
+                                            <option Value='Selesai'>Selesaikan Pengaduan</option>
+                                            <option Value='Ditolak Admin KYC'>Tolak Pengaduan</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label><small>Keterangan Hasil Penanganan Pengaduan *)</small></label>
+                                        <textarea style="text-align: justify" id="txt_Keterangan_Respon" name="txt_Keterangan_Respon" class="form-control h150"></textarea>
+                                    </div>
+                                    <div id="form_File_Keterangan_Respon_Filename" class="form-group col-sm-12">
+                                        <label>Lampiran</label><small class="ml-2">(Format PDF / Gambar / Video)</small>
+                                        <div id="div_fu_Keterangan_Respon_Filename" style="display: none" class="custom-badge"><a id="a_fu_Keterangan_Respon_Filename" target="_blank" class="badge badge-danger ml-2" style="cursor: pointer">Preview File</a></div>
+                                        <input type="file" id="fu_Keterangan_Respon_Filename" name="fu_Keterangan_Respon_Filename" onchange="validatefile(this)" class="form-control-file" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

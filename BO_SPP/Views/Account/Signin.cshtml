@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewData["Title"] = "Login Page";
+    Layout = "~/Views/Shared/_Layout_Login.cshtml";
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Pages/Common.js")"></script>
+
+    <script>
+        $(document).ready(function () {
+            var dark = localStorage.getItem("dark");
+            if (dark == 'true')
+                document.getElementById('logoimg').src = '../image/logo-ptsmi-besar-putih.png';
+            else
+                document.getElementById('logoimg').src = '../image/logo-ptsmi-besar.png';
+        });
+    </script>
+}
+
+<div class="wrapper">
+    <section class="login-content">
+        <div class="container h-100">
+            <div class="row align-items-center justify-content-center h-100">
+                <div class="col-12">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 mb-lg-6 col-sm-12 mb-4 mt-lg-0 mt-4">
+                            <img id="logoimg" class="img-fluid w-100" alt="">
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            <h2 class="mb-2 text-center">SIGN IN</h2>
+                            <p class="text-center">BACK OFFICE SPP<br /><small>Halaman khusus pengguna Internal SPP PTSMI yang terdaftar</small></p>
+                          
+                            <form id="FormInput" method="post" asp-controller="account" asp-action="signin">
+                                <div class="row">
+                                    
+                                    <div class="col-lg-12">
+                                        <div class="form-group input-group">
+                                            <input type="text" id="email" name="email" class="form-control" MaxLength="200" placeholder="Username" />                                            
+                                            <div class="input-group-prepend">
+                                                <input class="form-control text-center" readonly value="@@ptsmi.co.id" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <input type="password" runat="server" id="password" name="password" placeholder="Password" class="form-control" />                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="floating-label form-group">
+                                            <input type="text" id="captcha" name="captcha" placeholder=" " class="floating-input form-control" />
+                                            <label>Enter below code</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6" style="display: none">
+                                        <a href="#" class="text-primary float-right">Forgot Password?</a>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <table>
+                                            <tr>
+                                                <td style="height: 50px; width: 100px;">
+                                                    <img id="imgCaptcha" />
+                                                </td>
+                                                <td valign="middle">
+                                                    <button type="button" id="btnRefresh" name="btnRefresh" onclick="FillCapctha()">Refresh</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <button type="submit" id="btnLogin" name="btnLogin" class="btn btn-primary">SIGN IN</button>
+                                    </div>
+                                    <div class="col-12">
+                                        @ViewBag.error
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

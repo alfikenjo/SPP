@@ -1,0 +1,779 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Frontend_SPP.Resources.Home
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="SPP PT.SMI" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../image/favicon/favicon.ico" />
+
+    <link rel="stylesheet" href="@Url.Content("~/css/backend.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/vendor/@fortawesome/fontawesome-free/css/all.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/vendor/remixicon/fonts/remixicon.css")">
+    <link rel="stylesheet" href="@Url.Content("~/vendor/@icon/dripicons/dripicons.css")">
+
+    <link rel="stylesheet" href="@Url.Content("~/vendor/fullcalendar/core/main.css")">
+    <link rel="stylesheet" href="@Url.Content("~/vendor/fullcalendar/daygrid/main.css")">
+    <link rel="stylesheet" href="@Url.Content("~/vendor/fullcalendar/timegrid/main.css")">
+    <link rel="stylesheet" href="@Url.Content("~/vendor/fullcalendar/list/main.css")">
+    <link rel="stylesheet" href="@Url.Content("~/vendor/mapbox/mapbox-gl.css")">
+
+    <link rel="stylesheet" href="@Url.Content("~/css/intlTelInput.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/flag-icon.css")" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>SPP PT.SMI</title>
+
+    <style>        
+
+        .dark .invalid-feedback {
+            color: red !important;
+        }
+
+        .LoaderOnGrid {
+            position: absolute;
+            z-index: 9999;
+            top: 50%;
+            left: 45%;
+        }
+
+        .button-spinner {
+            margin-right: 10px !important;
+        }
+
+        .tdbutton {
+            width: 50px !important;
+        }
+
+        .content-wrap {
+            padding-bottom: 0;
+        }
+
+        .h150 {
+            height: 150px !important;
+        }
+
+        .h100 {
+            height: 100px !important;
+        }
+
+        small.ENLabel {
+            display: flex;
+            font-style: italic;
+            color: #a1a19a !important;
+            margin-top: 0px !important;
+        }
+
+        label.ENLabel {
+            display: flex;
+            font-style: italic;
+            color: #a1a19a !important;
+            margin-top: -10px !important;
+        }
+        
+        h4.ENLabel {
+            display: flex;
+            font-style: italic;
+            color: #a1a19a !important;
+            margin-top: 5px !important;
+        }
+
+    </style>
+
+    <style type="text/css">
+
+
+        textarea.form-control {
+            line-height: 20px !important;
+        }
+
+        .custom-badge {
+            position: absolute;
+            right: 5%;
+            top: 0;
+        }
+
+        .custom-badge-nomor {
+            position: absolute;
+            right: 5%;
+            top: 35%;
+        }
+
+        #iframe_pdf[role="button"],
+        #iframe_pdf > body[role="button"],
+        [data-tooltip="Pop-out"] {
+            display: none !important;
+        }
+
+        .idRow {
+            display: none;
+        }
+
+        .text-lg, .text-sm, .text-xl,
+        .dataTables_wrapper {
+            font-size: 14px !important;
+        }
+
+        .form-control {
+            /*background: white !important;*/
+        }
+
+        .dark .form-control {
+            color: #d5d6d7;
+            background: #1e272e !important;
+            border-color: #3f4b54;
+        }
+
+        .dark .swal2-html-container {
+            color: white !important;
+        }
+
+        .dark .dataTables_wrapper .dataTables_length select {
+            border-color: #94999c !important;
+            background: transparent !important;
+            color: white !important;
+        }
+
+            .dark .dataTables_wrapper .dataTables_length select > option {
+                color: black;
+            }
+
+        @@media screen and (max-width: 640px) {
+            .dataTables_length,
+            .dataTables_info {
+                display: none !important;
+            }
+
+            .dataTables_filter,
+            .dataTables_paginate {
+                float: right !important;
+            }
+
+            table.dataTable thead .sorting {
+                background: none !important;
+            }
+        }
+
+        .ErrorControl, *.ErrorControl {
+            background-color: #FFEA63 !important;
+            border: solid 1px #f00 !important;
+        }
+
+        .btn i.fa-spin {
+            margin-right: 5px !important;
+        }
+
+        .ErrorValidator {
+            font-size: 12px;
+            font-style: italic;
+            color: red;
+            white-space: nowrap;
+        }
+
+        .select2-search__field {
+            width: 100% !important;
+            display: block !important;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #007b15 !important;
+            color: white !important;
+        }
+
+        table.dataTable thead .sorting {
+            background: none !important;
+        }
+
+        .dark .breadcrumb {
+            background: none !important;
+        }
+
+        .dark .iq-top-navbar .breadcrumb .breadcrumb-item.active {
+            color: white !important;
+        }
+
+        .sidebar-default .iq-sidebar-menu .iq-menu li > a > i.iq-arrow-left {
+            background: none !important;
+        }
+
+        .dark .sidebar-default .iq-sidebar-menu .iq-menu li > a > i.iq-arrow-left {
+            color: #ffffff !important;
+        }
+
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background: #8f1d1d;
+            color: white !important;
+        }
+
+        .form-control::-moz-placeholder {
+            color: #535f6b36 !important;
+            opacity: 1;
+        }
+
+        .form-control:-ms-input-placeholder {
+            color: #535f6b36 !important;
+        }
+
+        .form-control::-webkit-input-placeholder {
+            color: #535f6b36 !important;
+        }
+
+        .dark.form-control::-moz-placeholder {
+            color: #535f6b36 !important;
+            opacity: 1;
+        }
+
+        .dark.form-control:-ms-input-placeholder {
+            color: #535f6b36 !important;
+        }
+
+        .dark.form-control::-webkit-input-placeholder {
+            color: #535f6b36 !important;
+        }
+    </style>
+
+    <!-- jquery JavaScript -->
+    <script src="@Url.Content("~/FO/js/jquery-3.5.1.js")"></script>
+</head>
+<body class=" dark ">
+
+    <!-- loader Start -->
+    <div id="loading">
+        <div id="loading-center">
+        </div>
+    </div>
+
+    <input type="hidden" id="hf_alert" name="hf_alert" />
+
+    <div class="wrapper">
+
+        <div class="iq-sidebar sidebar-default">
+            <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
+                <a href="@Url.Action("Index", "Dashboard", new { culture = @HttpContextAccessor.HttpContext.Session.GetString("culture").ToLower() })" class="header-logo" data-dark-logo="../images/logo-dark-ptsmi.png">
+                    <img id="logoimg" class="img-fluid rounded-normal" alt="logo">
+                </a>
+                <div class="iq-menu-bt-sidebar">
+                    <i class="las la-bars wrapper-menu"></i>
+                </div>
+            </div>
+            <div class="data-scrollbar" data-scroll="1">
+                <nav class="iq-sidebar-menu">
+                    <ul id="iq-sidebar-toggle" class="iq-menu">
+                        <li class="active">
+                            <a href="@Url.Action("Index", "Dashboard", new { culture = @HttpContextAccessor.HttpContext.Session.GetString("culture").ToLower() })" class="">
+                                <i class="las la-home iq-arrow-left"></i><span>Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class=" ">
+                            <a href="@Url.Action("DaftarPengaduan", "Pengaduan", new { culture = @HttpContextAccessor.HttpContext.Session.GetString("culture").ToLower() })" class="">
+                                <i class="las la-people-carry iq-arrow-left"></i><span>@R_Home.DaftarPengaduan</span>
+                            </a>
+                        </li>
+
+                        <li style="display: none" class=" ">
+                            <a class="">
+                                <i class="las la-book-open iq-arrow-left"></i><span>@R_Home.PanduanPengguna</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+                <div class="p-3"></div>
+            </div>
+        </div>
+
+        <div class="iq-top-navbar">
+            <div class="iq-navbar-custom">
+                <nav class="navbar navbar-expand-lg navbar-light p-0">
+                    <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
+                        <i class="ri-menu-line wrapper-menu"></i>
+                        <a href="@Url.Action("Index", "Dashboard", new { culture = @HttpContextAccessor.HttpContext.Session.GetString("culture").ToLower() })" class="header-logo">
+                            <img src="@Url.Content("~/images/logo-ptsmi.png")" class="img-fluid rounded-normal" alt="logo PTMSI">
+                        </a>
+                    </div>
+
+                    <div class="navbar-breadcrumb">
+                        <nav aria-label="breadcrumb">
+                            <ul class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard", new { culture = @HttpContextAccessor.HttpContext.Session.GetString("culture").ToLower() })">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <div class="change-mode">
+                            <div class="custom-control-inline">
+                                @{
+                                    var routeValues = this.ViewContext.RouteData.Values;
+                                    var controller = routeValues["controller"] as string;
+                                    var action = routeValues["action"] as string;
+                                }
+
+                                @Html.ActionLink("", @action, @controller, new { culture = "id" }, new { rel = "alternate", hreflang = "id", @class = "flag-icon flag-icon-idn header-misc-icon mr-1" }) | @Html.ActionLink("", @action, @controller, new { culture = "en" }, new { rel = "alternate", hreflang = "en", @class = "flag-icon flag-icon-gbr header-misc-icon ml-1" })
+                            </div>
+                        </div>
+                        <div class="change-mode">
+                            <div class="custom-control custom-switch custom-switch-icon custom-control-inline">
+                                <div class="custom-switch-inner">
+                                    <p class="mb-0"></p>
+                                    <input type="checkbox" class="custom-control-input" id="dark-mode" data-active="true">
+                                    <label class="custom-control-label" for="dark-mode" data-mode="toggle">
+                                        <span class="switch-icon-left"><i class="a-left"></i></span>
+                                        <span class="switch-icon-right"><i class="a-right"></i></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
+                            <i class="ri-menu-3-line"></i>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto navbar-list align-items-center">
+                                <li id="MessageNotification" class="nav-item nav-icon dropdown">
+                                    <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="ri-mail-line"></i>
+                                        <span id="msg_dot" name="msg_dot" class="bg-primary count-mail" style="display: none"></span>
+                                    </a>
+                                    <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <div class="card shadow-none m-0">
+                                            <div class="card-body p-0 ">
+                                                <div class="cust-title p-3">
+                                                    <h5 name="msg_count" id="msg_count" class="mb-0">0 Messages</h5>
+                                                </div>
+                                                <div name="div_msg" id="div_msg" class="p-3">
+
+                                                </div>
+                                                <a name="msg_link" id="msg_link" style="display: none" href="@Url.Action("DaftarPengaduan", "Pengaduan", new { culture = @HttpContextAccessor.HttpContext.Session.GetString("culture").ToLower() })" class="right-ic btn btn-primary btn-block position-relative p-2" role="button">
+                                                    <div class="dd-icon"><i class="las la-arrow-right mr-0"></i></div>
+                                                    View All
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li id="Notification" class="nav-item nav-icon dropdown">
+                                    <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="ri-notification-line"></i>
+                                        <span id="dot_notifikasi" style="display: none" class="bg-primary dots"></span>
+                                    </a>
+                                    <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <div class="card shadow-none m-0">
+                                            <div class="card-body p-0 ">
+                                                <div class="cust-title p-3">
+                                                    <h5 class="mb-0">0 Notifications</h5>
+                                                </div>
+                                                <div class="p-3" style="display: none">
+                                                </div>
+                                                <a class="right-ic btn btn-primary btn-block position-relative p-2" role="button">
+                                                    <div class="dd-icon"><i class="las la-arrow-right mr-0"></i></div>
+                                                    View All
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item iq-full-screen"><a href="#" class="" id="btnFullscreen"><i class="ri-fullscreen-line"></i></a></li>
+                                <li id="UserProfile" class="caption-content">
+                                    <a href="#" class="iq-user-toggle">
+                                        <image id="img_Profile_1" src="@HttpContextAccessor.HttpContext.Session.GetString("img")" class="img-fluid rounded" alt="user"></image>
+                                    </a>
+                                    <div class="iq-user-dropdown">
+                                        <div class="card">
+                                            <div class="card-header d-flex justify-content-between align-items-center mb-0">
+                                                <div class="header-title">
+                                                    <h4 class="card-title mb-0">Profile</h4>
+                                                </div>
+                                                <div class="close-data text-right badge badge-primary cursor-pointer"><i class="ri-close-fill"></i></div>
+                                            </div>
+                                            <div class="data-scrollbar" data-scroll="2">
+                                                <div class="card-body">
+                                                    <div class="profile-header">
+                                                        <div class="cover-container text-center">
+                                                            <image id="img_Profile_2" src="@HttpContextAccessor.HttpContext.Session.GetString("img")" class="rounded img-fluid avatar-80" alt="profile-bg"></image>
+                                                            <div class="profile-detail mt-3">
+                                                                <h3 id="span_Fullname">@HttpContextAccessor.HttpContext.Session.GetString("fn")</h3>
+                                                                <p id="span_Roles" class="mb-1">@HttpContextAccessor.HttpContext.Session.GetString("fr")</p>
+                                                            </div>
+                                                            <a href="@Url.Action("Signout", "Account", new { culture = @HttpContextAccessor.HttpContext.Session.GetString("culture").ToLower() })" class="btn btn-primary">Sign Out</a>
+
+                                                        </div>
+                                                        <div class="profile-details my-4">
+                                                            <a href="@Url.Action("MyProfile", "Account", new { culture = @HttpContextAccessor.HttpContext.Session.GetString("culture").ToLower() })" class="iq-sub-card bg-danger-light rounded-small p-2">
+                                                                <div class="media align-items-center">
+                                                                    <div class="rounded iq-card-icon-small">
+                                                                        <i class="ri-profile-line"></i>
+                                                                    </div>
+                                                                    <div class="media-body ml-3">
+                                                                        <h6 class="mb-0 ">Edit Profile</h6>
+                                                                        <p class="mb-0 font-size-12">Modify your personal details.</p>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="p-3"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </nav>
+            </div>
+        </div>
+
+        <div class="content-page">
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="iq-footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 text-left">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+                        <li class="list-inline-item"><a href="#">Terms of Use</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-8 text-right">
+                    Copyright &copy; 2022 PT Sarana Multi Infrastruktur (Persero). All Rights Reserved.
+
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="modal_fullscreen" class="modal fade dark modal-fullscreen" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-header">
+                <span id="span_title_modal_fullscreen" class="text-white modal-title"></span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-content">
+                    <button type="button" class="close close_modal" data-dismiss="modal" aria-hidden="true"><i class="icon-window-close text-red"></i></button>
+                    <div id="modal_fullscreen_body" class="modal-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_image" class="modal fade dark modal-image" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-header">
+                <span id="span_title_modal_image" class="text-white modal-title"></span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-content">
+                    <button type="button" class="close close_modal" data-dismiss="modal" aria-hidden="true"><i class="icon-window-close text-red"></i></button>
+                    <div id="modal_image_body" class="modal-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backend Bundle JavaScript -->
+    <script src="@Url.Content("~/FO/js/backend-bundle.min.js")"></script>
+
+    <!-- Flextree Javascript-->
+    <script src="@Url.Content("~/FO/js/flex-tree.min.js")"></script>
+    <script src="@Url.Content("~/FO/js/tree.js")"></script>
+
+    <!-- Table Treeview JavaScript -->
+    <script src="@Url.Content("~/FO/js/table-treeview.js")"></script>
+
+    <!-- Masonary Gallery Javascript -->
+    <script src="@Url.Content("~/FO/js/masonry.pkgd.min.js")"></script>
+    <script src="@Url.Content("~/FO/js/imagesloaded.pkgd.min.js")"></script>
+
+    <!-- Fullcalender Javascript -->
+    <script src="@Url.Content("~/FO/vendor/fullcalendar/core/main.js")"></script>
+    <script src="@Url.Content("~/FO/vendor/fullcalendar/daygrid/main.js")"></script>
+    <script src="@Url.Content("~/FO/vendor/fullcalendar/timegrid/main.js")"></script>
+    <script src="@Url.Content("~/FO/vendor/fullcalendar/list/main.js")"></script>
+
+    <!-- SweetAlert JavaScript -->
+    <script src="@Url.Content("~/FO/js/sweetalert.js")"></script>
+
+    <!-- Vectoe Map JavaScript -->
+    <script src="@Url.Content("~/FO/js/vector-map-custom.js")"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="@Url.Content("~/FO/js/customizer.js")"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="@Url.Content("~/FO/js/chart-custom.js")"></script>
+
+    <!-- slider JavaScript -->
+    <script src="@Url.Content("~/FO/js/slider.js")"></script>
+
+    <!-- app JavaScript -->
+    <script src="@Url.Content("~/FO/js/app.js")"></script>
+
+    <script src="@Url.Content("~/plugins/jquery-validation/jquery.validate.min.js")"></script>
+    <script src="@Url.Content("~/script/JValCustom.js")"></script>
+    <script src="@Url.Content("~/plugins/jquery-validation/additional-methods.min.js")"></script>
+
+    <script src="@Url.Content("~/js/telephone/intlTelInput.js")"></script>
+    <script src="@Url.Content("~/js/FileValidation.js")"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script type="text/javascript">
+
+        function reset_html(id) {
+            $('#' + id).html($('#' + id).html());
+        }
+
+        var VP = '@Url.Content("~/")';
+
+        $(document).ready(function () {
+            SetNotifikasi();
+
+            var file_input_index = 0;
+            $('input[type=file].form-control-file').each(function () {
+                file_input_index++;
+                $(this).wrap('<div class="d-flex" id="file_input_container_' + file_input_index + '"></div>');
+                $(this).before('<button type="button" class="btn btn-outline-danger btn-sm mr-1" onclick="reset_html(\'file_input_container_' + file_input_index + '\'); return false;"><i class="fa fa-trash"></i></button>');
+            });
+
+        });
+
+        function SetNotifikasi() {
+            var div_msg = document.getElementById('div_msg');
+            div_msg.innerHTML = '';
+
+            document.getElementById('msg_dot').style.display = 'none';
+            document.getElementById('msg_count').innerHTML = 'No Messages';
+
+            $.ajax({
+                url: VP + 'Pengaduan/Get_Msg_Tanggapan_by_Email',
+                type: 'POST',
+                success: function (Result) {
+                    if (Result.Error == false) {
+
+                        var RowCount = Result.RowCount;
+                        if (RowCount != "0") {
+                            document.getElementById('msg_dot').style.display = 'inline-block';
+                            document.getElementById('msg_count').innerHTML = RowCount + ' Messages';
+
+                            if (RowCount > 5)
+                                document.getElementById('msg_link').style.display = 'inline-block';
+
+                            for (var i = 0; i < Result.Message.length; ++i) {
+
+                                var div = document.getElementById('div_msg');
+                                var sb = '<a href="'+ Result.Message[i].Msg_Link +'&v=msg" class="iq-sub-card">'+
+                                            '<div class="media align-items-center">'+
+                                                '<div class="media-body">'+
+                                                   '<h6 class="mb-0" style="font-size: 14px;">Tanggapan Admin SPP</h6><small class="badge badge-danger float-right" style="font-size: 12px !important;" >New</small>'+
+                                                    '<small class="float-left font-size-12">'+ Result.Message[i].Nomor +'</small><br>'+
+                                                    '<small class="float-left font-size-12">'+ Result.Message[i].s_CreatedOn +'</small>'+
+                                                '</div>'+
+                                            '</div>'+
+                                        '</a>';
+
+                                div.innerHTML += sb;
+                            }
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    CustomNotif("error|Oops|" + error + "");
+                }
+            })
+        }
+
+        function CustomNotif(msg) {
+            var msgs = msg.split("|");
+            var _icon = msgs[0];
+            var _title = msgs[1];
+            var _html = msgs[2];
+            var _script = msgs[3];
+            _html = _html.toString().replace('\\n', '<br>');
+
+            if (_script != null) {
+                Swal.fire({
+                    icon: _icon,
+                    title: _title,
+                    html: _html,
+                    showConfirmButton: true,
+                }).then(function (result) {
+                    eval(_script);
+                });
+            }
+            else {
+                Swal.fire({
+                    icon: _icon,
+                    title: _title,
+                    html: _html,
+                    showConfirmButton: true,
+                });
+            }
+        }
+
+        function ErrorMsg(Title, Msg) {
+            Swal.fire({
+                icon: 'error',
+                title: Title,
+                text: Msg,
+                showConfirmButton: false,
+            })
+        };
+
+        function Confirm(Title, ConfirmMsg, ConfirmResult) {
+            Swal.fire({
+                title: Title,
+                text: ConfirmMsg,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        Swal.fire(ConfirmResult, {
+                            icon: "success",
+                        });
+                    } else {
+
+                    }
+                });
+        };
+
+        function ShowNotif_add(msg) {
+            if (msg == null) msg = "";
+            Swal.fire({
+                icon: 'success',
+                title: '<strong>Saved</strong>: ',
+                text: msg,
+                showConfirmButton: false,
+            })
+        }
+
+        function ShowNotif_Error(msg) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops!!',
+                text: 'Something went wrong, ' + msg,
+                showConfirmButton: false,
+            })
+        }
+
+        function ShowInputKode(msg) {
+            var msgs = msg.split("|");
+            var _type = msgs[0];
+            var _title = msgs[1];
+            var _html = msgs[2];
+            var _script = msgs[3];
+            _html = _html.toString().replace('\\n', '<br>');
+
+            Swal.fire({
+                title: _title,
+                html: _html,
+                input: 'text',
+                showCancelButton: true
+            }).then((result) => {
+                if (result.value) {
+                    CustomNotif('success|Saved|Perubahan berhasil disimpan');
+                }
+            });
+        }
+
+        function WebForm_OnSubmit() {
+            if (typeof (ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) {
+                for (var i in Page_Validators) {
+                    try {
+                        var control = document.getElementById(Page_Validators[i].controltovalidate);
+                        control.className = control.className.replace(" ErrorControl", "");
+                        if (!Page_Validators[i].isvalid) {
+                            control.className = control.className + " ErrorControl";
+                            control.focus();
+                        } else {
+                            control.className = control.className.replace("ErrorControl", "");
+                        }
+                    } catch (e) { }
+                }
+                return false;
+            }
+            return true;
+        }
+
+        function pageLoad() {
+            $(".select2").select2({
+                allowClear: true
+            });
+        };
+
+        function show_pdf(path, title) {
+            //console.log(path);
+
+            var object = '<iframe id="iframe_pdf" src="' + path + '" frameborder="0" style="overflow:hidden;height:100vh;width:100%" height="100vh" width="100%"></iframe>';
+            $("#modal_fullscreen_body").html(object);
+            document.getElementById('span_title_modal_fullscreen').innerHTML = title;
+            $("#modal_fullscreen").modal();
+            document.getElementById('title').hide();
+        };
+
+        function show_image(path, title) {
+            //console.log(path);
+            //var object = '<iframe id="iframe_pdf" src="' + path + '" frameborder="0" style="overflow:hidden;height:100vh;width:100%" height="100vh" width="100%"></iframe>';
+            var object = '<img src="' + path + '" height="auto" width="100%" />';
+            $("#modal_image_body").html(object);
+            document.getElementById('span_title_modal_image').innerHTML = title;
+            $("#modal_image").modal();
+        };
+
+        $(window).on('load', function () {
+            $('#modal_fullscreen').appendTo('body');
+            $('#title').hide();
+            //document.getElementById('title').hide();
+        })
+
+        $(".ModalLoader").hide();
+        $(".button-spinner").hide();
+        $(document)
+            .ajaxStart(function () {
+                $(".ModalLoader").show();
+                $(".button-spinner").show();
+                for (let el of document.querySelectorAll('.btn')) {
+                    el.classList.add("disabled");
+                }
+            })
+            .ajaxStop(function () {
+                $(".ModalLoader").hide();
+                $(".button-spinner").hide();
+                for (let el of document.querySelectorAll('.btn')) {
+                    el.classList.remove("disabled");
+                }
+            });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

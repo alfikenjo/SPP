@@ -1,0 +1,188 @@
+﻿
+
+<div class="iq-sidebar sidebar-default">
+    <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
+        <a href="@Url.Action("Index", "Dashboard")" class="header-logo">
+            <img id="logoimg" class="img-fluid rounded-normal" alt="logo">
+        </a>
+        <div class="iq-menu-bt-sidebar">
+            <i class="las la-bars wrapper-menu"></i>
+        </div>
+    </div>
+    <div class="data-scrollbar" data-scroll="1">
+        <nav class="iq-sidebar-menu">
+            <ul id="iq-sidebar-toggle" class="iq-menu">
+
+                <li class="active">
+                    <a href="@Url.Action("Index", "Dashboard")" class="">
+                        <i class="las la-home iq-arrow-left"></i><span>Dashboard</span>
+                    </a>
+                    <ul id="home" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                    </ul>
+                </li>
+
+                <li id="mn_Manajemen_Delegator" style="display: none" class=" ">
+                    <a href="@Url.Action("DaftarDelegator", "Delegator")" class="">
+                        <i class="las la-list-alt iq-arrow-left"></i><span>Manajemen Delegator</span>
+                    </a>
+                </li>
+
+                <li id="mn_Pusat_Pengaduan" style="display: none" class=" ">
+                    <a href="@Url.Action("DaftarPengaduan", "Pengaduan")" class="">
+                        <i class="las la-book-open iq-arrow-left"></i><span>Pusat Pengaduan</span>
+                    </a>
+                </li>
+
+                <li id="mn_Laporan" style="display: none" class=" ">
+                    <a href="#Laporan" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                        <i class="las la-chart-bar iq-arrow-left"></i><span>Laporan</span>
+                        <i class="las la-plus iq-arrow-right arrow-active"></i>
+                        <i class="las la-minus iq-arrow-right arrow-hover"></i>
+                    </a>
+                    <ul id="Laporan" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                        <li class=" ">
+                            <a href="@Url.Action("Index", "Laporan")">
+                                <i class="iq-arrow-left"></i><span>SPP Report</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="@Url.Action("Overdue", "Laporan")">
+                                <i class="iq-arrow-left"></i><span>Overdue Report</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+             
+                <li id="mn_Manajemen_Kuesioner" style="display: none" class=" ">
+                    <a href="@Url.Action("DaftarKuesioner", "Kuesioner")" class="">
+                        <i class="las la-book-open iq-arrow-left"></i><span>Manajemen Kuesioner</span>
+                    </a>
+                </li>
+
+                <li id="mn_Parent_CMS" style="display: none" class=" ">
+                    <a href="#CMS" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                        <i class="lar la-edit iq-arrow-left"></i><span>CMS</span>
+                        <i class="las la-plus iq-arrow-right arrow-active"></i>
+                        <i class="las la-minus iq-arrow-right arrow-hover"></i>
+                    </a>
+                    <ul id="CMS" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                        <li class=" ">
+                            <a href="@Url.Action("Banner", "CMS")">
+                                <span class="iq-arrow-left">Banner</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="@Url.Action("TentangSPP", "CMS")">
+                                <span class="iq-arrow-left">Tentang SPP</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="@Url.Action("PilarSPP", "CMS")">
+                                <span class="iq-arrow-left">Tiga Pilar SPP</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="@Url.Action("JenisPelanggaran", "CMS")">
+                                <span class="iq-arrow-left">Jenis Pelanggaran</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="@Url.Action("MediaPenyampaian", "CMS")">
+                                <span class="iq-arrow-left">Media Penyampaian</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="@Url.Action("FAQ", "CMS")">
+                                <span class="iq-arrow-left">FAQ</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="@Url.Action("ContactUs", "CMS")">
+                                <span class="iq-arrow-left">Contact Us</span>
+                            </a>
+                        </li>
+                        <li class=" ">
+                            <a href="@Url.Action("SyaratDanKetentuan", "CMS")">
+                                <span class="iq-arrow-left">Syarat dan Ketentuan</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li id="mn_parent_administrator" style="display: none" class=" ">
+                    <a href="#app" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                        <i class="las la-cog iq-arrow-left"></i><span>Sys Administrator</span>
+                        <i class="las la-plus iq-arrow-right arrow-active"></i>
+                        <i class="las la-minus iq-arrow-right arrow-hover"></i>
+                    </a>
+                    <ul id="app" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                        <li class=" ">
+                            <a href="#user" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                                <i class="las la-user"></i><span>User Management</span>
+                                <i class="las la-plus iq-arrow-right arrow-active"></i>
+                                <i class="las la-minus iq-arrow-right arrow-hover"></i>
+                            </a>
+                            <ul id="user" class="iq-submenu collapse" data-parent="#app">
+                                <li id="mn_Role" style="display: none" class=" ">
+                                    <a href="@Url.Action("Role", "Account")">
+                                        <i class="las la-id-card"></i><span>Role</span>
+                                    </a>
+                                </li>
+                                <li id="mn_userlist" class=" ">
+                                    <a href="@Url.Action("UserList", "Account")">
+                                        <i class="las la-list-alt"></i><span>User</span>
+                                    </a>
+                                </li>
+                                <li id="mn_AuditTrail" style="display: none" class=" ">
+                                    <a href="@Url.Action("Index", "AuditTrail")">
+                                        <i class="las la-history"></i><span>User Audit Trail</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li id="mn_Setting" style="display: none" class=" ">
+                            <a href="#setting" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                                <i class="las la-cog"></i><span>Settings</span>
+                                <i class="las la-plus iq-arrow-right arrow-active"></i>
+                                <i class="las la-minus iq-arrow-right arrow-hover"></i>
+                            </a>
+                            <ul id="setting" class="iq-submenu collapse" data-parent="#app">
+                                <li class=" ">
+                                    <a href="@Url.Action("FileEkstensionFilter", "Setting")">
+                                        <i class="las la-id-card"></i><span>Ekstension Filter</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="@Url.Action("Notification", "Setting")">
+                                        <i class="las la-bell"></i><span>Notification Center</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="@Url.Action("EmailSetting", "Setting")">
+                                        <i class="las la-envelope"></i><span>Email Template</span>
+                                    </a>
+                                </li>
+                                <li style="display: none" class=" ">
+                                    <a href="@Url.Action("Reminder", "Setting")">
+                                        <i class="las la-business-time"></i><span>Reminder</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+
+                </li>
+
+                <li style="display: none" id="UserGuidenance" class=" ">
+                    <a>
+                        <i class="las la-book-open iq-arrow-left"></i><span>Panduan Pengguna</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+        <div class="p-3"></div>
+    </div>
+</div>

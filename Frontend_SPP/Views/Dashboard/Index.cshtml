@@ -1,0 +1,129 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Frontend_SPP.Resources.Home
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "FO - Dashboard";
+    Layout = "~/Views/Shared/_Layout_FO.cshtml";
+}
+
+<input type="hidden" id="msg" name="msg" value="@ViewBag.Msg">
+
+@section scripts{
+
+    <script>
+        var msg = $('#msg').val();
+        if (msg)
+            CustomNotif("error|Oops|" + msg + "");
+    </script>
+}
+
+
+<div class="row">
+    <div class="col-lg-12 mb-3">
+        <div class="d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">@R_Home.Selamatdatang @HttpContextAccessor.HttpContext.Session.GetString("fn")</h5>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="card car-transparent">
+            <div class="card-body p-0">
+                <div class="profile-image position-relative">
+                    <img src="@Url.Content("~/image/landing4.jpg")" class="img-fluid rounded w-100" alt="">
+                </div>
+                <div class="profile-overly">
+                    <h3 id="span_Fullname_2">@HttpContextAccessor.HttpContext.Session.GetString("Fullname")</h3>
+                    <span id="span_Unit"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-sm-6 col-md-6 col-lg-3">
+        <div class="card card-block card-stretch card-height">
+            <div class="card-body iq-total-content">
+                <div class="top-block d-flex align-items-center justify-content-between">
+                    <p class="mb-1">@R_Home.Jumlah</p>
+                    <span id="sp_pengaduan" class="badge badge-info rounded-normal">@ViewBag.Terkirim</span>
+                </div>
+                <h4><span class="counter">@R_Home.Pengaduan</span></h4>
+                <div class="d-flex align-items-center justify-content-between mt-3 position-relative">
+                    <div class="iq-progress-bar bg-info-light mt-3 iq-progress-bar-icon">
+                        <span class="bg-info iq-progress progress-1" data-percent="100">
+                            <span class="progress-text text-info"></span>
+                        </span>
+                    </div>
+                    <div id="total-chart-01" class="ml-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-3">
+        <div class="card card-block card-stretch card-height">
+            <div class="card-body iq-total-content">
+                <div class="top-block d-flex align-items-center justify-content-between">
+                    <p class="mb-1">@R_Home.Jumlah</p>
+                    <span runat="server" id="sp_diproses" class="badge badge-warning rounded-normal">@ViewBag.Diproses</span>
+                </div>
+                <h4><span class="counter">@R_Home.Diproses</span></h4>
+                <div class="d-flex align-items-center justify-content-between mt-3 position-relative">
+                    <div class="iq-progress-bar progress-4 bg-warning-light mt-3 iq-progress-bar-icon">
+                        <span class="bg-warning" data-percent="100">
+                            <span class="progress-text text-warning"></span>
+                        </span>
+                    </div>
+                    <div id="total-chart-04" class="ml-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-3">
+        <div class="card card-block card-stretch card-height">
+            <div class="card-body iq-total-content">
+                <div class="top-block d-flex align-items-center justify-content-between">
+                    <p class="mb-1">@R_Home.Jumlah</p>
+                    <span runat="server" id="sp_selesai" class="badge badge-success rounded-normal">@ViewBag.Selesai</span>
+                </div>
+                <h4><span class="counter">@R_Home.Selesai</span></h4>
+                <div class="d-flex align-items-center justify-content-between mt-3 position-relative">
+                    <div class="iq-progress-bar progress-4 bg-success-light mt-3 iq-progress-bar-icon">
+                        <span class="bg-success" data-percent="100">
+                            <span class="progress-text text-success"></span>
+                        </span>
+                    </div>
+                    <div id="total-chart-04" class="ml-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-sm-6 col-md-6 col-lg-3">
+        <div class="card card-block card-stretch card-height">
+            <div class="card-body iq-total-content">
+                <div class="top-block d-flex align-items-center justify-content-between">
+                    <p class="mb-1">@R_Home.Jumlah</p>
+                    <span runat="server" id="sp_ditolak" class="badge badge-danger rounded-normal">@ViewBag.Ditolak</span>
+                </div>
+                <h4><span class="counter">@R_Home.Ditolak</span></h4>
+                <div class="d-flex align-items-center justify-content-between mt-3 position-relative">
+                    <div class="iq-progress-bar progress-4 bg-danger-light mt-3 iq-progress-bar-icon">
+                        <span class="bg-danger" data-percent="100">
+                            <span class="progress-text text-danger"></span>
+                        </span>
+                    </div>
+                    <div id="total-chart-04" class="ml-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>

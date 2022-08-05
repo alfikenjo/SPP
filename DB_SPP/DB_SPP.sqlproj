@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>DB_SPP</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{d62d3084-4a61-418f-b578-97c4482dc7ab}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>DB_SPP</RootNamespace>
+    <AssemblyName>DB_SPP</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\tblT_UserInRole.sql" />
+    <Build Include="dbo\Tables\tblT_User_Password_Forgotten.sql" />
+    <Build Include="dbo\Tables\tblT_User_Login.sql" />
+    <Build Include="dbo\Tables\tblT_Tanggapan.sql" />
+    <Build Include="dbo\Tables\tblT_Survey.sql" />
+    <Build Include="dbo\Tables\tblT_OTP.sql" />
+    <Build Include="dbo\Tables\tblT_New_User_Verification.sql" />
+    <Build Include="dbo\Tables\tblT_Dumas.sql" />
+    <Build Include="dbo\Tables\tblT_AuditTrail.sql" />
+    <Build Include="dbo\Tables\tblM_User.sql" />
+    <Build Include="dbo\Tables\tblM_Unit.sql" />
+    <Build Include="dbo\Tables\tblM_Role.sql" />
+    <Build Include="dbo\Tables\tblM_Referensi.sql" />
+    <Build Include="dbo\Tables\tblM_AuthParameter.sql" />
+    <Build Include="dbo\Tables\AuditTrail.sql" />
+    <Build Include="dbo\Views\vw_UserInRole.sql" />
+    <Build Include="dbo\Views\vw_User_Verification_Status.sql" />
+    <Build Include="dbo\Functions\Generate_Nomor_Dumas.sql" />
+    <Build Include="dbo\Functions\FormatNamaHari_Indonesia.sql" />
+    <Build Include="dbo\Functions\FormatNamaBulan_Indonesia.sql" />
+    <Build Include="dbo\Functions\FormatDate_yyyyMMdd.sql" />
+    <Build Include="dbo\Functions\FormatDate_Indonesia_Lengkap.sql" />
+    <Build Include="dbo\Functions\FormatDate_Indonesia.sql" />
+    <Build Include="dbo\Functions\FormatDate_ddMMyyyy.sql" />
+    <Build Include="dbo\Functions\Format24DateTime_Control.sql" />
+    <Build Include="dbo\Functions\Format24DateTime.sql" />
+    <Build Include="dbo\Functions\Format_StringNumber.sql" />
+    <Build Include="dbo\Functions\fnConvertIntToRoman.sql" />
+    <Build Include="dbo\Functions\F_AddThousandSeparators.sql" />
+    <Build Include="dbo\Stored Procedures\spUpdateMyProfile.sql" />
+    <Build Include="dbo\Stored Procedures\spUpdateAccount.sql" />
+    <Build Include="dbo\Stored Procedures\spChangePassword.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Register_User.sql" />
+    <Build Include="dbo\Stored Procedures\sp_RecordAuditTrail.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Kirim_Dumas.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_User_In_Role.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_User_By_UserID.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_User.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Msg_Tanggapan_by_Email.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Email_Admin_Unit.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Email_Admin_Pusat.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Dumas_Internal.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Dumas_by_ID.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Dumas_by_Email.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Database_Pelapor.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Dashboard_By_Email.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Daftar_Survey_Export_Excel.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Daftar_Survey.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Export_Dumas_Internal.sql" />
+    <Build Include="dbo\Tables\tblM_Delegator.sql" />
+    <Build Include="dbo\Tables\tblT_Dumas_Detail.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_Dumas_Detail.sql" />
+    <Build Include="dbo\Tables\tblT_File_Evidence.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Kirim_Tanggapan_Pelapor.sql" />
+    <Build Include="dbo\Tables\tblT_UserInDelegator.sql" />
+    <Build Include="dbo\Stored Procedures\spUpdateEmail.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Dashboard_Internal_By_Email.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetRoleByUserID.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GetAccountByUserID.sql" />
+    <Build Include="dbo\Functions\Split.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Download_User.sql" />
+    <Build Include="dbo\Stored Procedures\spUpdateMyProfileInternal.sql" />
+    <Build Include="dbo\Stored Procedures\spUpdateAccountInternal.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_User.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_TindakLanjut.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_Role.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_Respon.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_Penyaluran.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_MemberDelegator.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_Delegator.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Kirim_Tanggapan_Internal.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Kirim_Tanggapan_Admin_SPP.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_TanggapanInternalByIDPengaduan.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_TanggapanByIDPengaduan.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_RoleByID.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Role.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Msg_Tanggapan_Internal_by_Email.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_MemberDelegator.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_FileEvidenceByIDHeader.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Email_Delegator.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Email_Admin_SPP.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Dumas_by_Email_Pelapor.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_DetailPengaduanByID.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Detail_PengaduanByIDHeader.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_DelegatorByID.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Delegator.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_CalonMemberDelegator.sql" />
+    <Build Include="dbo\Tables\tblT_Banner.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_Banner.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Banner_ByID.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Banner.sql" />
+    <Build Include="dbo\Tables\tblT_CMS.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_CMS.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Single_CMS.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Banner_Aktif.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_CMS_By_ID.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Laporan_2.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Laporan_1.sql" />
+    <Build Include="dbo\Tables\Kuesioner.sql" />
+    <Build Include="dbo\Tables\KuesionerDetail.sql" />
+    <Build Include="dbo\Tables\KuesionerDetailOptions.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_KuesionerDetailOptions.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_KuesionerDetail.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_Kuesioner.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Kuesioner_Detail_Options_By_IDHeader.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Kuesioner_Detail_Options_By_ID.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Kuesioner_Detail_By_IDHeader.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Kuesioner_Detail_By_ID.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Kuesioner_By_ID.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Kuesioner.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Aktif_Kuesioner.sql" />
+    <Build Include="dbo\Tables\KuesionerValue.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_KuesionerValue.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_KuesionerValue_By_IDPengaduan.sql" />
+    <Build Include="dbo\Tables\FileEkstensionFilter.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_FileEkstensionFilter.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_FileEkstensionFilterByID.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_FileEkstensionFilter.sql" />
+    <Build Include="dbo\Tables\NotificationSetting_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_SaveNotificationSetting.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_NotificationSetting.sql" />
+    <Build Include="dbo\Tables\RefMonth.sql" />
+    <Build Include="dbo\Functions\ProperCase.sql" />
+    <Build Include="dbo\Functions\FormatDate_yyyyMM.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Year_Dumas.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Pengaduan_Status_by_Period.sql" />
+    <Build Include="dbo\Stored Procedures\sp_get_Chart_3_bulanan.sql" />
+    <Build Include="dbo\Stored Procedures\sp_get_Chart_3.sql" />
+    <Build Include="dbo\Stored Procedures\sp_get_Chart_2.sql" />
+    <Build Include="dbo\Tables\tblT_EmailSetting.sql" />
+    <Build Include="dbo\Tables\tblT_EmailMatriks.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_EmailSetting.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_EmailSetting_By_ID.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_EmailSetting.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Overdue_90.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Get_Overdue_14.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Cek_Pengaduan_By_Delegator.sql" />
+    <Build Include="dbo\Stored Procedures\sp_GrantedFile.sql" />
+    <Build Include="dbo\Tables\FileEkstensionFilterDummy.sql" />
+    <Build Include="dbo\Stored Procedures\sp_get_DetailChart_3.sql" />
+    <Build Include="dbo\Stored Procedures\sp_get_DetailChart_2.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SqlSchemaCompare.scmp" />
+  </ItemGroup>
+</Project>

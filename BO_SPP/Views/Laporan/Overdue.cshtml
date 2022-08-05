@@ -1,0 +1,79 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Pages/Overdue.js")"></script>
+}
+
+<style>
+
+    table.dataTable thead .sorting_asc,
+    table.dataTable thead .sorting_desc,
+    table.dataTable thead .sorting {
+        background: none !important;
+    }
+</style>
+
+<div class="row">
+
+    <div class="LoaderOnGrid">
+        <div class="overlay ModalLoader">
+            <i class="fas fa-2x fa-spinner fa-spin" style="font-size:48px;color:red"></i>
+        </div>
+    </div>
+
+    @if (ViewBag.Role.Contains("Admin SPP"))
+    {
+        <div id="div_14" class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Daftar Pengaduan Overdue by 14 hari (belum direspon)</h4>
+                </div>
+                <div class="card-body">
+                    <table id="TableData14" class="data-tables table table-borderless nowrap">
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>Nomor</th>
+                                <th>Tanggal Pengaduan</th>
+                                <th>Status</th>
+                                <th>Overdue (hari)</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Daftar Pengaduan Overdue by 90 hari (belum selesai)</h4>
+            </div>
+            <div class="card-body">
+                <table id="TableData90" class="data-tables table table-borderless nowrap">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Nomor</th>
+                            <th>Tanggal Pengaduan</th>
+                            <th>Grup Delegator</th>
+                            <th>Status</th>
+                            <th>Overdue (hari)</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

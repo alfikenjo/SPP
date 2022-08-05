@@ -1,0 +1,153 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Pages/FAQ.js")"></script>
+}
+
+<div class="row">
+    <div class="col-lg-12 mb-3">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="navbar-breadcrumb">
+                <h5 class="mb-0">FAQ</h5>
+                <small>Content Management System</small>
+            </div>            
+        </div>
+    </div>
+
+    <div class="col-12">
+        <form id="FormInput">
+            <input type="hidden" class="form-control text-sm" id="Action">
+            <input type="hidden" class="form-control text-sm" id="ActionDetail">
+            <input type="hidden" class="form-control text-sm" id="ID">
+            <input type="hidden" class="form-control text-sm" id="IDDetail">
+            <input type="hidden" class="form-control text-sm" id="Tipe" value="Header FAQ">
+            <input type="hidden" class="form-control text-sm" id="TipeDetail" value="FAQ">
+
+            <div class="card">
+                <div class="card-header">
+                    <p class="float-left">Konten FAQ disediakan dalam dua versi bahasa</p>
+                    <div class="float-right">
+                        <button type="submit" form="FormInput" class="btn btn-sm bg-primary"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save mr-2"></i>Save Header</button>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <ul class="nav nav-tabs" id="myTab-1" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="nav_ID" data-toggle="tab" href="#tab_ID" role="tab" aria-controls="tab_ID" aria-selected="true"><span class="flag-icon flag-icon-idn header-misc-icon mr-2"></span>ID (Bahasa)</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="nav_EN" data-toggle="tab" href="#tab_EN" role="tab" aria-controls="tab_EN" aria-selected="false"><span class="flag-icon flag-icon-gbr header-misc-icon mr-2"></span>EN (English)</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent-2">
+                        <div id="tab_ID" class="tab-pane fade show active" role="tabpanel" aria-labelledby="nav_ID">
+                            <div class="form-group">
+                                <label>Title *)</label>
+                                <input type="text" id="Title_ID" name="Title_ID" class="form-control" maxlength="255" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Sub-title *)</label>
+                                <input type="text" id="SubTitle_ID" name="SubTitle_ID" class="form-control" maxlength="255" />
+                            </div>
+
+                        </div>
+                        <div id="tab_EN" class="tab-pane fade" role="tabpanel" aria-labelledby="nav_EN">
+                            <div class="form-group">
+                                <label>Title *)</label>
+                                <input type="text" id="Title_EN" name="Title_EN" class="form-control" maxlength="255" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Sub-title *)</label>
+                                <input type="text" id="SubTitle_EN" name="SubTitle_EN" class="form-control" maxlength="255" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="btn-group btn-group-toggle">
+                    <button id="btnAdd" onclick="return false;" class="btn btn-info button-icon btn-sm"><i class="ri-add-line m-0"></i>Add FAQ</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="LoaderOnGrid">
+                    <div class="overlay ModalLoader">
+                        <i class="fas fa-2x fa-spinner fa-spin" style="font-size:48px;color:red"></i>
+                    </div>
+                </div>
+                <table class="table table-bordered" id="TableData" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Question</th>
+                            <th>Answer</th>
+                            <th>UpdatedOn</th>
+                            <th>UpdatedBy</th>
+                        </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </div>
+
+        <form id="FormInputDetail">
+            <div id="divInput" class="card" style="display: none">
+                <div class="card-header">
+                    <p class="float-left">Konten FAQ disediakan dalam 2 (dua) versi bahasa</p>
+                    <div class="float-right">
+                        <button type="submit" form="FormInputDetail" class="btn btn-success btn-sm"><i class="fa fa-spinner fa-spin button-spinner"></i>Save Detail</button>
+                        <button id="btnCloseForm" onclick="CloseForm(); return false;" class="btn bg-danger btn-sm">Cancel</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="myTab-2" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="nav_ID_Detail" data-toggle="tab" href="#tab_ID_Detail" role="tab" aria-controls="tab_ID_Detail" aria-selected="true"><span class="flag-icon flag-icon-idn header-misc-icon mr-2"></span>ID (Bahasa)</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="nav_EN_Detail" data-toggle="tab" href="#tab_EN_Detail" role="tab" aria-controls="tab_EN_Detail" aria-selected="false"><span class="flag-icon flag-icon-gbr header-misc-icon mr-2"></span>EN (English)</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent-2">
+                        <div id="tab_ID_Detail" class="tab-pane fade show active" role="tabpanel" aria-labelledby="nav_ID_Detail">
+                            <div class="form-group">
+                                <label>Pertanyaan *)</label>
+                                <textarea style="text-align: justify" id="GridTitle_ID" name="GridTitle_ID" class="form-control h100"></textarea>                                
+                            </div>
+                            <div class="form-group">
+                                <label>Jawaban *)</label>
+                                <textarea style="text-align: justify" id="Description_ID" name="Description_ID" class="form-control h100"></textarea>
+                            </div>
+                        </div>
+                        <div id="tab_EN_Detail" class="tab-pane fade" role="tabpanel" aria-labelledby="nav_EN_Detail">
+                            <div class="form-group">
+                                <label>Question *)</label>
+                                <textarea style="text-align: justify" id="GridTitle_EN" name="GridTitle_EN" class="form-control h100"></textarea>                                
+                            </div>
+                            <div class="form-group">
+                                <label>Answer *)</label>
+                                <textarea style="text-align: justify" id="Description_EN" name="Description_EN" class="form-control h100"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

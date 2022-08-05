@@ -1,0 +1,91 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Pages/SyaratDanKetentuan.js")"></script>
+}
+
+<div class="row">
+    <div class="col-lg-12 mb-3">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="navbar-breadcrumb">
+                <h5 class="mb-0">Syarat dan Ketentuan</h5>
+                <small>Content Management System</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <form id="FormInput">
+            <input type="hidden" class="form-control text-sm" id="Action">
+            <input type="hidden" class="form-control text-sm" id="ID">
+            <input type="hidden" class="form-control text-sm" id="Tipe" value="Syarat dan Ketentuan">
+
+            <div id="divInput" class="card">
+                <div class="card-header">
+                    <p class="float-left">Konten Syarat dan Ketentuan disediakan dalam dua versi bahasa</p>
+                    <div class="float-right">
+                        <button type="submit" id="btnSave" class="btn bg-primary"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save mr-2"></i>Save</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    
+                    <ul class="nav nav-tabs" id="myTab-1" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="nav_ID" data-toggle="tab" href="#tab_ID" role="tab" aria-controls="tab_ID" aria-selected="true"><span class="flag-icon flag-icon-idn header-misc-icon mr-2"></span>ID (Bahasa)</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="nav_EN" data-toggle="tab" href="#tab_EN" role="tab" aria-controls="tab_EN" aria-selected="false"><span class="flag-icon flag-icon-gbr header-misc-icon mr-2"></span>EN (English)</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent-2">
+                        <div id="tab_ID" class="tab-pane fade show active" role="tabpanel" aria-labelledby="nav_ID">
+                            <div class="form-group">
+                                <label>Title *)</label>
+                                <input type="text" id="Title_ID" name="Title_ID" class="form-control" maxlength="255" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>File PDF *)</label>
+                                <div class="custom-file mb-3">
+                                    <input type="file" id="Filename_ID" name="Filename_ID" class="custom-file-input" accept="application/pdf">
+                                    <label class="custom-file-label" for="customFile">Pilih file</label>
+                                </div>
+                                <small>(Format PDF)</small>
+                            </div>
+
+                            <div id="div_Preview_ID" style="display: none" class="custom-badge"><a id="a_FileEvidence" target="_blank" class="badge badge-danger ml-2" style="cursor: pointer">Preview File</a></div>
+                        </div>
+                        <div id="tab_EN" class="tab-pane fade" role="tabpanel" aria-labelledby="nav_EN">
+                            <div class="form-group">
+                                <label>Title *)</label>
+                                <input type="text" id="Title_EN" name="Title_EN" class="form-control" maxlength="255" />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>File PDF *)</label>
+                                <div class="custom-file mb-3">
+                                    <input type="file" id="Filename_EN" name="Filename_EN" class="custom-file-input" accept="application/pdf">
+                                    <label class="custom-file-label" for="customFile">Pilih file</label>
+                                </div>
+                                <small>(Format PDF)</small>
+                            </div>
+
+                            <div id="div_Preview_EN" style="display: none" class="custom-badge"><a id="a_FileEvidence" target="_blank" class="badge badge-danger ml-2" style="cursor: pointer">Preview File</a></div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-group">
+                        
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

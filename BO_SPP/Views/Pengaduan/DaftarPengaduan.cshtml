@@ -1,0 +1,93 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Pages/DaftarPengaduan.js")"></script>
+
+    <script>
+        function SetRole() {
+            let Role = '@ViewBag.Role';
+            sessionStorage.setItem("Role", Role);
+        }
+    </script>
+}
+
+<div class="row">
+
+    <div class="col-lg-12 mb-3">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="navbar-breadcrumb">
+                <h5 class="mb-0">Daftar Pengaduan</h5>
+                <small>SPP PT SMI</small>
+            </div>            
+            <div id="div_add_pengaduan" style="display: none" class="btn-group btn-group-toggle">
+                <a href="@Url.Action("PengaduanForm", "Pengaduan", new { act = "add" })" id="btnAdd" class="btn btn-sm btn-primary button-icon"><i class="ri-add-line m-0"></i>Buat Pengaduan Baru</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="col-lg-12 col-xl-12" style="padding-right: 0px; padding-left: 0px;">
+            <div id="filter" class="card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="form-group col-md-3 col-sm-12">
+                            <label>Status Pengaduan</label>
+                            <select id="ddl_Status" name="ddl_Status" class="form-control" placeholder="Semua">
+                                <option value="">Semua</option>
+                                <option Value='Terkirim'>Terkirim</option>
+                                <option Value='Ditolak Admin SPP'>Ditolak Admin SPP</option>
+                                <option Value='Diproses'>Diproses</option>
+                                <option Value='Ditolak Delegator'>Ditolak Delegator</option>
+                                <option Value='Dihentikan'>Dihentikan</option>
+                                <option Value='Ditindak lanjut'>Ditindak lanjut</option>
+                                <option Value='Selesai'>Selesai</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Jenis Pelanggaran</label>
+                            <select id="Jenis_Pelanggaran" name="Jenis_Pelanggaran" class="form-control"></select>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-12">
+                            <label>&nbsp;</label><br />
+                            <button id="btn_View" onclick="btn_View_Click()" class="btn btn-outline-primary"><i class="fa fa-spinner fa-spin button-spinner"></i><span class="fa fa-search"></span>&nbsp;Search</button>
+                            <button id="btn_Reset" onclick="btn_Reset_Click()" class="btn btn-outline-danger"><i class="fa fa-spinner fa-spin button-spinner"></i><span class="fa fa-history"></span>&nbsp;Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-block card-stretch card-height">
+                <div class="card-body">
+                    <div class="LoaderOnGrid">
+                        <div class="overlay ModalLoader">
+                            <i class="fas fa-2x fa-spinner fa-spin" style="font-size:48px;color:red"></i>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="TableData" class="table data-table table-striped table-bordered text-sm text-nowrap" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>Status</th>
+                                    <th>Nomor Tiket</th>
+                                    <th>Disalurkan kepada</th>
+                                    <th>Email Pelapor</th>
+                                    <th>Tanggal Pengaduan</th>
+                                    <th>Jenis Pelanggaran</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

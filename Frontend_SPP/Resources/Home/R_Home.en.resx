@@ -1,0 +1,491 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Akuntansi_Keuangan" xml:space="preserve">
+    <value>Financial Accounting</value>
+  </data>
+  <data name="Answer1" xml:space="preserve">
+    <value>Everyone can act as a whistleblower to report alleged violations within PT SMI</value>
+  </data>
+  <data name="Answer2" xml:space="preserve">
+    <value>Confidentiality of the whistleblower's identity is highly prioritized, PT SMI is committed to maintaining the confidentiality of the reporter's identity. You can make a report without revealing your identity.</value>
+  </data>
+  <data name="Answer3" xml:space="preserve">
+    <value>You can access the PT SMI SPP portal and register an account to make a violation report</value>
+  </data>
+  <data name="Answer4" xml:space="preserve">
+    <value>Our officers will carry out mitigation for every incoming report, some reports may not be processed because they are not accompanied by sufficient information and evidence.</value>
+  </data>
+  <data name="Answer5" xml:space="preserve">
+    <value>You will be notified every time there is progress from the report you sent. Reports can also be accessed by logging into the PT SMI SPP Portal</value>
+  </data>
+  <data name="Answer6" xml:space="preserve">
+    <value>Yes, in addition to using a PC/Laptop, you can also access the PT SMI SPP Portal using an internet browser on your mobile device</value>
+  </data>
+  <data name="Apr" xml:space="preserve">
+    <value>Apr</value>
+  </data>
+  <data name="Aug" xml:space="preserve">
+    <value>Aug</value>
+  </data>
+  <data name="Batal" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="BelumDiproses" xml:space="preserve">
+    <value>Awaiting Process</value>
+  </data>
+  <data name="BuatPengaduanBaru" xml:space="preserve">
+    <value>Entry new report</value>
+  </data>
+  <data name="Contactuscontent" xml:space="preserve">
+    <value>Reporting on a violation must be carried out in good faith and not out of personal interest or revenge. In addition, the said reporting must also prioritize the benefits for the common interest of all Company personnel and stakeholders.
+The whistleblower makes a disclosure and sends it through the following information:</value>
+  </data>
+  <data name="Contact_Us" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="DaftarPengaduan" xml:space="preserve">
+    <value>Reporting Ticket</value>
+  </data>
+  <data name="Departemen" xml:space="preserve">
+    <value>Department/Division</value>
+  </data>
+  <data name="Des" xml:space="preserve">
+    <value>Dec</value>
+  </data>
+  <data name="Diproses" xml:space="preserve">
+    <value>Processed</value>
+  </data>
+  <data name="Ditolak" xml:space="preserve">
+    <value>Declined</value>
+  </data>
+  <data name="Email_Us" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="FAQ" xml:space="preserve">
+    <value>FAQ</value>
+  </data>
+  <data name="FAQ1" xml:space="preserve">
+    <value>Who is responsible for being a whistleblower?</value>
+  </data>
+  <data name="FAQ2" xml:space="preserve">
+    <value>How about the confidentiality of the whistleblower identity?</value>
+  </data>
+  <data name="FAQ3" xml:space="preserve">
+    <value>How do I become a whistleblower?</value>
+  </data>
+  <data name="FAQ4" xml:space="preserve">
+    <value>Are all reports accepted?</value>
+  </data>
+  <data name="FAQ5" xml:space="preserve">
+    <value>How to find out the status of the report sent</value>
+  </data>
+  <data name="FAQ6" xml:space="preserve">
+    <value>Is this platform accessible from mobile devices?</value>
+  </data>
+  <data name="Fax" xml:space="preserve">
+    <value>Faximile</value>
+  </data>
+  <data name="Faximile" xml:space="preserve">
+    <value>Faximile</value>
+  </data>
+  <data name="Feb" xml:space="preserve">
+    <value>Feb</value>
+  </data>
+  <data name="Foto" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="Gunakan_Email" xml:space="preserve">
+    <value>Use e-mail</value>
+  </data>
+  <data name="Gunakan_Nomor_Handphone" xml:space="preserve">
+    <value>Use Mobile Number</value>
+  </data>
+  <data name="INDEPENDEN" xml:space="preserve">
+    <value>INDEPENDENT</value>
+  </data>
+  <data name="InformasiPengaduan" xml:space="preserve">
+    <value>Detail of Report</value>
+  </data>
+  <data name="Informasi_Statistik" xml:space="preserve">
+    <value>Statistics Information</value>
+  </data>
+  <data name="InputkodeOTP" xml:space="preserve">
+    <value>Enter the OTP from your SMS Inbox</value>
+  </data>
+  <data name="Input_Email_Anda" xml:space="preserve">
+    <value>Enter your e-mail</value>
+  </data>
+  <data name="Input_Email_Anda_FP" xml:space="preserve">
+    <value>Enter your registered email to reset your password</value>
+  </data>
+  <data name="Jabatan" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="Jan" xml:space="preserve">
+    <value>Jan</value>
+  </data>
+  <data name="Jenis_Pelanggaran" xml:space="preserve">
+    <value>Type of Violation</value>
+  </data>
+  <data name="Jul" xml:space="preserve">
+    <value>Jul</value>
+  </data>
+  <data name="Jumlah" xml:space="preserve">
+    <value>Number of</value>
+  </data>
+  <data name="Jun" xml:space="preserve">
+    <value>Jun</value>
+  </data>
+  <data name="Kebijakan_Dan_Prosedur" xml:space="preserve">
+    <value>Policies And Procedures</value>
+  </data>
+  <data name="KirimPengaduan" xml:space="preserve">
+    <value>Send This Report</value>
+  </data>
+  <data name="KirimTanggapan" xml:space="preserve">
+    <value>Send Message</value>
+  </data>
+  <data name="KirimUlangKodeOTP" xml:space="preserve">
+    <value>Resend OTP</value>
+  </data>
+  <data name="Kirim_Otp" xml:space="preserve">
+    <value>Send OTP</value>
+  </data>
+  <data name="Konten1" xml:space="preserve">
+    <value>PT SMI has adopted the Whistleblowing System (WBS) Guidelines since 2014. We have developed a web-based application that allows the public to report violations to ensure that the implementation of the principles of Good Corporate Governance (GCG) remains effective.</value>
+  </data>
+  <data name="Konten_Contact_Us" xml:space="preserve">
+    <value>Reporting on a violation must be done in good faith and not because of personal interest or revenge. In addition, such reporting must also prioritize its benefits for the common interest of all the Company's personnel and stakeholders.
+Whistleblower makes a complaint/disclosure and sends it through the following media:</value>
+  </data>
+  <data name="Konten_Independen" xml:space="preserve">
+    <value>The SPP manager is required to be independent on the reports received. In the event that the report received is related to the SPP Manager, the management officer concerned must submit his/her resignation from the assignment to handle the report in writing to the management or authorized official in the Company in order to avoid any conflict of interest.</value>
+  </data>
+  <data name="Konten_Rahasia" xml:space="preserve">
+    <value>Each Whistleblower's identity must be kept confidential by the SPP Manager. For the protection of the identity of the Whistleblower, the SPP Manager is obliged to disguise the identity of the Whistleblower to avoid subjectivity, suspicion, and partiality. The obligation to keep the identity of the Whistleblower does not apply if the legal process states that an identity is required for the Reporting violation.</value>
+  </data>
+  <data name="Konten_Tidak_Memihak" xml:space="preserve">
+    <value>Every report of violations and/or irregularities to the SPP Management Manager must fulfill an impartial nature, whether it is ethnic, racial, religious or group and not slanderous and/or false reports.</value>
+  </data>
+  <data name="Kriteria_Pelanggaran" xml:space="preserve">
+    <value>Violation Criteria</value>
+  </data>
+  <data name="LaporanbyJenisPelanggaran" xml:space="preserve">
+    <value>WBS by Categories</value>
+  </data>
+  <data name="LaporanbyMedia" xml:space="preserve">
+    <value>WBS by Media</value>
+  </data>
+  <data name="LaporanbyPeriode" xml:space="preserve">
+    <value>WBS by Period</value>
+  </data>
+  <data name="Lihat_Pedoman" xml:space="preserve">
+    <value>View Guidelines</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Lupa_Password" xml:space="preserve">
+    <value>Forgot password</value>
+  </data>
+  <data name="Mailbox" xml:space="preserve">
+    <value>Mail Box</value>
+  </data>
+  <data name="Mar" xml:space="preserve">
+    <value>Mar</value>
+  </data>
+  <data name="Masukkan_Nomor_Handphone" xml:space="preserve">
+    <value>Enter Mobile Number</value>
+  </data>
+  <data name="Masukkan_Nomor_Handphone_Anda_Yang_Terdaftar" xml:space="preserve">
+    <value>Please enter your registered mobile number</value>
+  </data>
+  <data name="Media_Penyampaian_Laporan" xml:space="preserve">
+    <value>Online Whistleblowing System Platform</value>
+  </data>
+  <data name="Mei" xml:space="preserve">
+    <value>May</value>
+  </data>
+  <data name="Nama" xml:space="preserve">
+    <value>Fullname</value>
+  </data>
+  <data name="NamaPelapor" xml:space="preserve">
+    <value>Whistleblower</value>
+  </data>
+  <data name="NomorTiket" xml:space="preserve">
+    <value>Ticket No.</value>
+  </data>
+  <data name="Nomor_Handphone" xml:space="preserve">
+    <value>Phone number</value>
+  </data>
+  <data name="Nop" xml:space="preserve">
+    <value>Nov</value>
+  </data>
+  <data name="Okt" xml:space="preserve">
+    <value>Oct</value>
+  </data>
+  <data name="PanduanPengguna" xml:space="preserve">
+    <value>User Guidenance</value>
+  </data>
+  <data name="Pedoman_Kode_Etik" xml:space="preserve">
+    <value>Code of Ethics Guidelines</value>
+  </data>
+  <data name="Pengaduan" xml:space="preserve">
+    <value>WBS Ticket</value>
+  </data>
+  <data name="Peraturan_Undang" xml:space="preserve">
+    <value>Regulation</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="PihakTerlapor" xml:space="preserve">
+    <value>Reported Party</value>
+  </data>
+  <data name="PortalSPP" xml:space="preserve">
+    <value>WBS Portal</value>
+  </data>
+  <data name="Praktek_Gratifikasi" xml:space="preserve">
+    <value>Practice Gratification</value>
+  </data>
+  <data name="Pulihkan_Akun" xml:space="preserve">
+    <value>Account Recovery</value>
+  </data>
+  <data name="RAHASIA" xml:space="preserve">
+    <value>CONFIDENTIAL</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Register_Sebagai_Whistleblower" xml:space="preserve">
+    <value>Register as a Whistleblower</value>
+  </data>
+  <data name="Respon" xml:space="preserve">
+    <value>Response from Admin</value>
+  </data>
+  <data name="Saya_Menyatakan_Setuju" xml:space="preserve">
+    <value>I Agree</value>
+  </data>
+  <data name="Saya_Menyatakan_Setuju_Dengan" xml:space="preserve">
+    <value>I agree with</value>
+  </data>
+  <data name="Selamatdatang" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
+  <data name="SelamatdatangdiAplikasiSPPPTSMI" xml:space="preserve">
+    <value>Welcome to WBS PT SMI</value>
+  </data>
+  <data name="Selesai" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="Semua" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Sep" xml:space="preserve">
+    <value>Sep</value>
+  </data>
+  <data name="Sistem_Pelaporan_Pelanggaran" xml:space="preserve">
+    <value>Whistleblowing System</value>
+  </data>
+  <data name="Sistem_Pelaporan_Pelanggaran_Pt_Smi" xml:space="preserve">
+    <value>PT SMI Whislteblowing System</value>
+  </data>
+  <data name="SPPPTSMI" xml:space="preserve">
+    <value>WBS PT SMI</value>
+  </data>
+  <data name="Statistik" xml:space="preserve">
+    <value>Statistic</value>
+  </data>
+  <data name="StatusPengaduan" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Subtitle2" xml:space="preserve">
+    <value>Violations are acts that violate laws and regulations, standard operating procedures, policies, codes of ethics and others. In general, the principles in the management of SPP are as follows:</value>
+  </data>
+  <data name="Sub_Akuntansi_Keuangan" xml:space="preserve">
+    <value>Violating the Principles of Applicable Financial Accounting Standards.</value>
+  </data>
+  <data name="Sub_Contact_Us" xml:space="preserve">
+    <value>Still have Questions? Contact Us using the information below</value>
+  </data>
+  <data name="Sub_Kebijakan_Dan_Prosedur" xml:space="preserve">
+    <value>Violate Operational Policies and Procedures, as well as Other Policies, Procedures and Regulations Relevant to the Company.</value>
+  </data>
+  <data name="Sub_Kriteria_Pelanggaran" xml:space="preserve">
+    <value>Based on Guidelines </value>
+  </data>
+  <data name="Sub_Media_Penyampaian_Laporan" xml:space="preserve">
+    <value>We provide access anytime and anywhere</value>
+  </data>
+  <data name="Sub_Pedoman_Kode_Etik" xml:space="preserve">
+    <value>Violations in the form of Conflict of Interest, Harassment, Involvement in Prohibited Community Activities.</value>
+  </data>
+  <data name="Sub_Peraturan_Undang" xml:space="preserve">
+    <value>For example committing general crimes, crimes of corruption, embezzlement, mark up, drug use, destruction of goods, and so on.</value>
+  </data>
+  <data name="Sub_Praktek_Gratifikasi" xml:space="preserve">
+    <value>As Regulated In Legislation regulation.</value>
+  </data>
+  <data name="Sub_Wewenang_Atau_Jabatan" xml:space="preserve">
+    <value>Abusing authority or position for personal, family and/or group/group interests.</value>
+  </data>
+  <data name="Surat" xml:space="preserve">
+    <value>Letter</value>
+  </data>
+  <data name="Syarat_Dan_Ketentuan" xml:space="preserve">
+    <value>Terms and Conditions</value>
+  </data>
+  <data name="TambahData" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="TanggalKejadian" xml:space="preserve">
+    <value>Date of occurrence</value>
+  </data>
+  <data name="TanggalPengaduan" xml:space="preserve">
+    <value>Submission date</value>
+  </data>
+  <data name="TanggapanPermintaanInformasi" xml:space="preserve">
+    <value>Messages</value>
+  </data>
+  <data name="Telepon" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="Tentang_SPP" xml:space="preserve">
+    <value>About SPP</value>
+  </data>
+  <data name="Terkirim" xml:space="preserve">
+    <value>Sent</value>
+  </data>
+  <data name="TIDAK_MEMIHAK" xml:space="preserve">
+    <value>IMPARTIAL</value>
+  </data>
+  <data name="TotalPengaduan" xml:space="preserve">
+    <value>All Reports</value>
+  </data>
+  <data name="VerifikasiNomorHandphone" xml:space="preserve">
+    <value>Verified Phone Number</value>
+  </data>
+  <data name="WajibDiisi" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="Wewenang_Atau_Jabatan" xml:space="preserve">
+    <value>Authority or Position</value>
+  </data>
+</root>

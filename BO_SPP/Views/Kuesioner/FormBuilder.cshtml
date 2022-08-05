@@ -1,0 +1,122 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Pages/FormBuilder.js")"></script>
+}
+
+
+    <style>
+        .margin-top-35{
+            margin-top: 35px;
+        }
+
+        .margin-top-30 {
+            margin-top: 30px;
+        }
+
+        .form-group.required .control-label:after{
+            content: "*";
+            color: red;
+            margin-left: 5px;
+        }
+
+        textarea {
+            min-height: 10px !important;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-lg-12 mb-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="navbar-breadcrumb">
+                    <h5 class="mb-0">Form Builder</h5>
+                    <small>Manajemen Kuesioner</small>
+                </div>
+                <div class="btn-group btn-group-toggle">
+                    <a href="@Url.Action("DaftarKuesioner", "Kuesioner")" class="btn btn-info button-icon btn-sm"><i class="fa fa-undo m-0"></i>Back</a>
+                </div>
+            </div>
+        </div>
+
+        <form id="FormBuilder" name="FormBuiler" style="display: contents">
+            <input type="hidden" id="field_count" name="field_count" />
+            <input type="hidden" id="ID" name="ID" />
+            <input type="hidden" id="IDHeader" name="IDHeader" />
+            <input type="hidden" id="Action" name="Action" />
+            <input type="hidden" id="ActionDetail" name="ActionDetail" />
+            <input type="hidden" id="Param_Options" name="Param_Options" />
+
+
+            <div class="col-md-7 col-sm-12">
+                <div class="card bg-transparent border-primary">
+                    <div class="card-header text-center">
+                        <span>-- Form Fields --</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5 col-sm-12">
+                <div class="card bg-transparent">
+                    <div class="card-header text-center">
+                        <span>-- Form Preview --</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7 col-sm-12">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <div class="form-group">
+                            <input type="text" class="form-control text-lg-center" id="Title" name="Title" onchange="SetTitle()" placeholder="Form Title" required />
+                        </div>
+                    </div>
+                    <div id="div_element" class="card-body">
+
+                    </div>
+                    <div id="div_AddNewField" class="card-footer">
+                        <button onclick="AddNewField(); return false;" class="btn btn-block btn-outline-secondary"><i class="fa fa-plus mr-2"></i>Add new field</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Card_Title" style="display: none" class="col-md-5 col-sm-12">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4 id="Preview_Title" class="header-title">FORM TITLE</h4>
+                    </div>
+                    <div id="div_preview" class="card-body">
+
+                    </div>
+                    <div class="card-footer" id="div_button_save" style="display: none">
+                        <div class="form-row">
+                            <div class="col-md-6 col-sm-12">
+                                <label>Start Date (active)</label>
+                                <input type="date" class="form-control" id="StartDate" name="StartDate" />
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <label>End Date (inactive)</label>
+                                <input type="date" class="form-control" id="EndDate" name="EndDate" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select class="form-control" id="Status" name="Status">
+                                <option value="Aktif">Active</option>
+                                <option value="Non Aktif">Inactive</option>
+                            </select>
+                        </div>
+                        <div id="div_btn_save" class="form-group">
+                            <button type="submit" form="FormBuilder" id="btn_save" class="btn btn-block bg-primary"><i class="fa fa-save mr-2"></i>SAVE</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+

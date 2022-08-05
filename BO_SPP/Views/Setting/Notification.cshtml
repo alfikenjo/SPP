@@ -1,0 +1,80 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Pages/Notification.js")"></script>
+}
+
+<style>
+    form {
+        display: flex !important;
+    }
+</style>
+
+
+<div class="row">
+    <form id="FormInput" name="FormInput" class="col-12">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="header-title">
+                        <h4 class="card-title">Mail Server Setting</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="acc-edit">
+
+                        <div class="form-group"><label for="SMTPAddress">SMTP Address</label><input type="text" class="form-control" id="SMTPAddress" name="SMTPAddress"></div>
+                        <div class="form-group"><label for="SMTPPort">SMTP Port</label><input type="text" class="form-control" id="SMTPPort" name="SMTPPort"></div>
+                        <div class="form-group"><label for="EmailAddress">Email Address</label><input type="text" class="form-control" id="EmailAddress" name="EmailAddress"></div>
+                        <div class="form-group"><label for="Password">Password</label><input type="password" class="form-control" id="Password" name="Password"></div>
+                        <div class="form-group"><label for="SenderName">Sender Name</label><input type="text" class="form-control" id="SenderName" name="SenderName"></div>
+
+                        <div class="form-group"><div class="custom-control custom-switch custom-switch-color custom-control-inline"><input type="checkbox" class="custom-control-input bg-primary" id="EnableSSL" name="EnableSSL" checked=""><label class="custom-control-label" for="EnableSSL">Enable SSL</label></div></div>
+                        <div class="form-group"><div class="custom-control custom-switch custom-switch-color custom-control-inline"><input type="checkbox" class="custom-control-input bg-primary" id="UseDefaultCredentials" name="UseDefaultCredentials" checked=""><label class="custom-control-label" for="UseDefaultCredentials">Use Default Credentials</label></div></div>
+                        <div class="form-group"><div class="custom-control custom-switch custom-switch-color custom-control-inline"><input type="checkbox" class="custom-control-input bg-primary" id="UseAsync" name="UseAsync" checked=""><label class="custom-control-label" for="UseAsync">Enable Async</label></div></div>
+                        <div class="form-group"><div class="custom-control custom-switch custom-switch-color custom-control-inline"><input type="checkbox" class="custom-control-input bg-primary" id="EnableServices" name="EnableServices" checked=""><label class="custom-control-label" for="EnableServices">Enable Services</label></div></div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="header-title">
+                        <h4 class="card-title">Notitication Center</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="acc-edit">
+                        <div class="form-group">
+                            <small>Send notification on:</small>
+                        </div>
+
+                        <div class="form-group"><div class="custom-control custom-switch custom-switch-color custom-control-inline"><input type="checkbox" class="custom-control-input bg-danger" id="NewUser" name="NewUser" checked=""><label class="custom-control-label" for="NewUser">New registered user</label></div></div>
+                        <div class="form-group"><div class="custom-control custom-switch custom-switch-color custom-control-inline"><input type="checkbox" class="custom-control-input bg-danger" id="NewRoleAssignment" name="NewRoleAssignment" checked=""><label class="custom-control-label" for="NewRoleAssignment">Any role assignment</label></div></div>
+                        <div class="form-group"><div class="custom-control custom-switch custom-switch-color custom-control-inline"><input type="checkbox" class="custom-control-input bg-danger" id="UserPasswordReset" name="UserPasswordReset" checked=""><label class="custom-control-label" for="UserPasswordReset">Resetting user password </label></div></div>
+                        <div class="form-group"><div class="custom-control custom-switch custom-switch-color custom-control-inline"><input type="checkbox" class="custom-control-input bg-danger" id="Messaging" name="Messaging" checked=""><label class="custom-control-label" for="Messaging">Messaging</label></div></div>
+                        <div class="form-group"><div class="custom-control custom-switch custom-switch-color custom-control-inline"><input type="checkbox" class="custom-control-input bg-danger" id="ReminderServices" name="ReminderServices" checked=""><label class="custom-control-label" for="ReminderServices">Reminder services</label></div></div>
+
+
+                        
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-group">
+                        <button id="btnSaveDC" type="submit" form="FormInput" class="btn btn-primary mr-2"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save"></i>&nbsp;Save</button>
+                        <small id="UpdatedOn" class="float-right"></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

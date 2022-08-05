@@ -1,0 +1,65 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Pages/AuditTrail.js")"></script>
+}
+
+<div class="row">
+
+    <div class="col-lg-12 mb-3">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="navbar-breadcrumb">
+                <h5 class="mb-0">User Audit Trail</h5>
+                <small>Log of User Activities</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+
+        <div id="filter" class="card">
+
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="col ">
+                        <div class="">
+                            <label>&nbsp;</label><br />
+                            <a class="btn btn-outline-success" target="_blank" href="@Url.Action("Download", "AuditTrail")"><i class="fas fa-file-excel"></i> Download Excel</a>
+                            <a class="btn btn-outline-danger" target="_blank" href="@Url.Action("DownloadPDF", "AuditTrail")"><i class="fas fa-file-pdf"></i> Download PDF</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="grid" class="card">
+            <div class="card-body">
+                <div class="table-responsive ">
+                    <table id="TableData" class="data-tables table text-sm">
+                        <thead>
+                            <tr>
+                                <th>Timespan</th>
+                                <th>Username</th>
+                                <th>Menu</th>
+                                <th>Page</th>
+                                <th>Act</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>

@@ -1,0 +1,185 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Pages/Laporan.js")"></script>
+}
+
+<style>
+    .dataTables_length,
+    .dataTables_filter,
+    .dataTables_info {
+        display: none !important;
+    }
+
+    table.dataTable thead .sorting_asc,
+    table.dataTable thead .sorting_desc,
+    table.dataTable thead .sorting {
+        background: none !important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12 mb-3">
+        <div class="d-flex align-items-center justify-content-between welcome-content">
+            <h5 class="mb-0">Laporan Pengaduan - Back Office SPP PT SMI</h5>
+            <div class="btn-group btn-group-toggle">
+                <button class="button btn btn-info mr-2 button-icon rounded-small" title="Sync Data" onclick="LoadData(); return false;"><i class="fa fa-history m-0"></i></button>
+                <a class="btn btn-outline-success" target="_blank" href="@Url.Action("Download", "Laporan", new { Start = ViewBag.Start, End = ViewBag.End })"><i class="fas fa-file-excel"></i> Download</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="form-group col-sm-6">
+                        <label>Periode | mulai dari</label>
+                        <input type="date" id="Start" name="Start" required value="@ViewBag.Start" class="form-control" />
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label>sampai dengan</label>
+                        <input type="date" id="End" name="End" value="@ViewBag.End" required class="form-control" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="LoaderOnGrid">
+        <div class="overlay ModalLoader">
+            <i class="fas fa-2x fa-spinner fa-spin" style="font-size:48px;color:red"></i>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-3">
+        <div class="card card-block card-stretch card-height">
+            <div class="card-body iq-total-content">
+                <div class="top-block d-flex align-items-center justify-content-between">
+                    <p class="mb-1">Jumlah</p>
+                    <a href="@Url.Action("DaftarPengaduan", "Pengaduan", new { f = "" })" class="badge badge-info rounded-normal">open</a>
+                </div>
+                <h5><span class="counter">Pengaduan</span></h5>
+                <h2 class="text-info" id="Semua"></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-3">
+        <div class="card card-block card-stretch card-height">
+            <div class="card-body iq-total-content">
+                <div class="top-block d-flex align-items-center justify-content-between">
+                    <p class="mb-1">Jumlah</p>
+                    <a href="@Url.Action("DaftarPengaduan", "Pengaduan", new { f = "Terkirim" })" class="badge badge-warning rounded-normal">open</a>
+                </div>
+                <h5><span class="counter">Belum diproses</span></h5>
+                <h2 class="text-warning" id="Terkirim"></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-3">
+        <div class="card card-block card-stretch card-height">
+            <div class="card-body iq-total-content">
+                <div class="top-block d-flex align-items-center justify-content-between">
+                    <p class="mb-1">Jumlah</p>
+                    <a href="@Url.Action("DaftarPengaduan", "Pengaduan", new { f = "Ditolak Admin SPP" })" class="badge badge-danger rounded-normal">open</a>
+                </div>
+                <h5><span class="counter">Ditolak Admin SPP</span></h5>
+                <h2 class="text-danger" id="Ditolak_Admin_SPP"></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-3">
+        <div class="card card-block card-stretch card-height">
+            <div class="card-body iq-total-content">
+                <div class="top-block d-flex align-items-center justify-content-between">
+                    <p class="mb-1">Jumlah</p>
+                    <a href="@Url.Action("DaftarPengaduan", "Pengaduan", new { f = "Diproses" })" class="badge badge-primary rounded-normal">open</a>
+                </div>
+                <h5><span class="counter">Diproses</span></h5>
+                <h2 class="text-primary" id="Diproses"></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-3">
+        <div class="card card-block card-stretch card-height">
+            <div class="card-body iq-total-content">
+                <div class="top-block d-flex align-items-center justify-content-between">
+                    <p class="mb-1">Jumlah</p>
+                    <a href="@Url.Action("DaftarPengaduan", "Pengaduan", new { f = "Ditindak lanjut" })" class="badge badge-primary rounded-normal">open</a>
+                </div>
+                <h5><span class="counter">Tindak Lanjut</span></h5>
+                <h2 class="text-primary" id="Ditindak_lanjut"></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-3">
+        <div class="card card-block card-stretch card-height">
+            <div class="card-body iq-total-content">
+                <div class="top-block d-flex align-items-center justify-content-between">
+                    <p class="mb-1">Jumlah</p>
+                    <a href="@Url.Action("DaftarPengaduan", "Pengaduan", new { f = "Ditolak Delegator" })" class="badge badge-danger rounded-normal">open</a>
+                </div>
+                <h5><span class="counter">Ditolak Delegator</span></h5>
+                <h2 class="text-danger" id="Ditolak_Delegator"></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-3">
+        <div class="card card-block card-stretch card-height">
+            <div class="card-body iq-total-content">
+                <div class="top-block d-flex align-items-center justify-content-between">
+                    <p class="mb-1">Jumlah</p>
+                    <a href="@Url.Action("DaftarPengaduan", "Pengaduan", new { f = "Dihentikan" })" class="badge badge-danger rounded-normal">open</a>
+                </div>
+                <h5><span class="counter">Dihentikan Delegator</span></h5>
+                <h2 class="text-danger" id="Dihentikan"></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-6 col-lg-3">
+        <div class="card card-block card-stretch card-height">
+            <div class="card-body iq-total-content">
+                <div class="top-block d-flex align-items-center justify-content-between">
+                    <p class="mb-1">Jumlah</p>
+                    <a href="@Url.Action("DaftarPengaduan", "Pengaduan", new { f = "Selesai" })" class="badge badge-success rounded-normal">open</a>
+                </div>
+                <h5><span class="counter">Selesai</span></h5>
+                <h2 class="text-success" id="Selesai"></h2>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="TableData" class="data-tables table table-borderless nowrap">
+                    <thead>
+                        <tr>
+                            <th>Delegator</th>
+                            <th>Progress</th>
+                            <th>Masuk</th>
+                            <th>Proses</th>
+                            <th>Selesai</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</div>

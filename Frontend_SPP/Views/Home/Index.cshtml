@@ -1,0 +1,828 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using Frontend_SPP.Resources.Home
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="@Url.Content("~/script/register.js")"></script>
+}
+
+<style>
+    #message {
+        display: none;
+        background: #f1f1f1;
+        color: #000;
+        position: relative;
+        padding: 20px;
+        margin-top: 10px;
+    }
+
+        #message p {
+            padding: 0 35px 0 35px;
+            font-size: 14px;
+        }
+
+    /* Add a green text color and a checkmark when the requirements are right */
+    .valid {
+        color: green;
+    }
+
+        .valid:before {
+            position: relative;
+            left: -35px;
+            content: "✔";
+        }
+
+    /* Add a red text color and an "x" icon when the requirements are wrong */
+    .invalid {
+        color: red;
+    }
+
+        .invalid:before {
+            position: relative;
+            left: -35px;
+            content: "✖";
+        }
+</style>
+
+<input type="hidden" name="culture" id="culture" value=@HttpContextAccessor.HttpContext.Session.GetString("culture").ToLower() />
+<div class="container clearfix">
+
+    <div class="row align-items-center gutter-40 col-mb-50">
+        <div class="col-md-5">
+            <img data-animate="fadeInLeftBig" src="@ViewBag.TentangSPP.Filename" alt="Tentang SPP">
+        </div>
+
+        <div id="tentang-spp" class="col-md-7">
+            <div class="heading-block">
+                <h2>@ViewBag.TentangSPP.Title</h2>
+                <span>@ViewBag.TentangSPP.SubTitle</span>
+            </div>
+
+            <p style="text-align: justify">@ViewBag.TentangSPP.Description</p>
+            <a target="_blank" href="../Home/PublicFile?Filename=@ViewBag.TentangSPP.Filename1&Extension=@ViewBag.TentangSPP.Ekstension1" class="button button-border button-rounded button-large ms-0 topmargin-sm" style="cursor: pointer">@ViewBag.TentangSPP.LabelTombol</a>
+        </div>
+    </div>
+
+    <div class="line"></div>
+
+</div>
+
+<div class="row bottommargin-lg align-items-stretch">
+
+    <div id="whistleblower" class="heading-block center border-bottom-0 bottommargin-lg">
+        <h1>@ViewBag.HeaderPilarSPP.Title</h1>
+        <span style="font-size: 14px">
+            @ViewBag.HeaderPilarSPP.SubTitle
+        </span>
+    </div>
+
+    @{
+        var i = 0;
+        foreach (var data in ViewBag.PilarSPP)
+        {
+
+            var background = "#1abc9c;";
+            var icon = "icon-user-secret";
+
+            if (i == 1)
+            {
+                background = "#34495e;";
+                icon = "icon-bulb";
+            }
+            else if (i == 2)
+            {
+                background = "#e74c3c;";
+                icon = "icon-user";
+            }
+
+            <div class="col-lg-4 dark col-padding overflow-hidden" style="background-color: @background">
+                <div>
+                    <h3 class="text-uppercase" style="font-weight: 600;">@data.GridTitle</h3>
+                    <p style="line-height: 1.8; text-align: justify;">
+                        @data.Description
+                    </p>
+                    <i class="@icon bgicon"></i>
+                </div>
+            </div>
+
+            i++;
+        }
+    }
+
+    <div class="clear"></div>
+
+</div>
+
+<div class="container clearfix">
+
+    <div id="jenis-pelanggaran" class="heading-block center border-bottom-0 bottommargin-lg">
+        <h1>@ViewBag.HeaderJenisPelanggaran.Title</h1>
+        <span>@ViewBag.HeaderJenisPelanggaran.SubTitle</span>
+    </div>
+
+    <div class="row justify-content-center col-mb-50">
+
+        @foreach (var data in ViewBag.JenisPelanggaran)
+        {
+            <div class="col-sm-6 col-lg-4">
+                <div class="heading-block fancy-title border-bottom-0 title-bottom-border">
+                    <h4>@data.GridTitle</h4>
+                </div>
+
+                <p style="text-align: justify">
+                    @data.Description
+                </p>
+            </div>
+        }
+
+
+    </div>
+
+</div>
+
+<div class="clear"></div>
+
+<div class="section parallax dark mb-0 border-bottom-0" style="background-image: url('images/7.jpg');" data-bottom-top="background-position:0px 0px;" data-top-bottom="background-position:0px -300px;">
+
+    <div class="container clearfix">
+
+        <div class="heading-block center">
+            <h2>@ViewBag.MediaPenyampaian.Title</h2>
+            <span>@ViewBag.MediaPenyampaian.SubTitle</span>
+        </div>
+
+        <div style="position: relative; margin-bottom: -60px;" data-height-xl="415" data-height-lg="342" data-height-md="262" data-height-sm="160" data-height-xs="102">
+            <img src="@ViewBag.MediaPenyampaian.Filename" style="position: absolute; top: 0; left: 0;" data-animate="fadeInUp" alt="Chrome">
+            <img src="@ViewBag.MediaPenyampaian.Filename1" style="position: absolute; top: 0; left: 0;" data-animate="fadeInUp" data-delay="300" alt="iPad">
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="section mt-0">
+    <div class="container clearfix">
+
+        <div id="FAQ" class="heading-block center border-bottom-0">
+            <h3>@ViewBag.HeaderFAQ.Title</h3>
+            <p>@ViewBag.HeaderFAQ.SubTitle</p>
+        </div>
+
+        <div class="divider"><i class="icon-circle"></i></div>
+
+        <div class="row col-mb-50 bottommargin-lg">
+            <div class="col-12">
+
+                <div class="accordion accordion-border clearfix" data-state="closed">
+
+                    @foreach (var data in ViewBag.FAQ)
+                    {
+                        <div class="accordion-header">
+                            <div class="accordion-icon">
+                                <i class="accordion-closed icon-ok-circle"></i>
+                                <i class="accordion-open icon-remove-circle"></i>
+                            </div>
+                            <div class="accordion-title">
+                                @data.GridTitle
+                            </div>
+                        </div>
+                        <div class="accordion-content">@data.Description</div>
+                    }
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+<div class="container clearfix">
+
+    <div class="heading-block center border-bottom-0">
+        <h3>@R_Home.Informasi_Statistik</h3>
+        <p>@R_Home.Sistem_Pelaporan_Pelanggaran_Pt_Smi</p>
+    </div>
+
+    <div id="side-navigation" class="row col-mb-50" data-plugin="tabs">
+
+        <div id="statistik" class="col-md-6 col-lg-4">
+            <ul class="sidenav">
+                <li class="ui-tabs-active"><a href="#snav-content1"><i class="las la-times-circle"></i>@R_Home.LaporanbyPeriode<i class="icon-chevron-right"></i></a></li>
+                <li><a href="#snav-content2"><i class="las la-tv"></i>@R_Home.LaporanbyMedia<i class="icon-chevron-right"></i></a></li>
+                <li><a href="#snav-content3"><i class="las la-megaport"></i>@R_Home.LaporanbyJenisPelanggaran<i class="icon-chevron-right"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="col-md-6 col-lg-8 col-sm-12 mb-5">
+            <div id="snav-content1">
+
+                <div class="col-12 bottommargin ">
+                    <form id="formChart1" class="mb-0 mt-0 text-sm">
+                        <div style="display: flex">
+                            <div class="col-md-4 col-sm-12" style="margin-right:10px;">
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text text-sm">From</span>
+                                    </div>
+                                    <select id="start_year" name="start_year" onchange="LoadChart1()" class="form-control"></select>
+                                    <select id="start_month" name="start_month" onchange="LoadChart1()" class="form-control">
+                                        <option value="1">@R_Home.Jan</option>
+                                        <option value="2">@R_Home.Feb</option>
+                                        <option value="3">@R_Home.Mar</option>
+                                        <option value="4">@R_Home.Apr</option>
+                                        <option value="5">@R_Home.Mei</option>
+                                        <option value="6">@R_Home.Jun</option>
+                                        <option value="7">@R_Home.Jul</option>
+                                        <option value="8">@R_Home.Aug</option>
+                                        <option value="9">@R_Home.Sep</option>
+                                        <option value="10">@R_Home.Okt</option>
+                                        <option value="11">@R_Home.Nop</option>
+                                        <option value="12">@R_Home.Des</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-12">
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text text-sm">To</span>
+                                    </div>
+                                    <select id="end_year" name="end_year" onchange="LoadChart1()" class="form-control"></select>
+                                    <select id="end_month" name="end_month" onchange="LoadChart1()" class="form-control">
+                                        <option value="1">@R_Home.Jan</option>
+                                        <option value="2">@R_Home.Feb</option>
+                                        <option value="3">@R_Home.Mar</option>
+                                        <option value="4">@R_Home.Apr</option>
+                                        <option value="5">@R_Home.Mei</option>
+                                        <option value="6">@R_Home.Jun</option>
+                                        <option value="7">@R_Home.Jul</option>
+                                        <option value="8">@R_Home.Aug</option>
+                                        <option value="9">@R_Home.Sep</option>
+                                        <option value="10">@R_Home.Okt</option>
+                                        <option value="11">@R_Home.Nop</option>
+                                        <option value="12">@R_Home.Des</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="mx-auto">
+                    <div class="row col-mb-50">
+                        <div class="col-sm-6 col-lg-3 text-center">
+                            <i class="i-plain i-xlarge mx-auto mb-0 icon-list"></i>
+                            <div id="div_Total" class="counter counter-medium" style="color: #3498db;"></div>
+                            <h5>@R_Home.TotalPengaduan</h5>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-3 text-center">
+                            <i class="i-plain i-xlarge mx-auto mb-0 icon-megaphone"></i>
+                            <div id="div_BelumDiproses" class="counter counter-medium" style="color: #3498db;"></div>
+                            <h5>@R_Home.BelumDiproses</h5>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-3 text-center">
+                            <i class="i-plain i-xlarge mx-auto mb-0 icon-download"></i>
+                            <div id="div_Diproses" class="counter counter-medium" style="color: #9b59b6;"></div>
+                            <h5>@R_Home.Diproses</h5>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-3 text-center">
+                            <i class="i-plain i-xlarge mx-auto mb-0 icon-check-circle"></i>
+                            <div id="div_Selesai" class="counter counter-medium" style="color: #1abc9c;"></div>
+                            <h5>@R_Home.Selesai</h5>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-3 text-center">
+                            <i class="i-plain i-xlarge mx-auto mb-0 icon-fire"></i>
+                            <div id="div_Ditolak" class="counter counter-medium" style="color: #e74c3c;"></div>
+                            <h5>@R_Home.Ditolak</h5>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div id="snav-content2">
+
+                <div class="col-12 bottommargin ">
+                    <form id="formChart2" class="mb-0 mt-0 text-sm">
+                        <div style="display: flex">
+                            <div class="col-md-4 col-sm-12" style="margin-right:10px;">
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text text-sm">From</span>
+                                    </div>
+                                    <select id="start_year_chart_2" name="start_year_chart_2" onchange="LoadChart2()" class="form-control"></select>
+                                    <select id="start_month_chart_2" name="start_month_chart_2" onchange="LoadChart2()" class="form-control">
+                                        <option value="1">@R_Home.Jan</option>
+                                        <option value="2">@R_Home.Feb</option>
+                                        <option value="3">@R_Home.Mar</option>
+                                        <option value="4">@R_Home.Apr</option>
+                                        <option value="5">@R_Home.Mei</option>
+                                        <option value="6">@R_Home.Jun</option>
+                                        <option value="7">@R_Home.Jul</option>
+                                        <option value="8">@R_Home.Aug</option>
+                                        <option value="9">@R_Home.Sep</option>
+                                        <option value="10">@R_Home.Okt</option>
+                                        <option value="11">@R_Home.Nop</option>
+                                        <option value="12">@R_Home.Des</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-12">
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text text-sm">To</span>
+                                    </div>
+                                    <select id="end_year_chart_2" name="end_year_chart_2" onchange="LoadChart2()" class="form-control"></select>
+                                     <select id="end_month_chart_2" name="end_month_chart_2" onchange="LoadChart2()" class="form-control">
+                                        <option value="1">@R_Home.Jan</option>
+                                        <option value="2">@R_Home.Feb</option>
+                                        <option value="3">@R_Home.Mar</option>
+                                        <option value="4">@R_Home.Apr</option>
+                                        <option value="5">@R_Home.Mei</option>
+                                        <option value="6">@R_Home.Jun</option>
+                                        <option value="7">@R_Home.Jul</option>
+                                        <option value="8">@R_Home.Aug</option>
+                                        <option value="9">@R_Home.Sep</option>
+                                        <option value="10">@R_Home.Okt</option>
+                                        <option value="11">@R_Home.Nop</option>
+                                        <option value="12">@R_Home.Des</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="mx-auto">
+                    <div class="row col-mb-50">
+                        <div class="col-sm-6 col-lg-2 text-center">
+                            <i class="i-plain i-xlarge mx-auto mb-0 icon-globe"></i>
+                            <div id="div_Portal" class="counter counter-medium" style="color: #3498db;"></div>
+                            <h5>@R_Home.PortalSPP</h5>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-2 text-center">
+                            <i class="i-plain i-xlarge mx-auto mb-0 icon-envelope"></i>
+                            <div id="div_Surat" class="counter counter-medium" style="color: #9b59b6;"></div>
+                            <h5>@R_Home.Surat</h5>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-2 text-center">
+                            <i class="i-plain i-xlarge mx-auto mb-0 icon-phone3"></i>
+                            <div id="div_Telepon" class="counter counter-medium" style="color: #9b59b6;"></div>
+                            <h5>@R_Home.Telepon</h5>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-2 text-center">
+                            <i class="i-plain i-xlarge mx-auto mb-0 icon-email"></i>
+                            <div id="div_Email" class="counter counter-medium" style="color: #1abc9c;"></div>
+                            <h5>Email</h5>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-2 text-center">
+                            <i class="i-plain i-xlarge mx-auto mb-0 icon-fax"></i>
+                            <div id="div_Fax" class="counter counter-medium" style="color: #e74c3c;"></div>
+                            <h5>@R_Home.Fax</h5>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="mx-auto">
+                    <canvas id="chart_2"></canvas>
+                </div>*@
+
+            </div>
+
+            <div id="snav-content3">
+
+                <div class="col-12 bottommargin ">
+                    <form id="formChart3" class="mb-0 mt-0 text-sm">
+                        <div style="display: flex">
+                            <div class="col-md-4 col-sm-12" style="margin-right:10px;">
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text text-sm">Year</span>
+                                    </div>
+                                    <select id="start_year_chart_3" name="start_year_chart_3" onchange="LoadChart3()" class="form-control"></select>
+                                    <select id="start_month_chart_3" name="start_month_chart_3" onchange="LoadChart3()" class="form-control">
+                                        <option value="1">@R_Home.Jan</option>
+                                        <option value="2">@R_Home.Feb</option>
+                                        <option value="3">@R_Home.Mar</option>
+                                        <option value="4">@R_Home.Apr</option>
+                                        <option value="5">@R_Home.Mei</option>
+                                        <option value="6">@R_Home.Jun</option>
+                                        <option value="7">@R_Home.Jul</option>
+                                        <option value="8">@R_Home.Aug</option>
+                                        <option value="9">@R_Home.Sep</option>
+                                        <option value="10">@R_Home.Okt</option>
+                                        <option value="11">@R_Home.Nop</option>
+                                        <option value="12">@R_Home.Des</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-12">
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text text-sm">To</span>
+                                    </div>
+                                    <select id="end_year_chart_3" name="end_year_chart_3" onchange="LoadChart3()" class="form-control"></select>
+                                     <select id="end_month_chart_3" name="end_month_chart_3" onchange="LoadChart3()" class="form-control">
+                                        <option value="1">@R_Home.Jan</option>
+                                        <option value="2">@R_Home.Feb</option>
+                                        <option value="3">@R_Home.Mar</option>
+                                        <option value="4">@R_Home.Apr</option>
+                                        <option value="5">@R_Home.Mei</option>
+                                        <option value="6">@R_Home.Jun</option>
+                                        <option value="7">@R_Home.Jul</option>
+                                        <option value="8">@R_Home.Aug</option>
+                                        <option value="9">@R_Home.Sep</option>
+                                        <option value="10">@R_Home.Okt</option>
+                                        <option value="11">@R_Home.Nop</option>
+                                        <option value="12">@R_Home.Des</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="mx-auto">
+                    <div class="row col-mb-50">
+
+                        @if (ViewBag.Chart_3 != null)
+                        {
+                            @foreach (var item in ViewBag.Chart_3)
+                            {
+                                <div class="col-sm-6 col-lg-3 text-center">                                    
+                                    <div id="@item.Kategori_EN" class="counter counter-medium"></div>
+                                    <h5>@item.Kategori</h5>
+                                </div>
+                            }
+                        }
+
+
+                       
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="line"></div>
+
+
+
+</div>
+
+<div class="container clearfix bg-gradient">
+    <div id="section-contact" class="heading-block text-center page-section">
+        <h2>@ViewBag.ContactUs.Title</h2>
+        <span>@ViewBag.ContactUs.SubTitle</span>
+    </div>
+
+    <div class="row align-items-stretch col-mb-50 mb-0">
+
+        <div class="col-md-7 col-lg-6">
+
+
+            <div class="form-widget">
+
+                <p style="text-align: justify">
+                    @ViewBag.ContactUs.Description
+                </p>
+
+            </div>
+        </div>
+
+
+        <div class="col-md-5 col-lg-6 min-vh-40">
+            <img data-animate="fadeInRightBig" src="@ViewBag.ContactUs.Filename" alt="toll-road-ptsmi">
+        </div>
+    </div>
+
+    <!-- Contact Info
+    ============================================= -->
+    <div class="w-100">
+
+        <div class="row col-mb-50">
+            <div class="col-sm-6 col-lg-4">
+                <div class="feature-box fbox-center fbox-bg fbox-plain">
+                    <div class="fbox-icon">
+                        <a><i class="icon-phone3"></i></a>
+                    </div>
+                    <div class="fbox-content">
+                        <h3>Phone<span class="subtitle">@ViewBag.ContactUs.Value1</span></h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-4">
+                <div class="feature-box fbox-center fbox-bg fbox-plain">
+                    <div class="fbox-icon">
+                        <a><i class="icon-fax"></i></a>
+                    </div>
+                    <div class="fbox-content">
+                        <h3>Faximile<span class="subtitle">@ViewBag.ContactUs.Value2</span></h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-4">
+                <div class="feature-box fbox-center fbox-bg fbox-plain">
+                    <div class="fbox-icon">
+                        <a><i class="icon-email"></i></a>
+                    </div>
+                    <div class="fbox-content">
+                        <h3>Email Us<span class="subtitle">@ViewBag.ContactUs.Value3</span></h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col">
+                <div class="feature-box fbox-center fbox-bg fbox-plain">
+                    <div class="fbox-icon">
+                        <a><i class="icon-envelope"></i></a>
+                    </div>
+                    <div class="fbox-content">
+                        <h3>@R_Home.Mailbox<span class="subtitle">@ViewBag.ContactUs.Value4</span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="section topmargin-sm mb-0">
+    <div id="t-login" class="container clearfix">
+
+        <div class="tabs mx-auto bottommargin-lg clearfix" id="div_login" style="max-width: 750px;">
+
+            <ul class="tab-nav tab-nav2 center clearfix">
+                <li class="inline-block"><a href="#tab-login">Login</a></li>
+                <li class="inline-block"><a href="#tab-register">Register</a></li>
+            </ul>
+
+            <div class="tab-container">
+
+                <div class="tab-content" id="tab-login" style="max-width: 500px;">
+                    <div class="card mb-0">
+                        <div class="card-body" style="padding: 40px;">
+                            <form id="FormLogin" name="FormLogin" class="mb-0">
+
+                                <h3>Login</h3>
+
+                                <div class="row">
+                                    <div class="col-12 form-group">
+                                        <label for="Login_Email">Email</label>
+                                        <input type="email" id="Login_Email" name="Login_Email" required value="" class="form-control" />
+                                    </div>
+
+                                    <div class="col-12 form-group">
+                                        <label for="Login_Password">Password</label>
+                                        <input type="password" id="Login_Password" name="Login_Password" required value="" class="form-control" />
+                                    </div>
+
+                                    <div id="div_Captcha" style="display: none" class="col-md-12 form-group">
+                                        <label>Captcha</label>
+                                        <table>
+                                            <tr>
+                                                <td valign="middle">
+                                                    <input type="text" id="captchaLogin" name="captchaLogin" placeholder=" " class="form-control" />
+                                                </td>
+                                                <td style="height: 50px; width: 100px;">
+                                                    <img id="imgCaptchaLogin" />
+                                                </td>
+                                                <td valign="middle">
+                                                    <button type="button" onclick="FillCapcthaLogin()"><i class="fa fa-spinner fa-spin button-spinner"></i>Refresh</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="col-12 form-group">
+                                        <button type="submit" formaction="FormLogin" id="login-form-submit" class="button button-3d button-black m-0"><i class="fa fa-spinner fa-spin button-spinner"></i>Login</button>
+                                        <a style="cursor: pointer" onclick="OpenFP()" class="float-end">Forgot Password?</a>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="tab-register">
+                    <div class="card mb-0">
+                        <div class="card-body" style="padding: 40px;">
+                            <h3>@R_Home.Register_Sebagai_Whistleblower</h3>
+
+                            <form id="FormRegister" name="FormRegister" class="row mb-0">
+
+                                <div class="col-md-6 form-group">
+                                    <label>@R_Home.Nama</label>
+                                    <input type="text" id="Fullname" name="Fullname" class="form-control" />
+                                    <small class="form-text text-muted">Optional</small>
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label>Email</label>
+                                    <input type="email" id="Email" name="Email" required class="form-control" />
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label>Password</label>
+                                    <input type="password" id="Register_Password" name="Register_Password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="form-control" />
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label>Re-enter Password</label>
+                                    <input type="password" id="Register_Password_Reentered" name="Register_Password_Reentered" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="form-control" />
+                                </div>
+
+                                <div id="message">
+                                    <h3>Password must contain the following:</h3>
+                                    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                                    <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                                    <p id="number" class="invalid">A <b>number</b></p>
+                                    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label>@R_Home.Nomor_Handphone</label>
+                                    <input type="tel" id="Mobile" name="Mobile" maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^]/, '0');" value="" class="form-control phone" />
+                                    <small class="form-text text-muted">Optional</small>
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label>Captcha</label>
+                                    <table>
+                                        <tr>
+                                            <td valign="middle">
+                                                <input type="text" id="captcha" name="captcha" placeholder=" " class="form-control" />
+                                            </td>
+                                            <td style="height: 50px; width: 100px;">
+                                                <img id="imgCaptcha" />
+                                            </td>
+                                            <td valign="middle">
+                                                <button type="button" id="btnRefresh" name="btnRefresh" onclick="FillCapcthaRegister()"><i class="fa fa-spinner fa-spin button-spinner"></i>Refresh</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="form-check col-md-6">
+                                    <input type="checkbox" class="form-check-input" id="cb_cnk" name="cb_cnk" required>
+                                    <span class="form-check-label" for="cb_cnk">@R_Home.Saya_Menyatakan_Setuju_Dengan 
+                                        <a target="_blank" href="../Home/PublicFile?Filename=@ViewBag.SyaratDanKetentuan.Filename&Extension=@ViewBag.SyaratDanKetentuan.Ekstension" style="cursor: pointer">@ViewBag.SyaratDanKetentuan.Title</a>
+                                    </span>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <button id="btn_register" type="submit" form="FormRegister" class="btn btn-primary"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save"></i>&nbsp;Register</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="tabs mx-auto bottommargin-lg clearfix" id="div_forgot_password" data-animate="bounceInRight" style="max-width: 750px; display: none;">
+
+            <div class="tab-container">
+
+                <div class="tab-content" style="max-width: 500px;">
+                    <div class="card mb-0">
+                        <div class="card-body" style="padding: 40px;">
+                            <form id="FormForgotPassword" name="FormForgotPassword" class="mb-0">
+
+                                <h3>@R_Home.Lupa_Password</h3>
+                                <small>@R_Home.Input_Email_Anda_FP</small>
+                                <div class="row">
+                                    <div class="col-12 form-group">
+                                        <label for="FP_Email">EMAIL</label>
+                                        <input type="email" id="FP_Email" name="FP_Email" required value="" class="form-control" />
+                                    </div>
+
+                                    <div class="col-12 form-group">
+                                        <button type="submit" formaction="FormForgotPassword" id="FP-form-submit" class="button button-3d button-black m-0"><i class="fa fa-spinner fa-spin button-spinner"></i>RESET PASSWORD</button>
+                                        <button class="button button-3d btn-outline-secondary m-0" onclick="UseLogin(); return false;">@R_Home.Batal</button>
+                                        <a style="cursor: pointer" onclick="UseHP()" class="float-start mt-2">@R_Home.Gunakan_Nomor_Handphone</a>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+        <div class="tabs mx-auto bottommargin-lg clearfix" id="div_forgot_password_HP" data-animate="bounceInRight" style="max-width: 750px; display: none;">
+
+            <div class="tab-container">
+
+                <div class="tab-content" style="max-width: 500px;">
+                    <div class="card mb-0">
+                        <div class="card-body" style="padding: 40px;">
+                            <form id="FormForgotPasswordHP" name="FormForgotPasswordHP" class="mb-0">
+
+                                <h3>@R_Home.Pulihkan_Akun</h3>
+                                <small>@R_Home.Masukkan_Nomor_Handphone_Anda_Yang_Terdaftar</small>
+                                <div class="row">
+                                    <div class="col-12 form-group">
+                                        <label for="FP_phone">@R_Home.Nomor_Handphone</label>
+                                        <input type="tel" id="FP_phone" name="FP_phone" maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^]/, '0');" value="" class="form-control phone" />
+                                    </div>
+
+                                    <div class="col-12 form-group">
+                                        <button type="submit" formaction="FormForgotPasswordHP" id="FP-form-submit-HP" class="button button-3d button-black m-0"><i class="fa fa-spinner fa-spin button-spinner"></i>@R_Home.Kirim_Otp</button>
+                                        <button type="button" class="button button-3d btn-outline-secondary m-0" onclick="UseLogin(); return false;">@R_Home.Batal</button><br />
+                                        <a style="cursor: pointer" onclick="UseEmail()" class="float-start  mt-2">@R_Home.Gunakan_Email</a>
+
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+        <div class="tabs mx-auto bottommargin-lg clearfix" id="div_forgot_password_OTP" data-animate="bounceInRight" style="max-width: 750px; display: none;">
+
+            <div class="tab-container">
+
+                <div class="tab-content" style="max-width: 500px;">
+                    <div class="card mb-0">
+                        <div class="card-body" style="padding: 40px;">
+                            <form id="FormForgotPasswordOTP" name="FormForgotPasswordOTP" class="mb-0">
+
+                                <h3>@R_Home.Pulihkan_Akun</h3>
+                                <small>@R_Home.InputkodeOTP</small>
+                                <div class="row">
+                                    <div class="col-12 form-group">
+                                        <label for="FP_phone">OTP</label>
+                                        <input type="text" id="OTP" name="OTP" maxlength="6" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="" class="form-control" />
+                                    </div>
+
+                                    <div class="col-12 form-group">
+                                        <button type="submit" formaction="FormForgotPasswordOTP" id="FP-form-submit-OTP" class="button button-3d button-black m-0"><i class="fa fa-spinner fa-spin button-spinner"></i>SUBMIT</button>
+                                        <button type="button" class="button button-3d btn-outline-secondary m-0" onclick="UseLogin(); return false;">@R_Home.Batal</button><br />
+                                        <a style="cursor: pointer" onclick="ResendOTP()" class="float-end  mt-2"><i class="fa fa-spinner fa-spin button-spinner"></i>@R_Home.KirimUlangKodeOTP</a>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+        <input type="hidden" id="UserID" name="UserID" />
+        <input type="hidden" id="New_User_Password_Forgotten_ID" name="New_User_Password_Forgotten_ID" />
+
+    </div>
+</div>
+
+

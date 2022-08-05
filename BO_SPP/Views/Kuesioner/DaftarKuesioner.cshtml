@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/Pages/DaftarKuesioner.js")"></script>    
+}
+
+
+<div class="row">
+    <div class="col-lg-12 mb-3">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="navbar-breadcrumb">
+                <h5 class="mb-0">Daftar Kuesioner</h5>
+                <small>Manajemen Kuesioner</small>
+            </div>
+            <div class="btn-group btn-group-toggle">
+                <a id="btnAdd" href="@Url.Action("FormBuilder", "Kuesioner")" class="btn btn-info button-icon btn-sm"><i class="ri-add-line m-0"></i>Add New Form</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">                
+                <div class="LoaderOnGrid">
+                    <div class="overlay ModalLoader">
+                        <i class="fas fa-2x fa-spinner fa-spin" style="font-size:48px;color:red"></i>
+                    </div>
+                </div>
+                <table class="table table-bordered" id="TableData" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Judul</th>
+                            <th>Status</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>UpdatedOn</th>
+                            <th>UpdatedBy</th>
+                        </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </div>        
+    </div>
+</div>
