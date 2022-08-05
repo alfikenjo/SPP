@@ -10221,11 +10221,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Clean Folder\\Projects\\ASIA SISTEM\\SMI\\WBS\\GitHub\\SC\\BO_SPP\\BO_SPP.csproj",
+      "projectUniqueName": "D:\\Clean Folder\\Projects\\ASIA SISTEM\\SMI\\WBS\\GitHub\\Workspace\\SPP\\BO_SPP\\BO_SPP.csproj",
       "projectName": "BO_SPP",
-      "projectPath": "D:\\Clean Folder\\Projects\\ASIA SISTEM\\SMI\\WBS\\GitHub\\SC\\BO_SPP\\BO_SPP.csproj",
+      "projectPath": "D:\\Clean Folder\\Projects\\ASIA SISTEM\\SMI\\WBS\\GitHub\\Workspace\\SPP\\BO_SPP\\BO_SPP.csproj",
       "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "D:\\Clean Folder\\Projects\\ASIA SISTEM\\SMI\\WBS\\GitHub\\SC\\BO_SPP\\obj\\",
+      "outputPath": "D:\\Clean Folder\\Projects\\ASIA SISTEM\\SMI\\WBS\\GitHub\\Workspace\\SPP\\BO_SPP\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

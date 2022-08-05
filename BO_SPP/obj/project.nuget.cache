@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cN8MskJsCZWsU10qw2qGwB5KGWpdc1P6SfOZb6dkno+hxz3bxjZ0gzGU0tBldxfV281atke9lxdwrDq0C4NNGA==",
+  "dgSpecHash": "W/Ez0q7HFU3VXifCo4vpdVkahP4LjxW9ydCKAjVd/y0jDlweDpKMDYjRqKxqIQrvMAm8pGuJKUgz3O8fNWnAKA==",
   "success": true,
-  "projectFilePath": "D:\\Clean Folder\\Projects\\ASIA SISTEM\\SMI\\WBS\\GitHub\\SC\\BO_SPP\\BO_SPP.csproj",
+  "projectFilePath": "D:\\Clean Folder\\Projects\\ASIA SISTEM\\SMI\\WBS\\GitHub\\Workspace\\SPP\\BO_SPP\\BO_SPP.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\anglesharp\\0.16.1\\anglesharp.0.16.1.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\anglesharp.css\\0.16.4\\anglesharp.css.0.16.4.nupkg.sha512",
