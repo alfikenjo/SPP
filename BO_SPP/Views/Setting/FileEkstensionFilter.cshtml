@@ -8,14 +8,35 @@
 }
 
 <div class="row">
+    
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">File Upload Setting</h4>
+                    <small>@ViewBag.MaxUploadSize.UpdatedOn</small>
+                </div>
+            </div>
+            <div class="card-body">
+                <form id="FormMaxUpload">
+                    <div class="form-group">
+                        <label>Maximum Upload Size (MB)</label>
+                        <input type="hidden" id="IDMaxUploadSize" name="IDMaxUploadSize" value="@ViewBag.MaxUploadSize.ID" />
+                        <input type="number" id="maxUpload" min="1" max="100" name="maxUpload" value="@ViewBag.MaxUploadSize.Value" class="form-control" />
+                    </div>
+                    <button type="submit" form="FormMaxUpload" class="btn btn-outline-success"><i class="fa fa-spinner fa-spin button-spinner"></i><i class="fa fa-save mr-1"></i>Save</button>
+                </form>
+            </div>
+        </div>        
+    </div>
+
     <div class="col-lg-12 mb-3">
         <div class="d-flex align-items-center justify-content-between">
             <div class="navbar-breadcrumb">
-                <h5 class="mb-0">Daftar whitelist File Ekstension</h5>
-                <small>System Administrator - Setting</small>
+                <h5 class="mb-0">Daftar whitelist File Ekstension</h5>                
             </div>
             <div class="btn-group btn-group-toggle">
-                <button id="btnAdd" onclick="return false;" class="btn btn-info button-icon"><i class="ri-add-line m-0"></i>Add Ekstension</button>
+                <button id="btnAdd" onclick="return false;" class="btn btn-info btn-sm button-icon"><i class="ri-add-line m-0"></i>Add Ekstension</button>
             </div>
         </div>
     </div>
@@ -58,7 +79,7 @@
                         <input type="text" id="Name" name="Name" class="form-control" maxlength="10" />
                     </div>
 
-                    <button type="submit" id="btnSave" class="btn btn-outline-success"><i class="fa fa-spinner fa-spin button-spinner"></i>Save</button>
+                    <button type="submit" form="FormInput" id="btnSave" class="btn btn-outline-success"><i class="fa fa-spinner fa-spin button-spinner"></i>Save</button>
                     <button id="btnCloseForm" onclick="CloseForm(); return false;" class="btn bg-danger">Cancel</button>
                 </div>
             </div>

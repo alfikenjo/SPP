@@ -167,8 +167,9 @@ namespace BO_SPP.Controllers
             }
         }
 
+        [DisableRequestSizeLimit]
         [HttpPost]
-        public ActionResult SavePengaduan(Pengaduan Model)
+        public IActionResult SavePengaduan([FromForm] Pengaduan Model)
         {
             try
             {
@@ -207,15 +208,8 @@ namespace BO_SPP.Controllers
                 #region UploadFileEvidence
                 if (Model.UploadFileEvidence != null)
                 {
-
-                    //List<IFormFile> files = new List<IFormFile>();
-                    //files.Add(Model.UploadFileEvidence);
                     foreach (IFormFile file in Model.UploadFileEvidence)
                     {
-                        string OriginalFilename = file.FileName.ToLower();
-                        if (OriginalFilename.ToLower().Contains("php") || OriginalFilename.ToLower().Contains("aspx") || OriginalFilename.ToLower().Contains("exe") || OriginalFilename.ToLower().Contains("dll") || OriginalFilename.ToLower().Contains("js") || OriginalFilename.ToLower().Contains("css") || OriginalFilename.ToLower().Contains("html"))
-                            throw new Exception("Failed, Permission denied while uploading the file or attachment");
-
                         if (file.Length > 0)
                         {
                             string FileEvidence = "", FileEvidence_Ekstension = "";
@@ -225,7 +219,7 @@ namespace BO_SPP.Controllers
                             var filePath = Path.GetTempFileName();
                             using (var stream = System.IO.File.Create(filePath))
                             {
-                                file.CopyToAsync(stream);
+                                file.CopyTo(stream);
 
                                 string upload = Helper.UploadFTP(stream, FileEvidence, FileEvidence_Ekstension);
                                 if (upload != "success")
@@ -339,8 +333,9 @@ namespace BO_SPP.Controllers
             }
         }
 
+        [DisableRequestSizeLimit]
         [HttpPost]
-        public ActionResult SaveDetailPengaduan(PengaduanDetail Model)
+        public IActionResult SaveDetailPengaduan([FromForm] PengaduanDetail Model)
         {
             try
             {
@@ -386,10 +381,6 @@ namespace BO_SPP.Controllers
                 #region UploadFileIdentitas
                 if (Model.UploadFileIdentitas != null)
                 {
-                    string OriginalFilename = Model.UploadFileIdentitas.FileName.ToLower();
-                    if (OriginalFilename.ToLower().Contains("php") || OriginalFilename.ToLower().Contains("aspx") || OriginalFilename.ToLower().Contains("exe") || OriginalFilename.ToLower().Contains("dll") || OriginalFilename.ToLower().Contains("js") || OriginalFilename.ToLower().Contains("css") || OriginalFilename.ToLower().Contains("html"))
-                        throw new Exception("Failed, Permission denied while uploading the file or attachment");
-
                     List<IFormFile> files = new List<IFormFile>();
                     files.Add(Model.UploadFileIdentitas);
                     foreach (IFormFile file in files)
@@ -402,7 +393,7 @@ namespace BO_SPP.Controllers
                             var filePath = Path.GetTempFileName();
                             using (var stream = System.IO.File.Create(filePath))
                             {
-                                file.CopyToAsync(stream);
+                                file.CopyTo(stream);
 
                                 string upload = Helper.UploadFTP(stream, FileIdentitas, FileIdentitas_Ekstension);
                                 if (upload != "success")
@@ -644,8 +635,9 @@ namespace BO_SPP.Controllers
             }
         }
 
+        [DisableRequestSizeLimit]
         [HttpPost]
-        public ActionResult KirimTanggapanAdminSPP(MTanggapan Model)
+        public IActionResult KirimTanggapanAdminSPP([FromForm] MTanggapan Model)
         {
             try
             {
@@ -668,10 +660,6 @@ namespace BO_SPP.Controllers
                 #region UploadFileLampiran
                 if (Model.UploadFileLampiran != null)
                 {
-                    string OriginalFilename = Model.UploadFileLampiran.FileName.ToLower();
-                    if (OriginalFilename.ToLower().Contains("php") || OriginalFilename.ToLower().Contains("aspx") || OriginalFilename.ToLower().Contains("exe") || OriginalFilename.ToLower().Contains("dll") || OriginalFilename.ToLower().Contains("js") || OriginalFilename.ToLower().Contains("css") || OriginalFilename.ToLower().Contains("html"))
-                        throw new Exception("Failed, Permission denied while uploading the file or attachment");
-
                     List<IFormFile> files = new List<IFormFile>();
                     files.Add(Model.UploadFileLampiran);
                     foreach (IFormFile file in files)
@@ -684,7 +672,7 @@ namespace BO_SPP.Controllers
                             var filePath = Path.GetTempFileName();
                             using (var stream = System.IO.File.Create(filePath))
                             {
-                                file.CopyToAsync(stream);
+                                file.CopyTo(stream);
 
                                 string upload = Helper.UploadFTP(stream, FileLampiran, FileLampiran_Ekstension);
                                 if (upload != "success")
@@ -773,7 +761,8 @@ namespace BO_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult SavePenyaluran(Pengaduan Model)
+        [DisableRequestSizeLimit]
+        public IActionResult SavePenyaluran([FromForm] Pengaduan Model)
         {
             try
             {
@@ -800,10 +789,6 @@ namespace BO_SPP.Controllers
                 #region Upload
                 if (Model.Upload != null)
                 {
-                    string OriginalFilename = Model.Upload.FileName.ToLower();
-                    if (OriginalFilename.ToLower().Contains("php") || OriginalFilename.ToLower().Contains("aspx") || OriginalFilename.ToLower().Contains("exe") || OriginalFilename.ToLower().Contains("dll") || OriginalFilename.ToLower().Contains("js") || OriginalFilename.ToLower().Contains("css") || OriginalFilename.ToLower().Contains("html"))
-                        throw new Exception("Failed, Permission denied while uploading the file or attachment");
-
                     List<IFormFile> files = new List<IFormFile>();
                     files.Add(Model.Upload);
                     foreach (IFormFile file in files)
@@ -816,7 +801,7 @@ namespace BO_SPP.Controllers
                             var filePath = Path.GetTempFileName();
                             using (var stream = System.IO.File.Create(filePath))
                             {
-                                file.CopyToAsync(stream);
+                                file.CopyTo(stream);
 
                                 string upload = Helper.UploadFTP(stream, Keterangan_Penyaluran_Filename, Keterangan_Penyaluran_Ekstension);
                                 if (upload != "success")
@@ -877,7 +862,8 @@ namespace BO_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save_TindakLanjut(Pengaduan Model)
+        [DisableRequestSizeLimit]
+        public IActionResult Save_TindakLanjut([FromForm] Pengaduan Model)
         {
             try
             {
@@ -904,10 +890,6 @@ namespace BO_SPP.Controllers
                 #region UploadPemeriksaan
                 if (Model.UploadPemeriksaan != null)
                 {
-                    string OriginalFilename = Model.UploadPemeriksaan.FileName.ToLower();
-                    if (OriginalFilename.ToLower().Contains("php") || OriginalFilename.ToLower().Contains("aspx") || OriginalFilename.ToLower().Contains("exe") || OriginalFilename.ToLower().Contains("dll") || OriginalFilename.ToLower().Contains("js") || OriginalFilename.ToLower().Contains("css") || OriginalFilename.ToLower().Contains("html"))
-                        throw new Exception("Failed, Permission denied while uploading the file or attachment");
-
                     List<IFormFile> files = new List<IFormFile>();
                     files.Add(Model.UploadPemeriksaan);
                     foreach (IFormFile file in files)
@@ -920,7 +902,7 @@ namespace BO_SPP.Controllers
                             var filePath = Path.GetTempFileName();
                             using (var stream = System.IO.File.Create(filePath))
                             {
-                                file.CopyToAsync(stream);
+                                file.CopyTo(stream);
 
                                 string UploadPemeriksaan = Helper.UploadFTP(stream, Keterangan_Pemeriksaan_Filename, Keterangan_Pemeriksaan_Ekstension);
                                 if (UploadPemeriksaan != "success")
@@ -943,10 +925,6 @@ namespace BO_SPP.Controllers
                 #region UploadKonfirmasi
                 if (Model.UploadKonfirmasi != null)
                 {
-                    string OriginalFilename = Model.UploadKonfirmasi.FileName.ToLower();
-                    if (OriginalFilename.ToLower().Contains("php") || OriginalFilename.ToLower().Contains("aspx") || OriginalFilename.ToLower().Contains("exe") || OriginalFilename.ToLower().Contains("dll") || OriginalFilename.ToLower().Contains("js") || OriginalFilename.ToLower().Contains("css") || OriginalFilename.ToLower().Contains("html"))
-                        throw new Exception("Failed, Permission denied while uploading the file or attachment");
-
                     List<IFormFile> files = new List<IFormFile>();
                     files.Add(Model.UploadKonfirmasi);
                     foreach (IFormFile file in files)
@@ -959,7 +937,7 @@ namespace BO_SPP.Controllers
                             var filePath = Path.GetTempFileName();
                             using (var stream = System.IO.File.Create(filePath))
                             {
-                                file.CopyToAsync(stream);
+                                file.CopyTo(stream);
 
                                 string UploadKonfirmasi = Helper.UploadFTP(stream, Keterangan_Konfirmasi_Filename, Keterangan_Konfirmasi_Ekstension);
                                 if (UploadKonfirmasi != "success")
@@ -1021,7 +999,8 @@ namespace BO_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveRespon(Pengaduan Model)
+        [DisableRequestSizeLimit]
+        public IActionResult SaveRespon([FromForm] Pengaduan Model)
         {
             try
             {
@@ -1042,10 +1021,6 @@ namespace BO_SPP.Controllers
                 #region Upload
                 if (Model.Upload != null)
                 {
-                    string OriginalFilename = Model.Upload.FileName.ToLower();
-                    if (OriginalFilename.ToLower().Contains("php") || OriginalFilename.ToLower().Contains("aspx") || OriginalFilename.ToLower().Contains("exe") || OriginalFilename.ToLower().Contains("dll") || OriginalFilename.ToLower().Contains("js") || OriginalFilename.ToLower().Contains("css") || OriginalFilename.ToLower().Contains("html"))
-                        throw new Exception("Failed, Permission denied while uploading the file or attachment");
-
                     List<IFormFile> files = new List<IFormFile>();
                     files.Add(Model.Upload);
                     foreach (IFormFile file in files)
@@ -1058,7 +1033,7 @@ namespace BO_SPP.Controllers
                             var filePath = Path.GetTempFileName();
                             using (var stream = System.IO.File.Create(filePath))
                             {
-                                file.CopyToAsync(stream);
+                                file.CopyTo(stream);
 
                                 string upload = Helper.UploadFTP(stream, Keterangan_Respon_Filename, Keterangan_Respon_Ekstension);
                                 if (upload != "success")
@@ -1121,7 +1096,7 @@ namespace BO_SPP.Controllers
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
                     throw new Exception("Invalid Authorization|window.location='/'");
 
-                string DelegatorID = ""; // + "|" + HttpContext.Session.GetString("SessionID");
+                string DelegatorID = "";
                 DataTable dt = mssql.GetDataTable("SELECT * FROM tblT_Dumas WHERE ID = '" + sani.Sanitize(ID) + "'");
                 if (dt.Rows.Count == 1)
                 {
@@ -1182,7 +1157,8 @@ namespace BO_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult KirimTanggapanInternal(MTanggapan Model)
+        [DisableRequestSizeLimit]
+        public IActionResult KirimTanggapanInternal([FromForm] MTanggapan Model)
         {
             try
             {
@@ -1205,10 +1181,6 @@ namespace BO_SPP.Controllers
                 #region UploadFileLampiran
                 if (Model.UploadFileLampiran != null)
                 {
-                    string OriginalFilename = Model.UploadFileLampiran.FileName.ToLower();
-                    if (OriginalFilename.ToLower().Contains("php") || OriginalFilename.ToLower().Contains("aspx") || OriginalFilename.ToLower().Contains("exe") || OriginalFilename.ToLower().Contains("dll") || OriginalFilename.ToLower().Contains("js") || OriginalFilename.ToLower().Contains("css") || OriginalFilename.ToLower().Contains("html"))
-                        throw new Exception("Failed, Permission denied while uploading the file or attachment");
-
                     List<IFormFile> files = new List<IFormFile>();
                     files.Add(Model.UploadFileLampiran);
                     foreach (IFormFile file in files)
@@ -1221,7 +1193,7 @@ namespace BO_SPP.Controllers
                             var filePath = Path.GetTempFileName();
                             using (var stream = System.IO.File.Create(filePath))
                             {
-                                file.CopyToAsync(stream);
+                                file.CopyTo(stream);
 
                                 string upload = Helper.UploadFTP(stream, FileLampiran, FileLampiran_Ekstension);
                                 if (upload != "success")
@@ -1371,28 +1343,7 @@ namespace BO_SPP.Controllers
             {
                 return Json(new { Error = true, Message = ex.Message });
             }
-        }
-
-        [HttpPost]
-        public IActionResult CheckFileEkstension(string Eks)
-        {
-            try
-            {
-                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
-                string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
-                if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
-
-                int isValid = 0;
-                DataRow dr = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM FileEkstensionFilter WHERE Name = '" + sani.Sanitize(Eks) + "'");
-                isValid = int.Parse(dr["Count"].ToString());
-                return Json(new { Error = false, Message = isValid });
-            }
-            catch (Exception)
-            {
-                return Json(new { Error = true, Message = 0 });
-            }
-        }
+        }        
 
     }
 }

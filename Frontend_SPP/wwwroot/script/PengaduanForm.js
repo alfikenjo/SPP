@@ -97,6 +97,7 @@ function FillForm(ID) {
                 if (data.Handphone)
                     document.getElementById('txt_Handphone').value = data.Handphone.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
+                document.getElementById('txt_Handphone').disabled = true;
                 FillDaftarTerlapor();
 
                 document.getElementById('txt_TempatKejadian').value = data.TempatKejadian.replace(/</g, "&lt;").replace(/>/g, "&gt;");

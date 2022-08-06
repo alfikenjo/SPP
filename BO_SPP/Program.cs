@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace BO_SPP
 {
@@ -12,13 +13,15 @@ namespace BO_SPP
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+       Host.CreateDefaultBuilder(args)
+           .ConfigureWebHostDefaults(webBuilder =>
+           {
+               webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
+               webBuilder.UseIISIntegration();
+               webBuilder.UseStartup<Startup>();
+           });
 
-
+       
 
     }
 }

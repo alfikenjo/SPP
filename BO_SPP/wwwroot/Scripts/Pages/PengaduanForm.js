@@ -433,6 +433,11 @@ function FillForm(ID) {
                     document.getElementById('div_respon_Delegator').style.display = 'none';
                 }
 
+                document.getElementById('txt_Email').setAttribute("disabled", "disabled");
+                document.getElementById('txt_Handphone').setAttribute("disabled", "disabled");
+                document.getElementById('Sumber').setAttribute("disabled", "disabled");
+                document.getElementById('txt_TempatKejadian').setAttribute("disabled", "disabled");
+                document.getElementById('txt_Kronologi').setAttribute("disabled", "disabled");
 
             } else {
                 CustomNotif("error|Oops|" + Result.Message + "");

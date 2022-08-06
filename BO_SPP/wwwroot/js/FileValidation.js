@@ -39,19 +39,19 @@ function validatefile(fuData) {
         var Extension = fuData.value.substring(fuData.value.lastIndexOf('.') + 1).toLowerCase();
         $.ajax({
             type: "POST",
-            url: VP + 'Pengaduan/CheckFileEkstension?eks=' + Extension,
+            url: VP + 'Setting/CheckFileEkstension?eks=' + Extension,
             dataType: "json", contentType: "application/json",
             success: function (res) {
                 isValidEkstension = res.Message;
+                var MaxUploadSize = res.MaxUploadSize;
 
                 var size = 0;
                 for (var i = 0; i < fuData.files.length; i++) {
-                    var currentByte = fuData.files[i].size;
                     var currentMB = fuData.files[i].size / 1024 / 1000;
                     size = size + currentMB
                 }
-                if (size > 20) {
-                    msg = "Maximum file upload cannot exceed 20MB";
+                if (size > MaxUploadSize) {
+                    msg = "Maximum file upload cannot exceed " + MaxUploadSize + " MB";
                 }
                 else {
                     if (isValidEkstension == 0)

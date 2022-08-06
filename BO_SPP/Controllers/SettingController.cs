@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
@@ -33,6 +34,14 @@ namespace BO_SPP.Controllers
             ViewData["CurrentControllerName"] = "Setting";
             ViewData["CurrentActionName"] = "File Ekstension Filter";
             ViewData["Title"] = "Setting > Ekstension Filter";
+
+
+            List<Referensi> MainData = new List<Referensi>();
+            DataTable dtFileUpload = mssql.GetDataTable("SELECT TOP 1 *, 'Last Updated by: ' + ISNULL(Updated_By, Created_By) + ' ' + dbo.Format24DateTime(ISNULL(Updated_On, Created_On)) [UpdatedOn] FROM tblM_Referensi WHERE Type = 'Max Upload Size'");
+            if (dtFileUpload.Rows.Count == 1)
+                MainData = mssql.ConvertDataTable<Referensi>(dtFileUpload);
+
+            ViewBag.MaxUploadSize = MainData.FirstOrDefault();
             return View();
         }
 
@@ -351,6 +360,64 @@ namespace BO_SPP.Controllers
             catch (Exception ex)
             {
                 return Json(new { Error = true, Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SaveReferensi(Referensi Model)
+        {
+            try
+            {
+                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+                string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
+                    throw new Exception("Invalid Authorization|window.location='/'");
+
+                #region Save
+
+                List<SqlParameter> param = new List<SqlParameter>();
+                param.Add(new SqlParameter("@Action", sani.Sanitize(Model.Action)));
+                param.Add(new SqlParameter("@ID", Model.ID));
+                param.Add(new SqlParameter("@Type", sani.Sanitize(Model.Type)));
+                param.Add(new SqlParameter("@Value", sani.Sanitize(Model.Value)));
+                param.Add(new SqlParameter("@Description", sani.Sanitize(Model.Description)));
+                param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
+
+                mssql.ExecuteNonQuery("sp_Save_tblM_Referensi", param);
+                #endregion Save
+
+                return Json(new { Error = false, Message = "" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = true, Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CheckFileEkstension(string Eks)
+        {
+            try
+            {
+                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+                string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
+                    throw new Exception("Invalid Authorization|window.location='/'");
+
+                int isValid = 0;
+                DataRow dr = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM FileEkstensionFilter WHERE Name = '" + sani.Sanitize(Eks) + "'");
+                isValid = int.Parse(dr["Count"].ToString());
+
+                int MaxUploadSize = 1;
+                DataTable dtFileUpload = mssql.GetDataTable("SELECT TOP 1 * FROM tblM_Referensi WHERE Type = 'Max Upload Size'");
+                if (dtFileUpload.Rows.Count == 1)
+                    MaxUploadSize = int.Parse(dtFileUpload.Rows[0]["Value"].ToString());
+
+                return Json(new { Error = false, Message = isValid, MaxUploadSize = MaxUploadSize });
+            }
+            catch (Exception)
+            {
+                return Json(new { Error = true, Message = 0 });
             }
         }
     }

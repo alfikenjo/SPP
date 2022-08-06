@@ -130,7 +130,8 @@ namespace Frontend_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateMyProfile(tblM_User Model)
+        [DisableRequestSizeLimit]
+        public IActionResult UpdateMyProfile([FromForm] tblM_User Model)
         {
             try
             {
@@ -163,7 +164,7 @@ namespace Frontend_SPP.Controllers
                                 var filePath = Path.GetTempFileName();
                                 using (var stream = System.IO.File.Create(filePath))
                                 {
-                                    file.CopyToAsync(stream);
+                                    file.CopyTo(stream);
 
                                     string upload = Helper.UploadFTP(stream, FotoFilename, FotoFileExtension);
                                     if (upload != "success")
@@ -222,7 +223,7 @@ namespace Frontend_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteFotoProfil(tblM_User Model)
+        public IActionResult DeleteFotoProfil(tblM_User Model)
         {
             try
             {
@@ -251,7 +252,7 @@ namespace Frontend_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateEmail(tblM_User Model)
+        public IActionResult UpdateEmail(tblM_User Model)
         {
             try
             {
@@ -312,7 +313,7 @@ namespace Frontend_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangePassword(tblM_User Model)
+        public IActionResult ChangePassword(tblM_User Model)
         {
             try
             {
@@ -327,7 +328,7 @@ namespace Frontend_SPP.Controllers
                 string NewPassword = sani.Sanitize(Model.NewPassword);
                 string NewPasswordVerifiy = sani.Sanitize(Model.NewPasswordVerifiy);
                 string Username = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
-                string UserID = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));                
+                string UserID = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));
 
                 var culture = string.IsNullOrEmpty(HttpContext.Session.GetString("culture")) ? "id" : HttpContext.Session.GetString("culture").ToLower();
                 if (NewPassword != NewPasswordVerifiy)

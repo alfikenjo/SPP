@@ -204,6 +204,7 @@
     <Build Include="dbo\Tables\FileEkstensionFilterDummy.sql" />
     <Build Include="dbo\Stored Procedures\sp_get_DetailChart_3.sql" />
     <Build Include="dbo\Stored Procedures\sp_get_DetailChart_2.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Save_tblM_Referensi.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare.scmp" />

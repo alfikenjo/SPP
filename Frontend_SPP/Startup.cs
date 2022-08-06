@@ -85,6 +85,12 @@ namespace Frontend_SPP
             {
                 options.MaxRequestBodySize = int.MaxValue;  //2GB
             });
+
+            services.Configure<FormOptions>(options =>
+            {
+                // Set the limit to 256 MB
+                options.MultipartBodyLengthLimit = int.MaxValue;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

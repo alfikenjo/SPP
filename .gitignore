@@ -1,2 +1,5 @@
 
 *.cache
+.vs/SPP/
+bin/
+obj/

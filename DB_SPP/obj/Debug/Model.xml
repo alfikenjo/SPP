@@ -12,7 +12,7 @@
 		</CustomData>
 		<CustomData Category="Reference" Type="Assembly">
 			<Metadata Name="LogicalName" Value="DB_SPP.dll" />
-			<Metadata Name="FileName" Value="D:\CLEAN FOLDER\PROJECTS\ASIA SISTEM\SMI\WBS\GITHUB\SC\DB_SPP\OBJ\DEBUG\DB_SPP.DLL" />
+			<Metadata Name="FileName" Value="D:\CLEAN FOLDER\PROJECTS\ASIA SISTEM\SMI\WBS\GITHUB\WORKSPACE\SPP\DB_SPP\OBJ\DEBUG\DB_SPP.DLL" />
 			<Metadata Name="AssemblyName" Value="DB_SPP" />
 			<Metadata Name="PermissionSet" Value="SAFE" />
 			<Metadata Name="Owner" Value="" />
@@ -20,7 +20,7 @@
 			<Metadata Name="IsVisible" Value="True" />
 			<Metadata Name="IsModelAware" Value="True" />
 			<Metadata Name="SkipCreationIfEmpty" Value="True" />
-			<Metadata Name="AssemblySymbolsName" Value="D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\SC\DB_SPP\obj\Debug\DB_SPP.pdb" />
+			<Metadata Name="AssemblySymbolsName" Value="D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\Workspace\SPP\DB_SPP\obj\Debug\DB_SPP.pdb" />
 		</CustomData>
 		<CustomData Category="SqlCmdVariables" Type="SqlCmdVariable" />
 	</Header>
@@ -770,134 +770,6 @@
 			</Property>
 			<Relationship Name="DefiningTable">
 				<Entry>
-					<References Name="[dbo].[tblT_CMS]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[tblT_CMS].[ID]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="48" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(getdate())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[tblT_CMS]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[tblT_CMS].[CreatedOn]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="49" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(getdate())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[tblT_CMS]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[tblT_CMS].[UpdatedOn]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="50" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(newid())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[Kuesioner]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[Kuesioner].[ID]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="51" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[NULL]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[Kuesioner]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[Kuesioner].[StartDate]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="52" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[NULL]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[Kuesioner]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[Kuesioner].[EndDate]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="53" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(getdate())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[Kuesioner]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[Kuesioner].[CreatedOn]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="54" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(getdate())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[Kuesioner]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[Kuesioner].[UpdatedOn]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="55" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(newid())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
 					<References Name="[dbo].[KuesionerDetailOptions]" />
 				</Entry>
 			</Relationship>
@@ -906,7 +778,7 @@
 					<References Name="[dbo].[KuesionerDetailOptions].[ID]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="56" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="48" />
 		</Element>
 		<Element Type="SqlDefaultConstraint">
 			<Property Name="DefaultExpressionScript">
@@ -922,7 +794,7 @@
 					<References Name="[dbo].[KuesionerDetailOptions].[IDHeader]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="57" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="49" />
 		</Element>
 		<Element Type="SqlDefaultConstraint">
 			<Property Name="DefaultExpressionScript">
@@ -938,7 +810,7 @@
 					<References Name="[dbo].[KuesionerDetailOptions].[CreatedOn]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="58" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="50" />
 		</Element>
 		<Element Type="SqlDefaultConstraint">
 			<Property Name="DefaultExpressionScript">
@@ -954,7 +826,7 @@
 					<References Name="[dbo].[KuesionerDetailOptions].[UpdatedOn]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="59" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="51" />
 		</Element>
 		<Element Type="SqlDefaultConstraint">
 			<Property Name="DefaultExpressionScript">
@@ -970,7 +842,7 @@
 					<References Name="[dbo].[KuesionerDetail].[ID]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="60" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="52" />
 		</Element>
 		<Element Type="SqlDefaultConstraint">
 			<Property Name="DefaultExpressionScript">
@@ -986,7 +858,7 @@
 					<References Name="[dbo].[KuesionerDetail].[IDHeader]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="61" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="53" />
 		</Element>
 		<Element Type="SqlDefaultConstraint">
 			<Property Name="DefaultExpressionScript">
@@ -1002,7 +874,7 @@
 					<References Name="[dbo].[KuesionerDetail].[Required]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="62" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="54" />
 		</Element>
 		<Element Type="SqlDefaultConstraint">
 			<Property Name="DefaultExpressionScript">
@@ -1018,7 +890,7 @@
 					<References Name="[dbo].[KuesionerDetail].[CreatedOn]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="63" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="55" />
 		</Element>
 		<Element Type="SqlDefaultConstraint">
 			<Property Name="DefaultExpressionScript">
@@ -1034,183 +906,135 @@
 					<References Name="[dbo].[KuesionerDetail].[UpdatedOn]" />
 				</Entry>
 			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="56" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(newid())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[Kuesioner]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[Kuesioner].[ID]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="57" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[NULL]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[Kuesioner]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[Kuesioner].[StartDate]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="58" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[NULL]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[Kuesioner]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[Kuesioner].[EndDate]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="59" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(getdate())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[Kuesioner]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[Kuesioner].[CreatedOn]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="60" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(getdate())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[Kuesioner]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[Kuesioner].[UpdatedOn]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="61" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(newid())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[tblT_CMS]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[ID]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="62" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(getdate())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[tblT_CMS]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[CreatedOn]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="63" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(getdate())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[tblT_CMS]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[UpdatedOn]" />
+				</Entry>
+			</Relationship>
 			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="64" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(newid())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[KuesionerValue]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[KuesionerValue].[ID]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="65" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(NULL)]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[KuesionerValue]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[KuesionerValue].[IDPengaduan]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="66" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[((0))]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[KuesionerValue]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[KuesionerValue].[Required]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="67" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(getdate())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[KuesionerValue]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[KuesionerValue].[CreatedOn]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="68" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(getdate())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[KuesionerValue]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[KuesionerValue].[UpdatedOn]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="69" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(newid())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[FileEkstensionFilter]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[FileEkstensionFilter].[ID]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="70" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(getdate())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[FileEkstensionFilter]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[FileEkstensionFilter].[CreatedOn]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="71" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(getdate())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[FileEkstensionFilter]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[FileEkstensionFilter].[UpdatedOn]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="72" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(newid())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[NotificationSetting]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[NotificationSetting].[ID]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="73" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(getdate())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[NotificationSetting]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[NotificationSetting].[CreatedOn]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="74" />
-		</Element>
-		<Element Type="SqlDefaultConstraint">
-			<Property Name="DefaultExpressionScript">
-				<Value><![CDATA[(getdate())]]></Value>
-			</Property>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[NotificationSetting]" />
-				</Entry>
-			</Relationship>
-			<Relationship Name="ForColumn">
-				<Entry>
-					<References Name="[dbo].[NotificationSetting].[UpdatedOn]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="75" />
 		</Element>
 		<Element Type="SqlDefaultConstraint">
 			<Property Name="DefaultExpressionScript">
@@ -1226,7 +1050,7 @@
 					<References Name="[dbo].[tblT_EmailSetting].[ID]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="76" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="65" />
 		</Element>
 		<Element Type="SqlDefaultConstraint">
 			<Property Name="DefaultExpressionScript">
@@ -1242,7 +1066,7 @@
 					<References Name="[dbo].[tblT_EmailSetting].[CreatedOn]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="77" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="66" />
 		</Element>
 		<Element Type="SqlDefaultConstraint">
 			<Property Name="DefaultExpressionScript">
@@ -1256,6 +1080,182 @@
 			<Relationship Name="ForColumn">
 				<Entry>
 					<References Name="[dbo].[tblT_EmailSetting].[UpdatedOn]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="67" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(newid())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[NotificationSetting]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[NotificationSetting].[ID]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="68" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(getdate())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[NotificationSetting]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[NotificationSetting].[CreatedOn]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="69" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(getdate())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[NotificationSetting]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[NotificationSetting].[UpdatedOn]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="70" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(newid())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[FileEkstensionFilter]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[FileEkstensionFilter].[ID]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="71" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(getdate())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[FileEkstensionFilter]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[FileEkstensionFilter].[CreatedOn]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="72" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(getdate())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[FileEkstensionFilter]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[FileEkstensionFilter].[UpdatedOn]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="73" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(newid())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[KuesionerValue]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[KuesionerValue].[ID]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="74" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(NULL)]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[KuesionerValue]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[KuesionerValue].[IDPengaduan]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="75" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[((0))]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[KuesionerValue]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[KuesionerValue].[Required]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="76" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(getdate())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[KuesionerValue]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[KuesionerValue].[CreatedOn]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="77" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(getdate())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[KuesionerValue]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[KuesionerValue].[UpdatedOn]" />
 				</Entry>
 			</Relationship>
 			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="78" />
@@ -1570,44 +1570,6 @@
 					<Element Type="SqlIndexedColumnSpecification">
 						<Relationship Name="Column">
 							<Entry>
-								<References Name="[dbo].[tblT_CMS].[ID]" />
-							</Entry>
-						</Relationship>
-					</Element>
-				</Entry>
-			</Relationship>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[tblT_CMS]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="95" />
-		</Element>
-		<Element Type="SqlPrimaryKeyConstraint">
-			<Relationship Name="ColumnSpecifications">
-				<Entry>
-					<Element Type="SqlIndexedColumnSpecification">
-						<Relationship Name="Column">
-							<Entry>
-								<References Name="[dbo].[Kuesioner].[ID]" />
-							</Entry>
-						</Relationship>
-					</Element>
-				</Entry>
-			</Relationship>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[Kuesioner]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="96" />
-		</Element>
-		<Element Type="SqlPrimaryKeyConstraint">
-			<Relationship Name="ColumnSpecifications">
-				<Entry>
-					<Element Type="SqlIndexedColumnSpecification">
-						<Relationship Name="Column">
-							<Entry>
 								<References Name="[dbo].[KuesionerDetailOptions].[ID]" />
 							</Entry>
 						</Relationship>
@@ -1619,7 +1581,7 @@
 					<References Name="[dbo].[KuesionerDetailOptions]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="97" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="95" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint">
 			<Relationship Name="ColumnSpecifications">
@@ -1638,6 +1600,44 @@
 					<References Name="[dbo].[KuesionerDetail]" />
 				</Entry>
 			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="96" />
+		</Element>
+		<Element Type="SqlPrimaryKeyConstraint">
+			<Relationship Name="ColumnSpecifications">
+				<Entry>
+					<Element Type="SqlIndexedColumnSpecification">
+						<Relationship Name="Column">
+							<Entry>
+								<References Name="[dbo].[Kuesioner].[ID]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[Kuesioner]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="97" />
+		</Element>
+		<Element Type="SqlPrimaryKeyConstraint">
+			<Relationship Name="ColumnSpecifications">
+				<Entry>
+					<Element Type="SqlIndexedColumnSpecification">
+						<Relationship Name="Column">
+							<Entry>
+								<References Name="[dbo].[tblT_CMS].[ID]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[tblT_CMS]" />
+				</Entry>
+			</Relationship>
 			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="98" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint">
@@ -1646,7 +1646,7 @@
 					<Element Type="SqlIndexedColumnSpecification">
 						<Relationship Name="Column">
 							<Entry>
-								<References Name="[dbo].[KuesionerValue].[ID]" />
+								<References Name="[dbo].[tblT_EmailSetting].[ID]" />
 							</Entry>
 						</Relationship>
 					</Element>
@@ -1654,29 +1654,10 @@
 			</Relationship>
 			<Relationship Name="DefiningTable">
 				<Entry>
-					<References Name="[dbo].[KuesionerValue]" />
+					<References Name="[dbo].[tblT_EmailSetting]" />
 				</Entry>
 			</Relationship>
 			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="99" />
-		</Element>
-		<Element Type="SqlPrimaryKeyConstraint">
-			<Relationship Name="ColumnSpecifications">
-				<Entry>
-					<Element Type="SqlIndexedColumnSpecification">
-						<Relationship Name="Column">
-							<Entry>
-								<References Name="[dbo].[FileEkstensionFilter].[ID]" />
-							</Entry>
-						</Relationship>
-					</Element>
-				</Entry>
-			</Relationship>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[FileEkstensionFilter]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="100" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint">
 			<Relationship Name="ColumnSpecifications">
@@ -1695,6 +1676,25 @@
 					<References Name="[dbo].[NotificationSetting]" />
 				</Entry>
 			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="100" />
+		</Element>
+		<Element Type="SqlPrimaryKeyConstraint">
+			<Relationship Name="ColumnSpecifications">
+				<Entry>
+					<Element Type="SqlIndexedColumnSpecification">
+						<Relationship Name="Column">
+							<Entry>
+								<References Name="[dbo].[FileEkstensionFilter].[ID]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[FileEkstensionFilter]" />
+				</Entry>
+			</Relationship>
 			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="101" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint">
@@ -1703,7 +1703,7 @@
 					<Element Type="SqlIndexedColumnSpecification">
 						<Relationship Name="Column">
 							<Entry>
-								<References Name="[dbo].[tblT_EmailSetting].[ID]" />
+								<References Name="[dbo].[KuesionerValue].[ID]" />
 							</Entry>
 						</Relationship>
 					</Element>
@@ -1711,7 +1711,7 @@
 			</Relationship>
 			<Relationship Name="DefiningTable">
 				<Entry>
-					<References Name="[dbo].[tblT_EmailSetting]" />
+					<References Name="[dbo].[KuesionerValue]" />
 				</Entry>
 			</Relationship>
 			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="102" />
@@ -2249,8 +2249,8 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="100" />
-						<AttachedAnnotation Disambiguator="70" />
+						<AttachedAnnotation Disambiguator="101" />
+						<AttachedAnnotation Disambiguator="71" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -2282,7 +2282,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="71" />
+						<AttachedAnnotation Disambiguator="72" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -2314,7 +2314,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="72" />
+						<AttachedAnnotation Disambiguator="73" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -2323,6 +2323,47 @@ END]]></Value>
 							<Entry>
 								<Element Type="SqlTypeSpecifier">
 									<Property Name="Length" Value="200" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+		</Element>
+		<Element Type="SqlTable" Name="[dbo].[FileEkstensionFilterDummy]">
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="Columns">
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[FileEkstensionFilterDummy].[Id]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[FileEkstensionFilterDummy].[Name]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="50" />
 									<Relationship Name="Type">
 										<Entry>
 											<References ExternalSource="BuiltIns" Name="[varchar]" />
@@ -3686,7 +3727,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="51" />
+						<AttachedAnnotation Disambiguator="57" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -3734,7 +3775,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="52" />
+						<AttachedAnnotation Disambiguator="58" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -3750,7 +3791,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="53" />
+						<AttachedAnnotation Disambiguator="59" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -3767,7 +3808,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="54" />
+						<AttachedAnnotation Disambiguator="60" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -3799,7 +3840,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="55" />
+						<AttachedAnnotation Disambiguator="61" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -3824,7 +3865,7 @@ END]]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="96" />
+			<AttachedAnnotation Disambiguator="97" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[KuesionerDetail]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -3843,7 +3884,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="60" />
+						<AttachedAnnotation Disambiguator="52" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -3859,7 +3900,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="61" />
+						<AttachedAnnotation Disambiguator="53" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -3922,7 +3963,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="62" />
+						<AttachedAnnotation Disambiguator="54" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -3939,7 +3980,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="63" />
+						<AttachedAnnotation Disambiguator="55" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -3971,7 +4012,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="64" />
+						<AttachedAnnotation Disambiguator="56" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -3996,7 +4037,7 @@ END]]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="98" />
+			<AttachedAnnotation Disambiguator="96" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[KuesionerDetailOptions]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -4015,7 +4056,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="56" />
+						<AttachedAnnotation Disambiguator="48" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -4031,7 +4072,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="57" />
+						<AttachedAnnotation Disambiguator="49" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -4079,7 +4120,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="58" />
+						<AttachedAnnotation Disambiguator="50" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -4111,7 +4152,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="59" />
+						<AttachedAnnotation Disambiguator="51" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -4136,7 +4177,7 @@ END]]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="97" />
+			<AttachedAnnotation Disambiguator="95" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[KuesionerValue]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -4155,7 +4196,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="65" />
+						<AttachedAnnotation Disambiguator="74" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -4171,7 +4212,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="66" />
+						<AttachedAnnotation Disambiguator="75" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -4250,7 +4291,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="67" />
+						<AttachedAnnotation Disambiguator="76" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -4299,7 +4340,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="68" />
+						<AttachedAnnotation Disambiguator="77" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -4331,7 +4372,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="69" />
+						<AttachedAnnotation Disambiguator="78" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -4356,7 +4397,7 @@ END]]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="99" />
+			<AttachedAnnotation Disambiguator="102" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[NotificationSetting]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -4375,7 +4416,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="73" />
+						<AttachedAnnotation Disambiguator="68" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -4606,7 +4647,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="74" />
+						<AttachedAnnotation Disambiguator="69" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -4638,7 +4679,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="75" />
+						<AttachedAnnotation Disambiguator="70" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -4663,7 +4704,7 @@ END]]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="101" />
+			<AttachedAnnotation Disambiguator="100" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK__tblM_Rol__3214EC270266B6D7]">
 			<Relationship Name="ColumnSpecifications">
@@ -4885,6 +4926,161 @@ end]]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
+		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[sp_Cek_Pengaduan_By_Delegator]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+	
+	SET NOCOUNT ON;
+
+	DECLARE @TABLE AS TABLE (ID VARCHAR(36));
+	DECLARE @DelegatorID UNIQUEIDENTIFIER;
+
+	DECLARE db_cursor CURSOR FOR 
+	SELECT DelegatorID FROM  tblT_UserInDelegator WHERE UserID = (SELECT UserID FROM vw_userInRole WHERE Email = @Email AND Role IN ('Delegator'))
+
+	OPEN db_cursor  
+	FETCH NEXT FROM db_cursor INTO @DelegatorID  
+
+	WHILE @@FETCH_STATUS = 0  
+	BEGIN  
+			
+		INSERT INTO @TABLE  
+		SELECT	CONVERT(VARCHAR(36), A.ID)
+		FROM	tblT_Dumas A
+		WHERE	A.DelegatorID = @DelegatorID
+
+		FETCH NEXT FROM db_cursor INTO @DelegatorID 
+	END 
+
+	CLOSE db_cursor  
+	DEALLOCATE db_cursor 
+
+	SELECT COUNT(*) [Count] FROM @TABLE WHERE ID = @ID
+
+	
+
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[uniqueidentifier]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_UserInDelegator]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_UserInDelegator].[DelegatorID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_UserInDelegator].[UserID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[UserID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Cek_Pengaduan_By_Delegator].[@Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[Role]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varchar]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[DelegatorID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Cek_Pengaduan_By_Delegator].[@TABLE].[ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Cek_Pengaduan_By_Delegator].[@ID]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="DynamicObjects">
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[dbo].[sp_Cek_Pengaduan_By_Delegator].[@TABLE]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Cek_Pengaduan_By_Delegator].[@TABLE].[ID]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Property Name="Length" Value="36" />
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[varchar]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_Cek_Pengaduan_By_Delegator].[@Email]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="200" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_Cek_Pengaduan_By_Delegator].[@ID]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="36" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="CreateOffset" Value="214" />
+				<Property Name="Length" Value="1013" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Cek_Pengaduan_By_Delegator]&#xD;&#xA;&#x9;@Email VARCHAR(200),&#xD;&#xA;&#x9;@ID VARCHAR(36) &#xD;&#xA;AS" />
+			</Annotation>
 		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[sp_Download_User]">
 			<Property Name="BodyScript">
@@ -9275,6 +9471,566 @@ END]]></Value>
 				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Get_Detail_PengaduanByIDHeader]&#xD;&#xA;    @ID_Header varchar(36)&#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[sp_get_DetailChart_2]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+
+	--DECLARE @StartYear INT = 2020,
+	--		@EndYear INT = 2022,
+	--		@StartMonth INT = 1,
+	--		@EndMonth INT = 7;
+
+	
+	DECLARE @Start VARCHAR(6) = (SELECT CONVERT(VARCHAR(4), @StartYear) + REPLICATE('0',2-LEN(RTRIM(@StartMonth))) + RTRIM(@StartMonth))
+	DECLARE @End VARCHAR(6) = (SELECT CONVERT(VARCHAR(4), @EndYear) + REPLICATE('0',2-LEN(RTRIM(@EndMonth))) + RTRIM(@EndMonth))
+	
+
+	DECLARE @TABLE AS TABLE (Portal INT, Email INT, Surat INT, Telepon INT, Fax INT)
+
+	INSERT INTO @TABLE VALUES (0,0,0,0,0)
+
+	UPDATE @TABLE SET Portal = (SELECT COUNT(*) [Portal] FROM tblT_Dumas WHERE Nomor IS NOT NULL AND dbo.FormatDate_yyyyMM(CreatedOn) BETWEEN @Start AND @End AND ISNULL(NULLIF(Sumber, ''), 'Portal') = 'Portal SPP');
+	UPDATE @TABLE SET Email = (SELECT COUNT(*) [Email] FROM tblT_Dumas WHERE Nomor IS NOT NULL AND dbo.FormatDate_yyyyMM(CreatedOn) BETWEEN @Start AND @End  AND (Sumber = 'Email'));
+	UPDATE @TABLE SET Surat = (SELECT COUNT(*) [Surat] FROM tblT_Dumas WHERE Nomor IS NOT NULL AND dbo.FormatDate_yyyyMM(CreatedOn) BETWEEN @Start AND @End  AND (Sumber = 'Surat'));
+	UPDATE @TABLE SET Telepon = (SELECT COUNT(*) [Telepon] FROM tblT_Dumas WHERE Nomor IS NOT NULL AND dbo.FormatDate_yyyyMM(CreatedOn) BETWEEN @Start AND @End  AND (Sumber = 'Telepon')) 
+	UPDATE @TABLE SET Fax = (SELECT COUNT(*) [Fax] FROM tblT_Dumas WHERE Nomor IS NOT NULL AND dbo.FormatDate_yyyyMM(CreatedOn) BETWEEN @Start AND @End  AND (Sumber = 'Fax')) 
+
+	SELECT * FROM @TABLE
+	
+END
+
+
+--SELECT Sumber, COunt(*) FROM tblT_Dumas GROUP BY Sumber]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varchar]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varchar]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_2].[@StartYear]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_2].[@StartMonth]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varchar]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varchar]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_2].[@EndYear]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_2].[@EndMonth]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_2].[@TABLE].[Portal]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[Nomor]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FormatDate_yyyyMM]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[CreatedOn]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[Sumber]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_2].[@TABLE].[Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_2].[@TABLE].[Surat]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_2].[@TABLE].[Telepon]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_2].[@TABLE].[Fax]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="DynamicObjects">
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[dbo].[sp_get_DetailChart_2].[@TABLE]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_get_DetailChart_2].[@TABLE].[Portal]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[int]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_get_DetailChart_2].[@TABLE].[Email]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[int]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_get_DetailChart_2].[@TABLE].[Surat]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[int]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_get_DetailChart_2].[@TABLE].[Telepon]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[int]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_get_DetailChart_2].[@TABLE].[Fax]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[int]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_get_DetailChart_2].[@StartYear]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_get_DetailChart_2].[@EndYear]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_get_DetailChart_2].[@StartMonth]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_get_DetailChart_2].[@EndMonth]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="1670" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[sp_get_DetailChart_2]&#xD;&#xA;&#x9;@StartYear INT,&#xD;&#xA;&#x9;@EndYear INT,&#xD;&#xA;&#x9;@StartMonth INT,&#xD;&#xA;&#x9;@EndMonth INT&#xD;&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[sp_get_DetailChart_3]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+
+	--DECLARE @StartYear VARCHAR(4) = 2001,
+	--@EndYear  VARCHAR(4) = 2022,
+	--@StartMonth INT = 1,
+	--@EndMonth INT = 7,
+	--@Lang VARCHAR(2) = 'en';
+
+	DECLARE @Start VARCHAR(6) = (SELECT CONVERT(VARCHAR(4), @StartYear) + REPLICATE('0',2-LEN(RTRIM(@StartMonth))) + RTRIM(@StartMonth))
+	DECLARE @End VARCHAR(6) = (SELECT CONVERT(VARCHAR(4), @EndYear) + REPLICATE('0',2-LEN(RTRIM(@EndMonth))) + RTRIM(@EndMonth))	
+
+	DECLARE @TABLE AS TABLE (Kategori VARCHAR(200), Jumlah INT)
+
+	INSERT INTO @TABLE
+	SELECT	--YEAR(A.CreatedOn) [Tahun],
+			ISNULL(NULLIF(dbo.ProperCase(A.Jenis_Pelanggaran), ''), 'Unknown') [Jenis_Pelanggaran],			
+			COUNT(A.ID) [Jumlah]
+	FROM	tblT_Dumas A
+			LEFT JOIN tblT_CMS B ON B.Tipe = 'Jenis Pelanggaran' AND B.Lang = @Lang AND ISNULL(B.GridTitle, 'N#A') = A.Jenis_Pelanggaran
+	WHERE	A.Nomor IS NOT NULL
+			AND dbo.FormatDate_yyyyMM(A.CreatedOn) BETWEEN @Start AND @End
+	GROUP BY ISNULL(NULLIF(dbo.ProperCase(A.Jenis_Pelanggaran), ''), 'Unknown')
+
+	IF(@Lang = 'en')
+	BEGIN
+		UPDATE	A SET A.Kategori = (SELECT dbo.ProperCase(GridTitle) FROM tblT_CMS WHERE ID_IN = B.ID)
+		FROM	@TABLE A
+				JOIN tblT_CMS B ON A.Kategori = B.GridTitle AND B.Tipe = 'Jenis Pelanggaran' AND B.Lang = 'ID'
+	END
+
+	DECLARE @TABLE_Kategori AS TABLE (Kategori VARCHAR(200))
+	INSERT INTO @TABLE_Kategori SELECT DISTINCT dbo.ProperCase(GridTitle) FROM tblT_CMS WHERE TIpe = 'Jenis Pelanggaran' AND Lang = @Lang
+
+	
+	SELECT	A.Kategori, LTRIM(RTRIM(REPLACE(A.Kategori, ' ', ''))) [Kategori_EN], ISNULL(B.Jumlah, 0) [Jumlah]
+	FROM	@TABLE_Kategori A
+			LEFT JOIN @TABLE B ON A.Kategori = B.Kategori
+	
+	
+	
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varchar]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varchar]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_3].[@StartYear]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_3].[@StartMonth]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varchar]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varchar]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_3].[@EndYear]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_3].[@EndMonth]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[Tipe]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[Lang]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_3].[@Lang]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[GridTitle]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[Jenis_Pelanggaran]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProperCase]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[Nomor]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[FormatDate_yyyyMM]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[CreatedOn]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_3].[@TABLE].[Kategori]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[GridTitle]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[Tipe]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[Lang]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_3].[@TABLE].[Kategori]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[GridTitle]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProperCase]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[ID_IN]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[GridTitle]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[ProperCase]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[Tipe]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[Lang]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_3].[@TABLE_Kategori].[Kategori]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_3].[@TABLE].[Kategori]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_get_DetailChart_3].[@TABLE].[Jumlah]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="DynamicObjects">
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[dbo].[sp_get_DetailChart_3].[@TABLE]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_get_DetailChart_3].[@TABLE].[Kategori]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Property Name="Length" Value="200" />
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[varchar]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_get_DetailChart_3].[@TABLE].[Jumlah]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[int]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[dbo].[sp_get_DetailChart_3].[@TABLE_Kategori]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_get_DetailChart_3].[@TABLE_Kategori].[Kategori]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Property Name="Length" Value="200" />
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[varchar]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_get_DetailChart_3].[@StartYear]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_get_DetailChart_3].[@EndYear]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_get_DetailChart_3].[@StartMonth]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_get_DetailChart_3].[@EndMonth]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_get_DetailChart_3].[@Lang]">
+						<Property Name="DefaultExpressionScript">
+							<Value><![CDATA['ID']]></Value>
+						</Property>
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="2" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="CreateOffset" Value="204" />
+				<Property Name="Length" Value="1990" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_get_DetailChart_3]&#xD;&#xA;&#x9;@StartYear INT,&#xD;&#xA;&#x9;@EndYear INT,&#xD;&#xA;&#x9;@StartMonth INT,&#xD;&#xA;&#x9;@EndMonth INT,&#xD;&#xA;&#x9;@Lang VARCHAR(2) = 'ID'&#xD;&#xA;AS" />
+			</Annotation>
+		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[sp_Get_DetailPengaduanByID]">
 			<Property Name="BodyScript">
 				<Value><![CDATA[
@@ -10095,7 +10851,7 @@ BEGIN
 			
 			dbo.Format24DateTime(A.CreatedOn) [_CreatedOn],
 			dbo.Format24DateTime(A.WaktuKejadian) [_WaktuKejadian],
-			dbo.Format24DateTime_Control(A.WaktuKejadian) [s_WaktuKejadian],
+			dbo.FormatDate_yyyyMMdd(A.WaktuKejadian) [s_WaktuKejadian],
 			
 			
 			(SELECT TOP 1 FileEvidence FROM tblT_File_Evidence WHERE ID_Header = A.ID) [FileEvidence],
@@ -10228,7 +10984,7 @@ END]]></Value>
 					<References Name="[dbo].[Format24DateTime]" />
 				</Entry>
 				<Entry>
-					<References Name="[dbo].[Format24DateTime_Control]" />
+					<References Name="[dbo].[FormatDate_yyyyMMdd]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblT_File_Evidence]" />
@@ -10274,7 +11030,7 @@ END]]></Value>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
 				<Property Name="CreateOffset" Value="208" />
-				<Property Name="Length" Value="2265" />
+				<Property Name="Length" Value="2260" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Get_Dumas_by_ID]&#xD;&#xA;&#x9;@ID varchar(36)&#xD;&#xA;AS" />
@@ -13962,20 +14718,74 @@ END]]></Value>
 BEGIN
 	
 	SET NOCOUNT ON;
-	SELECT	Convert(varchar(36), A.ID) [ID],
-			A.Nomor, A.Status,
-			dbo.FormatDate_yyyyMMdd(A.CreatedOn) [Tanggal_Kirim],
-			DATEDIFF(DAY, A.CreatedOn, GETDATE()) [Overdue]
-	FROM	tblT_Dumas A
-	WHERE	A.Status IN ('Terkirim')
-			AND DATEDIFF(DAY, A.CreatedOn, GETDATE()) > 14
 
+	DECLARE @TABLE AS TABLE (ID VARCHAR(36), Nomor VARCHAR(200), Status VARCHAR(100), Tanggal_Kirim VARCHAR(50), Overdue INT)
 
+	IF((SELECT COUNT(*) FROM vw_userInRole WHERE Email = @Email AND Role IN ('Admin SPP')) > 0)
+	BEGIN
+		INSERT INTO @TABLE
+		SELECT	Convert(varchar(36), A.ID) [ID],
+				A.Nomor, A.Status,
+				dbo.FormatDate_yyyyMMdd(A.CreatedOn) [Tanggal_Kirim],
+				DATEDIFF(DAY, A.CreatedOn, GETDATE()) [Overdue]
+		FROM	tblT_Dumas A
+		WHERE	A.Status IN ('Terkirim')
+				AND DATEDIFF(DAY, A.CreatedOn, GETDATE()) > 14
+
+	END
+	ELSE IF((SELECT COUNT(*) FROM vw_userInRole WHERE Email = @Email AND Role IN ('Delegator')) > 0)
+	BEGIN
+		DECLARE @DelegatorID UNIQUEIDENTIFIER;
+
+		DECLARE db_cursor CURSOR FOR 
+		SELECT DelegatorID FROM  tblT_UserInDelegator WHERE UserID = (SELECT UserID FROM vw_userInRole WHERE Email = @Email AND Role IN ('Delegator'))
+
+		OPEN db_cursor  
+		FETCH NEXT FROM db_cursor INTO @DelegatorID  
+
+		WHILE @@FETCH_STATUS = 0  
+		BEGIN  
+			
+			INSERT INTO @TABLE  
+			SELECT	Convert(varchar(36), A.ID) [ID],
+					A.Nomor, A.Status,
+					dbo.FormatDate_yyyyMMdd(A.CreatedOn) [Tanggal_Kirim],
+					DATEDIFF(DAY, A.CreatedOn, GETDATE()) [Overdue]
+			FROM	tblT_Dumas A
+			WHERE	A.Status IN ('Diproses')
+					AND DATEDIFF(DAY, A.CreatedOn, GETDATE()) > 14
+					AND A.DelegatorID = @DelegatorID
+
+			FETCH NEXT FROM db_cursor INTO @DelegatorID 
+		END 
+
+		CLOSE db_cursor  
+		DEALLOCATE db_cursor 
+
+		
+	END
+	
+	SELECT * FROM @TABLE
 
 END]]></Value>
 			</Property>
 			<Property Name="IsAnsiNullsOn" Value="True" />
 			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[uniqueidentifier]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Get_Overdue_14].[@Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[Role]" />
+				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblT_Dumas]" />
 				</Entry>
@@ -13997,6 +14807,138 @@ END]]></Value>
 				<Entry>
 					<References Name="[dbo].[FormatDate_yyyyMMdd]" />
 				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_UserInDelegator]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_UserInDelegator].[DelegatorID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_UserInDelegator].[UserID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[UserID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[Role]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varchar]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[DelegatorID]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="DynamicObjects">
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[dbo].[sp_Get_Overdue_14].[@TABLE]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_Overdue_14].[@TABLE].[ID]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Property Name="Length" Value="36" />
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[varchar]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_Overdue_14].[@TABLE].[Nomor]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Property Name="Length" Value="200" />
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[varchar]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_Overdue_14].[@TABLE].[Status]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Property Name="Length" Value="100" />
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[varchar]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_Overdue_14].[@TABLE].[Tanggal_Kirim]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Property Name="Length" Value="50" />
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[varchar]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_Overdue_14].[@TABLE].[Overdue]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[int]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_Get_Overdue_14].[@Email]">
+						<Property Name="DefaultExpressionScript">
+							<Value><![CDATA['']]></Value>
+						</Property>
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="200" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
 			</Relationship>
 			<Relationship Name="Schema">
 				<Entry>
@@ -14005,10 +14947,10 @@ END]]></Value>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
 				<Property Name="CreateOffset" Value="214" />
-				<Property Name="Length" Value="578" />
+				<Property Name="Length" Value="1819" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
-				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Get_Overdue_14]&#xD;&#xA;AS" />
+				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Get_Overdue_14]&#xD;&#xA;&#x9;@Email VARCHAR(200) = ''&#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[sp_Get_Overdue_90]">
@@ -14017,13 +14959,57 @@ END]]></Value>
 BEGIN
 	
 	SET NOCOUNT ON;
-	SELECT	Convert(varchar(36), A.ID) [ID],
-			A.Nomor, A.Status,
-			dbo.FormatDate_yyyyMMdd(A.CreatedOn) [Tanggal_Kirim],
-			DATEDIFF(DAY, A.CreatedOn, GETDATE()) [Overdue]
-	FROM	tblT_Dumas A
-	WHERE	A.Status NOT IN ('Selesai', 'Ditolak Admin SPP')
-			AND DATEDIFF(DAY, A.CreatedOn, GETDATE()) > 90
+
+	DECLARE @TABLE AS TABLE (ID VARCHAR(36), Nomor VARCHAR(200), Status VARCHAR(100), DelegatorName VARCHAR(MAX), Tanggal_Kirim VARCHAR(50), Overdue INT)
+
+	IF((SELECT COUNT(*) FROM vw_userInRole WHERE Email = @Email AND Role IN ('Admin SPP')) > 0)
+	BEGIN
+		INSERT INTO @TABLE
+		SELECT	Convert(varchar(36), A.ID) [ID],
+				A.Nomor, A.Status,
+				ISNULL(B.Name, '') [DelegatorName],
+				dbo.FormatDate_yyyyMMdd(A.CreatedOn) [Tanggal_Kirim],
+				DATEDIFF(DAY, A.CreatedOn, GETDATE()) [Overdue]
+		FROM	tblT_Dumas A
+				LEFT JOIN tblM_Delegator B ON A.DelegatorID = B.ID
+		WHERE	A.Status NOT IN ('Selesai', 'Ditolak Admin SPP')
+				AND DATEDIFF(DAY, A.CreatedOn, GETDATE()) > 90
+	END
+	ELSE IF((SELECT COUNT(*) FROM vw_userInRole WHERE Email = @Email AND Role IN ('Delegator')) > 0)
+	BEGIN
+		DECLARE @DelegatorID UNIQUEIDENTIFIER;
+
+		DECLARE db_cursor CURSOR FOR 
+		SELECT DelegatorID FROM  tblT_UserInDelegator WHERE UserID = (SELECT UserID FROM vw_userInRole WHERE Email = @Email AND Role IN ('Delegator'))
+
+		OPEN db_cursor  
+		FETCH NEXT FROM db_cursor INTO @DelegatorID  
+
+		WHILE @@FETCH_STATUS = 0  
+		BEGIN  
+			
+			INSERT INTO @TABLE  
+			SELECT	Convert(varchar(36), A.ID) [ID],
+					A.Nomor, A.Status,
+					ISNULL(B.Name, '') [DelegatorName],
+					dbo.FormatDate_yyyyMMdd(A.CreatedOn) [Tanggal_Kirim],
+					DATEDIFF(DAY, A.CreatedOn, GETDATE()) [Overdue]
+			FROM	tblT_Dumas A
+					LEFT JOIN tblM_Delegator B ON A.DelegatorID = B.ID
+			WHERE	A.Status IN ('Diproses')
+					AND DATEDIFF(DAY, A.CreatedOn, GETDATE()) > 90
+					AND A.DelegatorID = @DelegatorID
+
+			FETCH NEXT FROM db_cursor INTO @DelegatorID 
+		END 
+
+		CLOSE db_cursor  
+		DEALLOCATE db_cursor 
+
+		
+	END
+	
+	SELECT * FROM @TABLE
 
 
 
@@ -14032,7 +15018,31 @@ END]]></Value>
 			<Property Name="IsAnsiNullsOn" Value="True" />
 			<Relationship Name="BodyDependencies">
 				<Entry>
+					<References ExternalSource="BuiltIns" Name="[uniqueidentifier]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Get_Overdue_90].[@Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[Role]" />
+				</Entry>
+				<Entry>
 					<References Name="[dbo].[tblT_Dumas]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_Delegator]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[DelegatorID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_Delegator].[ID]" />
 				</Entry>
 				<Entry>
 					<References ExternalSource="BuiltIns" Name="[varchar]" />
@@ -14047,10 +15057,158 @@ END]]></Value>
 					<References Name="[dbo].[tblT_Dumas].[Status]" />
 				</Entry>
 				<Entry>
+					<References Name="[dbo].[tblM_Delegator].[Name]" />
+				</Entry>
+				<Entry>
 					<References Name="[dbo].[tblT_Dumas].[CreatedOn]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[FormatDate_yyyyMMdd]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_UserInDelegator]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_UserInDelegator].[DelegatorID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_UserInDelegator].[UserID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[UserID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[Role]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varchar]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="DynamicObjects">
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[dbo].[sp_Get_Overdue_90].[@TABLE]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_Overdue_90].[@TABLE].[ID]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Property Name="Length" Value="36" />
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[varchar]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_Overdue_90].[@TABLE].[Nomor]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Property Name="Length" Value="200" />
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[varchar]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_Overdue_90].[@TABLE].[Status]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Property Name="Length" Value="100" />
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[varchar]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_Overdue_90].[@TABLE].[DelegatorName]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Property Name="IsMax" Value="True" />
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[varchar]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_Overdue_90].[@TABLE].[Tanggal_Kirim]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Property Name="Length" Value="50" />
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[varchar]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_Overdue_90].[@TABLE].[Overdue]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[int]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_Get_Overdue_90].[@Email]">
+						<Property Name="DefaultExpressionScript">
+							<Value><![CDATA['']]></Value>
+						</Property>
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="200" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
 				</Entry>
 			</Relationship>
 			<Relationship Name="Schema">
@@ -14060,10 +15218,10 @@ END]]></Value>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
 				<Property Name="CreateOffset" Value="214" />
-				<Property Name="Length" Value="602" />
+				<Property Name="Length" Value="2069" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
-				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Get_Overdue_90]&#xD;&#xA;AS" />
+				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Get_Overdue_90]&#xD;&#xA;&#x9;@Email VARCHAR(200) = ''&#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[sp_Get_Pengaduan_Status_by_Period]">
@@ -14081,11 +15239,12 @@ BEGIN
 	DECLARE @End VARCHAR(6) = (SELECT CONVERT(VARCHAR(4), @EndYear) + REPLICATE('0',2-LEN(RTRIM(@EndMonth))) + RTRIM(@EndMonth))
 	
 
-	DECLARE @TABLE AS TABLE (Total INT, Diproses INT, Selesai INT, Ditolak INT)
+	DECLARE @TABLE AS TABLE (Total INT, BelumDiproses INT, Diproses INT, Selesai INT, Ditolak INT)
 
-	INSERT INTO @TABLE VALUES (0,0,0,0)
+	INSERT INTO @TABLE VALUES (0,0,0,0,0)
 
 	UPDATE @TABLE SET Total = (SELECT COUNT(*) [Total] FROM tblT_Dumas WHERE Nomor IS NOT NULL AND dbo.FormatDate_yyyyMM(CreatedOn) BETWEEN @Start AND @End);
+	UPDATE @TABLE SET BelumDiproses = (SELECT COUNT(*) [BelumDiproses] FROM tblT_Dumas WHERE Nomor IS NOT NULL AND dbo.FormatDate_yyyyMM(CreatedOn) BETWEEN @Start AND @End  AND [Status] IN ('Terkirim'));
 	UPDATE @TABLE SET Diproses = (SELECT COUNT(*) [Diproses] FROM tblT_Dumas WHERE Nomor IS NOT NULL AND dbo.FormatDate_yyyyMM(CreatedOn) BETWEEN @Start AND @End  AND [Status] IN ('Diproses', 'Ditolak Delegator', 'Dihentikan', 'Ditindak lanjut'));
 	UPDATE @TABLE SET Selesai = (SELECT COUNT(*) [Selesai] FROM tblT_Dumas WHERE Nomor IS NOT NULL AND dbo.FormatDate_yyyyMM(CreatedOn) BETWEEN @Start AND @End  AND [Status] = 'Selesai') 
 	UPDATE @TABLE SET Ditolak = (SELECT COUNT(*) [Ditolak] FROM tblT_Dumas WHERE Nomor IS NOT NULL AND dbo.FormatDate_yyyyMM(CreatedOn) BETWEEN @Start AND @End  AND [Status] = 'Ditolak Admin SPP') 
@@ -14136,10 +15295,13 @@ END]]></Value>
 					<References Name="[dbo].[tblT_Dumas].[CreatedOn]" />
 				</Entry>
 				<Entry>
-					<References Name="[dbo].[sp_Get_Pengaduan_Status_by_Period].[@TABLE].[Diproses]" />
+					<References Name="[dbo].[sp_Get_Pengaduan_Status_by_Period].[@TABLE].[BelumDiproses]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblT_Dumas].[Status]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Get_Pengaduan_Status_by_Period].[@TABLE].[Diproses]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[sp_Get_Pengaduan_Status_by_Period].[@TABLE].[Selesai]" />
@@ -14154,6 +15316,21 @@ END]]></Value>
 						<Relationship Name="Columns">
 							<Entry>
 								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_Pengaduan_Status_by_Period].[@TABLE].[Total]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[int]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_Pengaduan_Status_by_Period].[@TABLE].[BelumDiproses]">
 									<Relationship Name="TypeSpecifier">
 										<Entry>
 											<Element Type="SqlTypeSpecifier">
@@ -14284,7 +15461,7 @@ END]]></Value>
 				</Entry>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
-				<Property Name="Length" Value="1463" />
+				<Property Name="Length" Value="1686" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="CREATE PROCEDURE [dbo].[sp_Get_Pengaduan_Status_by_Period]&#xD;&#xA;&#x9;@StartYear INT,&#xD;&#xA;&#x9;@EndYear INT,&#xD;&#xA;&#x9;@StartMonth INT,&#xD;&#xA;&#x9;@EndMonth INT&#xD;&#xA;AS" />
@@ -15578,15 +16755,26 @@ END]]></Value>
 BEGIN
 
 	SET NOCOUNT ON;
-	DECLARE @StartYear INT = (SELECT TOP 1 YEAR(CreatedOn) FROM tblT_Dumas ORDER BY CreatedOn ASC)
-	DECLARE @EndYear INT = (SELECT TOP 1 YEAR(CreatedOn) FROM tblT_Dumas ORDER BY CreatedOn DESC)
+	DECLARE @StartYear INT = (SELECT TOP 1 YEAR(CreatedOn) FROM tblT_Dumas WHERE Nomor IS NOT NULL ORDER BY CreatedOn ASC)
+	DECLARE @EndYear INT = (SELECT TOP 1 YEAR(CreatedOn) FROM tblT_Dumas WHERE Nomor IS NOT NULL ORDER BY CreatedOn DESC)
 
-	DECLARE @StartMonth INT = (SELECT TOP 1 Month(CreatedOn) FROM tblT_Dumas ORDER BY CreatedOn ASC)
-	DECLARE @EndMonth INT = (SELECT TOP 1 Month(CreatedOn) FROM tblT_Dumas ORDER BY CreatedOn DESC)
+	DECLARE @StartMonth INT = (SELECT TOP 1 Month(CreatedOn) FROM tblT_Dumas WHERE Nomor IS NOT NULL ORDER BY CreatedOn ASC)
+	DECLARE @EndMonth INT = (SELECT TOP 1 Month(CreatedOn) FROM tblT_Dumas WHERE Nomor IS NOT NULL ORDER BY CreatedOn DESC)
 
-	SELECT	DISTINCT YEAR(CreatedOn) [Year], @StartMonth [StartMonth], @EndMonth [EndMonth]
-	FROM	tblT_Dumas A		
-	WHERE	YEAR(CreatedOn) BETWEEN @StartYear AND @EndYear
+	IF(@StartYear IS NULL) BEGIN SET @StartYear = YEAR(GETDATE()) END
+	IF(@EndYear IS NULL) BEGIN SET @EndYear = YEAR(GETDATE()) END
+
+	IF(SELECT COUNT(*) FROM tblT_Dumas WHERE Nomor IS NOT NULL) > 0
+	BEGIN
+		SELECT	DISTINCT YEAR(CreatedOn) [Year], @StartMonth [StartMonth], @EndMonth [EndMonth]
+		FROM	tblT_Dumas A		
+		WHERE	YEAR(CreatedOn) BETWEEN @StartYear AND @EndYear
+	END
+
+	ELSE 
+	BEGIN
+		SELECT @StartYear [Year], MONTH(GETDATE()) [StartMonth], MONTH(GETDATE()) [EndMonth]
+	END
 
 END]]></Value>
 			</Property>
@@ -15600,6 +16788,9 @@ END]]></Value>
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblT_Dumas].[CreatedOn]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[Nomor]" />
 				</Entry>
 				<Entry>
 					<References ExternalSource="BuiltIns" Name="[int]" />
@@ -15624,7 +16815,7 @@ END]]></Value>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
 				<Property Name="CreateOffset" Value="210" />
-				<Property Name="Length" Value="852" />
+				<Property Name="Length" Value="1277" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Get_Year_Dumas]&#x9;&#xD;&#xA;AS" />
@@ -15855,6 +17046,303 @@ END]]></Value>
 				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_GetRoleByUserID]&#xD;&#xA;&#x9;@UserID VARCHAR(36)&#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[sp_GrantedFile]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+	
+	SET NOCOUNT ON;
+
+	DECLARE @TABLE AS TABLE (Filename VARCHAR(MAX))
+	INSERT INTO @TABLE
+	SELECT Img FROM tblM_User WHERE Img = @Filename AND Email = @Email
+
+	IF((SELECT COUNT(*) FROM vw_userInRole WHERE Email = @Email AND Role IN ('Admin SPP')) > 0)
+	BEGIN
+		
+		INSERT INTO @TABLE  
+		SELECT A.FileEvidence FROM tblT_File_Evidence A JOIN tblT_Dumas B ON A.ID_Header = B.ID WHERE A.FileEvidence = @Filename
+
+		INSERT INTO @TABLE  
+		SELECT A.FileIdentitas FROM tblT_Dumas_Detail A JOIN tblT_Dumas B ON A.ID_Header = B.ID WHERE A.FileIdentitas = @Filename
+
+		INSERT INTO @TABLE  
+		SELECT A.FileLampiran FROM tblT_Tanggapan A JOIN tblT_Dumas B ON A.IDPengaduan = B.ID WHERE A.FileLampiran = @Filename
+
+		INSERT INTO @TABLE  
+		SELECT Keterangan_Penyaluran_Filename FROM tblT_Dumas WHERE Keterangan_Penyaluran_Filename = @Filename
+
+		INSERT INTO @TABLE  
+		SELECT Keterangan_Konfirmasi_Filename FROM tblT_Dumas WHERE Keterangan_Konfirmasi_Filename = @Filename
+
+		INSERT INTO @TABLE  
+		SELECT Keterangan_Pemeriksaan_Filename FROM tblT_Dumas WHERE Keterangan_Pemeriksaan_Filename = @Filename 
+
+		INSERT INTO @TABLE  
+		SELECT Keterangan_Respon_Filename FROM tblT_Dumas WHERE Keterangan_Respon_Filename = @Filename 
+
+	END
+	ELSE IF((SELECT COUNT(*) FROM vw_userInRole WHERE Email = @Email AND Role IN ('Delegator')) > 0)
+	BEGIN
+		
+		DECLARE @DelegatorID UNIQUEIDENTIFIER;
+		DECLARE db_cursor CURSOR FOR 
+		SELECT DelegatorID FROM  tblT_UserInDelegator WHERE UserID = (SELECT UserID FROM vw_userInRole WHERE Email = @Email AND Role IN ('Delegator'))
+
+		OPEN db_cursor  
+		FETCH NEXT FROM db_cursor INTO @DelegatorID  
+
+		WHILE @@FETCH_STATUS = 0  
+		BEGIN  
+			
+			INSERT INTO @TABLE  
+			SELECT A.FileEvidence FROM tblT_File_Evidence A JOIN tblT_Dumas B ON A.ID_Header = B.ID WHERE A.FileEvidence = @Filename AND B.DelegatorID = @DelegatorID
+
+			INSERT INTO @TABLE  
+			SELECT A.FileIdentitas FROM tblT_Dumas_Detail A JOIN tblT_Dumas B ON A.ID_Header = B.ID WHERE A.FileIdentitas = @Filename AND B.DelegatorID = @DelegatorID
+
+			INSERT INTO @TABLE  
+			SELECT A.FileLampiran FROM tblT_Tanggapan A JOIN tblT_Dumas B ON A.IDPengaduan = B.ID WHERE A.FileLampiran = @Filename AND B.DelegatorID = @DelegatorID
+
+			INSERT INTO @TABLE  
+			SELECT Keterangan_Penyaluran_Filename FROM tblT_Dumas WHERE Keterangan_Penyaluran_Filename = @Filename AND DelegatorID = @DelegatorID
+
+			INSERT INTO @TABLE  
+			SELECT Keterangan_Konfirmasi_Filename FROM tblT_Dumas WHERE Keterangan_Konfirmasi_Filename = @Filename AND DelegatorID = @DelegatorID
+
+			INSERT INTO @TABLE  
+			SELECT Keterangan_Pemeriksaan_Filename FROM tblT_Dumas WHERE Keterangan_Pemeriksaan_Filename = @Filename AND DelegatorID = @DelegatorID
+
+			INSERT INTO @TABLE  
+			SELECT Keterangan_Respon_Filename FROM tblT_Dumas WHERE Keterangan_Respon_Filename = @Filename AND DelegatorID = @DelegatorID
+
+			FETCH NEXT FROM db_cursor INTO @DelegatorID 
+		END 
+
+		CLOSE db_cursor  
+		DEALLOCATE db_cursor 
+
+	END
+	IF((SELECT COUNT(*) FROM vw_userInRole WHERE Email = @Email AND Role IN ('System Administrator')) > 0)
+	BEGIN
+		
+		INSERT INTO @TABLE  
+		SELECT Filename FROM tblT_Banner WHERE Filename = @Filename
+
+		INSERT INTO @TABLE  
+		SELECT Filename FROM tblT_CMS WHERE Filename = @Filename
+
+		INSERT INTO @TABLE  
+		SELECT Filename1 FROM tblT_CMS WHERE Filename1 = @Filename
+
+	END
+	
+	IF(SELECT COUNT(*) FROM vw_UserInRole WHERE Email = @Email) = 0
+	BEGIN
+		DELETE FROM @TABLE
+	END
+
+	SELECT COUNT(*) [Count] FROM @TABLE
+
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[uniqueidentifier]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_User]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_User].[Img]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_GrantedFile].[@Filename]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_User].[Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_GrantedFile].[@Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[Role]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_File_Evidence]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_File_Evidence].[ID_Header]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_File_Evidence].[FileEvidence]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas_Detail]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas_Detail].[ID_Header]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas_Detail].[FileIdentitas]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Tanggapan]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Tanggapan].[IDPengaduan]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Tanggapan].[FileLampiran]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[Keterangan_Penyaluran_Filename]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[Keterangan_Konfirmasi_Filename]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[Keterangan_Pemeriksaan_Filename]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[Keterangan_Respon_Filename]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_UserInDelegator]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_UserInDelegator].[DelegatorID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_UserInDelegator].[UserID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[UserID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[vw_UserInRole].[Role]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[DelegatorID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[DelegatorID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[DelegatorID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[DelegatorID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Banner]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Banner].[Filename]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[Filename]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_CMS].[Filename1]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="DynamicObjects">
+				<Entry>
+					<Element Type="SqlDynamicColumnSource" Name="[dbo].[sp_GrantedFile].[@TABLE]">
+						<Relationship Name="Columns">
+							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_GrantedFile].[@TABLE].[Filename]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Property Name="IsMax" Value="True" />
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[varchar]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_GrantedFile].[@Filename]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="IsMax" Value="True" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_GrantedFile].[@Email]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="200" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="CreateOffset" Value="216" />
+				<Property Name="Length" Value="3874" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_GrantedFile]&#xD;&#xA;&#x9;@Filename VARCHAR(MAX),&#xD;&#xA;&#x9;@Email VARCHAR(200)&#xD;&#xA;AS" />
+			</Annotation>
+		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[sp_Kirim_Dumas]">
 			<Property Name="BodyScript">
 				<Value><![CDATA[
@@ -15866,6 +17354,7 @@ BEGIN
 		   ,[Email] = NULLIF(@Email, '')
 		   ,[Handphone] = @Handphone		
            ,[TempatKejadian] = @TempatKejadian
+           ,[Jenis_Pelanggaran] = @Jenis_Pelanggaran
            ,[WaktuKejadian] = @WaktuKejadian
            ,[Kronologi] = @Kronologi		
            ,[Status] = @Status		
@@ -15910,6 +17399,12 @@ END]]></Value>
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[sp_Kirim_Dumas].[@TempatKejadian]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_Dumas].[Jenis_Pelanggaran]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Kirim_Dumas].[@Jenis_Pelanggaran]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblT_Dumas].[WaktuKejadian]" />
@@ -16045,6 +17540,22 @@ END]]></Value>
 					</Element>
 				</Entry>
 				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_Kirim_Dumas].[@Jenis_Pelanggaran]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="IsMax" Value="True" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[varchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
 					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_Kirim_Dumas].[@WaktuKejadian]">
 						<Relationship Name="Type">
 							<Entry>
@@ -16115,10 +17626,10 @@ END]]></Value>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
 				<Property Name="CreateOffset" Value="200" />
-				<Property Name="Length" Value="999" />
+				<Property Name="Length" Value="1091" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
-				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Kirim_Dumas]&#xD;&#xA;&#x9;@ID uniqueidentifier,&#xD;&#xA;&#x9;@Sumber varchar(200),&#xD;&#xA;    @Nomor varchar(200),&#xD;&#xA;    @Email varchar(200),&#xD;&#xA;    @Handphone varchar(255) = '',&#xD;&#xA;    @TempatKejadian varchar(max),&#xD;&#xA;    @WaktuKejadian datetime,&#xD;&#xA;    @Kronologi varchar(max),&#xD;&#xA;    @Status varchar(50),&#xD;&#xA;    @CreatedBy varchar(200)&#xD;&#xA;AS" />
+				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Kirim_Dumas]&#xD;&#xA;&#x9;@ID uniqueidentifier,&#xD;&#xA;&#x9;@Sumber varchar(200),&#xD;&#xA;    @Nomor varchar(200),&#xD;&#xA;    @Email varchar(200),&#xD;&#xA;    @Handphone varchar(255) = '',&#xD;&#xA;    @TempatKejadian varchar(max),&#xD;&#xA;    @Jenis_Pelanggaran varchar(max),&#xD;&#xA;    @WaktuKejadian datetime,&#xD;&#xA;    @Kronologi varchar(max),&#xD;&#xA;    @Status varchar(50),&#xD;&#xA;    @CreatedBy varchar(200)&#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[sp_Kirim_Tanggapan_Admin_SPP]">
@@ -17157,6 +18668,12 @@ BEGIN
 				,@CreatedBy
 		 )
 
+	IF(SELECT COUNT(*) FROM tblM_User WHERE UserID <> @UserID AND Email = @Email AND ISNULL(isActive, 0) = 0) > 0
+	BEGIN
+		DELETE FROM tblT_New_User_Verification WHERE UserID IN (SELECT UserID FROM tblM_User WHERE UserID <> @UserID AND Email = @Email AND ISNULL(isActive, 0) = 0)
+		DELETE FROM tblM_User WHERE UserID <> @UserID AND Email = @Email AND ISNULL(isActive, 0) = 0
+	END
+
 	EXEC sp_RecordAuditTrail @CreatedBy, 'SPP Website', 'Register', NULL, 'INSERT', @Email
 	
 	UPDATE tblT_New_User_Verification SET Status = 'Not Valid' WHERE Email = @Email AND UserID <> @UserID 
@@ -17215,19 +18732,40 @@ END]]></Value>
 					<References Name="[dbo].[sp_Register_User].[@CreatedBy]" />
 				</Entry>
 				<Entry>
-					<References Name="[dbo].[sp_RecordAuditTrail]" />
+					<References Name="[dbo].[tblM_User]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_User].[UserID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_User].[Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_User].[isActive]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblT_New_User_Verification]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_New_User_Verification].[UserID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_User].[UserID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_User].[Email]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_User].[isActive]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_RecordAuditTrail]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblT_New_User_Verification].[Status]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblT_New_User_Verification].[Email]" />
-				</Entry>
-				<Entry>
-					<References Name="[dbo].[tblT_New_User_Verification].[UserID]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblT_New_User_Verification].[ID]" />
@@ -17387,7 +18925,7 @@ END]]></Value>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
 				<Property Name="CreateOffset" Value="200" />
-				<Property Name="Length" Value="1413" />
+				<Property Name="Length" Value="1797" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Register_User]&#xD;&#xA;&#x9;-- Add the parameters for the stored procedure here&#xD;&#xA;&#x9;@UserID varchar(36),&#xD;&#xA;&#x9;@New_User_Verification_ID varchar(36),&#xD;&#xA;&#x9;@Fullname varchar(200) = '',&#xD;&#xA;&#x9;@Email varchar(100) = '',&#xD;&#xA;&#x9;@Mobile varchar(50) = '',&#xD;&#xA;&#x9;@PasswordHash varchar(max) = '',&#xD;&#xA;&#x9;@isActive int,&#xD;&#xA;&#x9;@CreatedBy varchar(50)&#xD;&#xA;AS" />
@@ -20550,7 +22088,11 @@ BEGIN
 	END
 	
 	ELSE IF(@Action = 'hapus')
-	BEGIN		
+	BEGIN	
+	declare @countgroup  UNIQUEIDENTIFIER = (select top 1 DelegatorID from tblT_UserInDelegator where CONVERT(VARCHAR(36), id) = @ID)
+	declare @countuser int = (select count (DISTINCT UserID) from tblT_UserInDelegator where DelegatorID = @countgroup group by delegatorID having COUNT(*) > 1)
+	if @countuser > 1 
+	begin
 		DECLARE @OldUserID UNIQUEIDENTIFIER = (SELECT TOP 1 UserID FROM tblT_UserInDelegator WHERE ID = @ID)
 
 		IF(SELECT COUNT(*) FROM tblT_UserInDelegator WHERE UserID = @OldUserID) = 1
@@ -20560,6 +22102,7 @@ BEGIN
 		DELETE FROM tblT_UserInDelegator WHERE ID = @ID;
 
 		EXEC sp_RecordAuditTrail @CreatedBy, 'Admin SPP', 'Member Delegator', @Audit, 'DELETE', @Email_Audit
+	END
 	END
 	
 END]]></Value>
@@ -20603,13 +22146,25 @@ END]]></Value>
 					<References Name="[dbo].[tblT_UserInDelegator]" />
 				</Entry>
 				<Entry>
-					<References Name="[dbo].[tblT_UserInDelegator].[UserID]" />
+					<References Name="[dbo].[tblT_UserInDelegator].[DelegatorID]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varchar]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblT_UserInDelegator].[ID]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[sp_Save_MemberDelegator].[@ID]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[int]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblT_UserInDelegator].[UserID]" />
+				</Entry>
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[uniqueidentifier]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[sp_Save_MemberDelegator].[@Action]" />
@@ -20767,7 +22322,7 @@ END]]></Value>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
 				<Property Name="CreateOffset" Value="208" />
-				<Property Name="Length" Value="1928" />
+				<Property Name="Length" Value="2253" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,UserID&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- DelegatorID:&#x9;&lt;DelegatorID,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Save_MemberDelegator]&#xD;&#xA;&#x9;-- Add the parameters for the stored procedure here&#xD;&#xA;&#x9; @Action nvarchar(10),&#xD;&#xA;&#x9; @ID varchar(36),&#xD;&#xA;     @UserID varchar(36) = '',&#xD;&#xA;     @DelegatorID varchar(36) = '',&#xD;&#xA;&#x9; @CreatedBy nvarchar(200) = ''&#xD;&#xA;&#x9; &#xD;&#xA;AS" />
@@ -21419,6 +22974,224 @@ END]]></Value>
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Save_Role]&#xD;&#xA;&#x9;-- Add the parameters for the stored procedure here&#xD;&#xA;&#x9; @Action nvarchar(10),&#xD;&#xA;&#x9; @ID varchar(36),&#xD;&#xA;     @Name nvarchar(100) = '',&#xD;&#xA;     @Description nvarchar(max) = '',&#xD;&#xA;     @Status int = 1,&#xD;&#xA;&#x9; @CreatedBy nvarchar(200) = ''&#xD;&#xA;&#x9; &#xD;&#xA;AS" />
+			</Annotation>
+		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[sp_Save_tblM_Referensi]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	IF(@Action = 'add')
+	BEGIN
+		INSERT INTO tblM_Referensi
+			   (
+				[ID]
+			   ,[Type]
+			   ,[Value]
+			   ,[Description]
+			   ,[Created_By])
+		 VALUES
+		 (
+				@ID,
+			    @Type,
+				@Value,
+				@Description,
+				@CreatedBy
+		 )
+
+		 EXEC sp_RecordAuditTrail @CreatedBy, 'Sys Administrator > Setting', 'File Upload', NULL, 'INSERT', @Type
+	END
+	ELSE IF(@Action = 'edit')
+	BEGIN
+		UPDATE  tblM_Referensi
+		SET		Value = @Value,
+				Updated_On = GETDATE(),
+				Updated_By = @CreatedBy
+				
+		WHERE	Type = @Type;
+
+		EXEC sp_RecordAuditTrail @CreatedBy, 'Sys Administrator > Setting', 'File Upload', NULL, 'UPDATE', @Type
+	END
+	ELSE IF(@Action = 'hapus')
+	BEGIN
+		DECLARE @Audit VARCHAR(MAX) = (SELECT Type FROM tblM_Referensi WHERE ID = @ID)
+		DELETE FROM tblM_Referensi WHERE ID = @ID;
+		EXEC sp_RecordAuditTrail @CreatedBy, 'Sys Administrator > Setting', 'File Upload', NULL, 'DELETE', @Audit
+	END
+	
+END]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[varchar]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_Referensi]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_Referensi].[Type]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_Referensi].[ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Save_tblM_Referensi].[@ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Save_tblM_Referensi].[@Action]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_Referensi]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_Referensi].[ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_Referensi].[Type]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_Referensi].[Value]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_Referensi].[Description]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_Referensi].[Created_By]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Save_tblM_Referensi].[@Type]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Save_tblM_Referensi].[@Value]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Save_tblM_Referensi].[@Description]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Save_tblM_Referensi].[@CreatedBy]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_RecordAuditTrail]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_Referensi].[Updated_On]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_Referensi].[Updated_By]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_Save_tblM_Referensi].[@Action]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="10" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_Save_tblM_Referensi].[@ID]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_Save_tblM_Referensi].[@Type]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="IsMax" Value="True" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_Save_tblM_Referensi].[@Value]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="IsMax" Value="True" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_Save_tblM_Referensi].[@Description]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="IsMax" Value="True" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_Save_tblM_Referensi].[@CreatedBy]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="200" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="CreateOffset" Value="204" />
+				<Property Name="Length" Value="1533" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Type&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Save_tblM_Referensi]&#xD;&#xA;&#x9;-- Add the parameters for the stored procedure here&#xD;&#xA;&#x9; @Action nvarchar(10),&#xD;&#xA;&#x9; @ID INT,&#xD;&#xA;     @Type nvarchar(MAX),&#xD;&#xA;&#x9; @Value nvarchar(MAX),&#xD;&#xA;&#x9; @Description nvarchar(MAX),&#xD;&#xA;&#x9; @CreatedBy nvarchar(200)&#xD;&#xA;&#x9; &#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[sp_Save_TindakLanjut]">
@@ -25654,7 +27427,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="48" />
+						<AttachedAnnotation Disambiguator="62" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -26054,7 +27827,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="49" />
+						<AttachedAnnotation Disambiguator="63" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -26086,7 +27859,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="50" />
+						<AttachedAnnotation Disambiguator="64" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -26111,7 +27884,7 @@ END]]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="95" />
+			<AttachedAnnotation Disambiguator="98" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[tblT_Dumas]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -27116,7 +28889,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="76" />
+						<AttachedAnnotation Disambiguator="65" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -27404,7 +29177,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="77" />
+						<AttachedAnnotation Disambiguator="66" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -27436,7 +29209,7 @@ END]]></Value>
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="78" />
+						<AttachedAnnotation Disambiguator="67" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -27461,7 +29234,7 @@ END]]></Value>
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="102" />
+			<AttachedAnnotation Disambiguator="99" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[tblT_File_Evidence]">
 			<Property Name="IsAnsiNullsOn" Value="True" />

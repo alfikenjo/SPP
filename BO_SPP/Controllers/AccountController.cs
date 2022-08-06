@@ -15,6 +15,7 @@ using System.IO;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace BO_SPP.Controllers
 {
@@ -145,7 +146,7 @@ namespace BO_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveRole(tblM_Role Model)
+        public IActionResult SaveRole(tblM_Role Model)
         {
             try
             {
@@ -312,7 +313,8 @@ namespace BO_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveUser(tblM_User Model)
+        [DisableRequestSizeLimit]
+        public IActionResult SaveUser([FromForm] tblM_User Model)
         {
             try
             {
@@ -361,10 +363,6 @@ namespace BO_SPP.Controllers
                 #region Foto
                 if (Model.Foto != null)
                 {
-                    string OriginalFilename = Model.Foto.FileName.ToLower();
-                    if (OriginalFilename.ToLower().Contains("php") || OriginalFilename.ToLower().Contains("aspx") || OriginalFilename.ToLower().Contains("exe") || OriginalFilename.ToLower().Contains("dll") || OriginalFilename.ToLower().Contains("js") || OriginalFilename.ToLower().Contains("css") || OriginalFilename.ToLower().Contains("html"))
-                        throw new Exception("Failed, Permission denied while uploading the file or attachment");
-
                     List<IFormFile> files = new List<IFormFile>();
                     files.Add(Model.Foto);
                     foreach (IFormFile file in files)
@@ -379,7 +377,7 @@ namespace BO_SPP.Controllers
                                 var filePath = Path.GetTempFileName();
                                 using (var stream = System.IO.File.Create(filePath))
                                 {
-                                    file.CopyToAsync(stream);
+                                    file.CopyTo(stream);
 
                                     string upload = Helper.UploadFTP(stream, FotoFilename, FotoFileExtension);
                                     if (upload != "success")
@@ -447,7 +445,7 @@ namespace BO_SPP.Controllers
         }
 
         [HttpGet]
-        public ActionResult Download(string isActive, string Roles)
+        public IActionResult Download(string isActive, string Roles)
         {
             try
             {
@@ -544,7 +542,8 @@ namespace BO_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateMyProfile(tblM_User Model)
+        [DisableRequestSizeLimit]
+        public IActionResult UpdateMyProfile([FromForm] tblM_User Model)
         {
             try
             {
@@ -562,10 +561,6 @@ namespace BO_SPP.Controllers
                 #region Foto
                 if (Model.Foto != null)
                 {
-                    string OriginalFilename = Model.Foto.FileName.ToLower();
-                    if (OriginalFilename.ToLower().Contains("php") || OriginalFilename.ToLower().Contains("aspx") || OriginalFilename.ToLower().Contains("exe") || OriginalFilename.ToLower().Contains("dll") || OriginalFilename.ToLower().Contains("js") || OriginalFilename.ToLower().Contains("css") || OriginalFilename.ToLower().Contains("html"))
-                        throw new Exception("Failed, Permission denied while uploading the file or attachment");
-
                     List<IFormFile> files = new List<IFormFile>();
                     files.Add(Model.Foto);
                     foreach (IFormFile file in files)
@@ -580,7 +575,7 @@ namespace BO_SPP.Controllers
                                 var filePath = Path.GetTempFileName();
                                 using (var stream = System.IO.File.Create(filePath))
                                 {
-                                    file.CopyToAsync(stream);
+                                    file.CopyTo(stream);
 
                                     string upload = Helper.UploadFTP(stream, FotoFilename, FotoFileExtension);
                                     if (upload != "success")
@@ -637,7 +632,7 @@ namespace BO_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteFotoProfil(tblM_User Model)
+        public IActionResult DeleteFotoProfil(tblM_User Model)
         {
             try
             {
@@ -666,7 +661,7 @@ namespace BO_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateEmail(tblM_User Model)
+        public IActionResult UpdateEmail(tblM_User Model)
         {
             try
             {
@@ -727,7 +722,7 @@ namespace BO_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangePassword(tblM_User Model)
+        public IActionResult ChangePassword(tblM_User Model)
         {
             try
             {
@@ -779,7 +774,7 @@ namespace BO_SPP.Controllers
         #region UserManagement
 
         [HttpPost]
-        public ActionResult FillCaptcha()
+        public IActionResult FillCaptcha()
         {
             try
             {
@@ -974,7 +969,7 @@ namespace BO_SPP.Controllers
         }
 
         [HttpGet]
-        public ActionResult DownloadPDF(string isActive, string Roles)
+        public IActionResult DownloadPDF(string isActive, string Roles)
         {
             try
             {
@@ -1253,7 +1248,7 @@ namespace BO_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult InviteMemberDelegator(tblM_User Model)
+        public IActionResult InviteMemberDelegator(tblM_User Model)
         {
             try
             {
@@ -1359,6 +1354,7 @@ namespace BO_SPP.Controllers
                 return Json(new { Error = true, Message = ex.Message });
             }
         }
+
     }
 
 

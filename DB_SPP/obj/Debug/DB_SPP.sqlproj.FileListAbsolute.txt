@@ -13,3 +13,13 @@ D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\SC\DB_SPP\obj\Debug\postdepl
 D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\SC\DB_SPP\obj\Debug\predeploy.sql
 D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\SC\DB_SPP\obj\Debug\DB_SPP.dll
 D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\SC\DB_SPP\obj\Debug\DB_SPP.pdb
+D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\Workspace\SPP\DB_SPP\bin\Debug\DB_SPP.dacpac
+D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\Workspace\SPP\DB_SPP\bin\Debug\DB_SPP.dll
+D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\Workspace\SPP\DB_SPP\bin\Debug\DB_SPP.pdb
+D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\Workspace\SPP\DB_SPP\obj\Debug\DB_SPP.sqlprojAssemblyReference.cache
+D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\Workspace\SPP\DB_SPP\obj\Debug\Model.xml
+D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\Workspace\SPP\DB_SPP\obj\Debug\refactor.xml
+D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\Workspace\SPP\DB_SPP\obj\Debug\postdeploy.sql
+D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\Workspace\SPP\DB_SPP\obj\Debug\predeploy.sql
+D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\Workspace\SPP\DB_SPP\obj\Debug\DB_SPP.dll
+D:\Clean Folder\Projects\ASIA SISTEM\SMI\WBS\GitHub\Workspace\SPP\DB_SPP\obj\Debug\DB_SPP.pdb

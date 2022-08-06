@@ -96,9 +96,14 @@ namespace Frontend_SPP.Common
                 if (Ekstension.Length > 0)
                     Ekstension = Ekstension.Trim().ToLower().Replace(".", "");
 
+                long MaxUploadSize = 1;
+                DataTable dtFileUpload = mssql.GetDataTable("SELECT TOP 1 * FROM tblM_Referensi WHERE Type = 'Max Upload Size'");
+                if (dtFileUpload.Rows.Count == 1)
+                    MaxUploadSize = int.Parse(dtFileUpload.Rows[0]["Value"].ToString());
+
                 long size = stream.Length / 1024;
-                if (size > 20000)
-                    throw new Exception("Declined, file upload cannot exceed 20 MB");
+                if (size > (MaxUploadSize * 1000))
+                    throw new Exception("Declined, file upload cannot exceed " + MaxUploadSize + " MB");
 
                 bool ValidEkstension = false;
                 DataTable dt_FileEkstensionFilter = mssql.GetDataTable("SELECT Name FROM FileEkstensionFilter ORDER BY Name");
@@ -119,7 +124,6 @@ namespace Frontend_SPP.Common
 
                 using (var ftp = new FtpClient(ftpAddress, ftpUsername, ftpPassword))
                 {
-                    ftp.UploadDataType = FtpDataType.ASCII;
                     ftp.Connect();
                     ftp.Upload(stream, FolderPath + Filename, FtpRemoteExists.Overwrite, true);
                     result = "success";
@@ -460,8 +464,6 @@ namespace Frontend_SPP.Common
             DataRow drIsUserActive = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblM_User WHERE Email = '" + Email + "' AND IsActive = 1");
             return int.Parse(drIsUserActive["Count"].ToString()) > 0;
         }
-
-        
 
     }
 }

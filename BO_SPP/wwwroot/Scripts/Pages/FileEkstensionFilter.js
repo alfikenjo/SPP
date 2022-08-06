@@ -199,3 +199,47 @@ $('#FormInput').validate({
         })
     }
 });
+
+$('#FormMaxUpload').validate({
+    rules: {
+        maxUpload: { required: true, AntiXSS: true, AntiHTML: true },
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+    },
+    submitHandler: function () {
+        var DataForm = new FormData();
+        DataForm.append('Action', 'edit');
+        DataForm.append('ID', $('#IDMaxUpload').val());
+        DataForm.append('Type', 'Max Upload Size');
+        DataForm.append('Value', $('#maxUpload').val());
+
+        $.ajax({
+            url: VP + 'Setting/SaveReferensi',
+            data: DataForm,
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            success: function (Result) {
+                if (Result.Error == false) {
+                    CloseForm();
+                    RefreshTable();
+                    CustomNotif('success|Saved|Perubahan berhasil disimpan');
+                } else {
+                    CustomNotif("error|Oops|" + Result.Message + "");
+                }
+            },
+            error: function (xhr, status, error) {
+                CustomNotif("error|Oops|" + error + "");
+            }
+        })
+    }
+});
