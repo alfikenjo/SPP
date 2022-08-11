@@ -7129,6 +7129,7 @@ BEGIN
 			dbo.Format_StringNumber(A.Mobile) [Mobile], 
 			A.Email,		
 			A.Img,
+			A.Ekstension,
 			ISNULL((SELECT DISTINCT B.Name + '; ' AS 'data()' FROM tblT_UserInDelegator X JOIN tblM_Delegator B ON X.DelegatorID = B.ID WHERE A.UserID = X.UserID FOR XML PATH('')), '') [Delegators],
 			(SELECT Name FROM tblM_Delegator WHERE ID = @DelegatorID) [DelegatorName],
 			CASE WHEN A.isActive = 1 THEN 'Aktif' ELSE 'Non-Aktif' END [Status]
@@ -7169,6 +7170,9 @@ END]]></Value>
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblM_User].[Img]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_User].[Ekstension]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblT_UserInDelegator]" />
@@ -7467,7 +7471,7 @@ END]]></Value>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
 				<Property Name="CreateOffset" Value="204" />
-				<Property Name="Length" Value="1483" />
+				<Property Name="Length" Value="1501" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Get_CalonMemberDelegator]&#xD;&#xA;&#x9;@DelegatorID VARCHAR(36) = ''&#xD;&#xA;AS" />
@@ -13422,10 +13426,12 @@ BEGIN
 			dbo.Format24DateTime(B.CreatedOn) [s_UpdatedOn],
 			B.CreatedBy,
 			A.Img,
-			(SELECT Name FROM tblM_Delegator WHERE ID = @DelegatorID) [DelegatorName]
+			A.Ekstension,
+			(SELECT Name FROM tblM_Delegator WHERE ID = @DelegatorID) [DelegatorName],
+			CASE WHEN A.isActive = 1 THEN 'Aktif' ELSE 'Non-Aktif' END [Status]
 			--(SELECT DISTINCT B.Name + '; ' AS 'data()' FROM tblT_UserInDelegator X LEFT JOIN tblM_Delegator B ON X.DelegatorID = B.ID WHERE A.UserID = X.UserID FOR XML PATH('')) [Delegators]
 	FROM	tblM_User A
-			JOIN tblT_UserInDelegator B ON A.UserID = B.UserID AND B.DelegatorID = @DelegatorID							
+			JOIN tblT_UserInDelegator B ON A.UserID = B.UserID AND B.DelegatorID = @DelegatorID AND A.IsDeleted = 0
 	
 	
 	
@@ -13451,6 +13457,9 @@ END]]></Value>
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[sp_Get_MemberDelegator].[@DelegatorID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_User].[IsDeleted]" />
 				</Entry>
 				<Entry>
 					<References ExternalSource="BuiltIns" Name="[varchar]" />
@@ -13486,6 +13495,9 @@ END]]></Value>
 					<References Name="[dbo].[tblM_User].[Img]" />
 				</Entry>
 				<Entry>
+					<References Name="[dbo].[tblM_User].[Ekstension]" />
+				</Entry>
+				<Entry>
 					<References Name="[dbo].[tblM_Delegator]" />
 				</Entry>
 				<Entry>
@@ -13493,6 +13505,9 @@ END]]></Value>
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblM_Delegator].[ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_User].[isActive]" />
 				</Entry>
 			</Relationship>
 			<Relationship Name="DynamicObjects">
@@ -13737,7 +13752,7 @@ END]]></Value>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
 				<Property Name="CreateOffset" Value="204" />
-				<Property Name="Length" Value="1344" />
+				<Property Name="Length" Value="1448" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Get_MemberDelegator]&#xD;&#xA;&#x9;@DelegatorID VARCHAR(36) = ''&#xD;&#xA;AS" />
@@ -16088,7 +16103,7 @@ BEGIN
 	
 	SET NOCOUNT ON;
 	
-	DECLARE @TABLE AS TABLE (UserID VARCHAR(36), Fullname VARCHAR(MAX), Mobile VARCHAR(MAX), Email VARCHAR(MAX), NIP VARCHAR(MAX), Jabatan VARCHAR(MAX), Divisi VARCHAR(MAX), isActive INT, Roles VARCHAR(MAX), s_UpdatedOn VARCHAR(MAX), UpdatedBy VARCHAR(MAX), Status VARCHAR(MAX), Img VARCHAR(MAX), Delegators VARCHAR(MAX));
+	DECLARE @TABLE AS TABLE (UserID VARCHAR(36), Fullname VARCHAR(MAX), Mobile VARCHAR(MAX), Email VARCHAR(MAX), NIP VARCHAR(MAX), Jabatan VARCHAR(MAX), Divisi VARCHAR(MAX), isActive INT, Roles VARCHAR(MAX), s_UpdatedOn VARCHAR(MAX), UpdatedBy VARCHAR(MAX), Status VARCHAR(MAX), Img VARCHAR(MAX), Ekstension VARCHAR(MAX), Delegators VARCHAR(MAX));
 
 	DECLARE @QUERY VARCHAR(MAX);
 
@@ -16100,7 +16115,7 @@ BEGIN
 						dbo.Format24DateTime(ISNULL(A.UpdatedOn, A.CreatedOn)) [UpdatedOn],
 						ISNULL(A.UpdatedBy, A.CreatedBy),
 						CASE WHEN A.isActive = 1 THEN ''Aktif'' ELSE ''Non-Aktif'' END [Status],
-						Img,
+						Img, Ekstension,
 						(SELECT DISTINCT B.Name + ''; '' AS ''data()'' FROM tblT_UserInDelegator X LEFT JOIN tblM_Delegator B ON X.DelegatorID = B.ID WHERE A.UserID = X.UserID FOR XML PATH('''')) [Delegators]
 				FROM	tblM_User A											
 				WHERE	ISNULL(IsDeleted, 0) = 0';
@@ -16122,7 +16137,7 @@ BEGIN
 		INSERT INTO @TABLE
 		EXECUTE (@QUERY);
 
-		SELECT  UserID, Fullname, Mobile, Email, NIP, Jabatan, isActive, SUBSTRING(Roles, 1, 254) [Roles], s_UpdatedOn, UpdatedBy, Status, Img, Delegators 
+		SELECT  UserID, Fullname, Mobile, Email, NIP, Jabatan, isActive, SUBSTRING(Roles, 1, 254) [Roles], s_UpdatedOn, UpdatedBy, Status, Img, Ekstension, Delegators 
 		FROM	@TABLE WHERE Roles LIKE '%'+ @Roles +'%';
 	END	
 	ELSE
@@ -16183,6 +16198,9 @@ END]]></Value>
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[sp_Get_User].[@TABLE].[Img]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Get_User].[@TABLE].[Ekstension]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[sp_Get_User].[@TABLE].[Delegators]" />
@@ -16400,6 +16418,22 @@ END]]></Value>
 								</Element>
 							</Entry>
 							<Entry>
+								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_User].[@TABLE].[Ekstension]">
+									<Relationship Name="TypeSpecifier">
+										<Entry>
+											<Element Type="SqlTypeSpecifier">
+												<Property Name="IsMax" Value="True" />
+												<Relationship Name="Type">
+													<Entry>
+														<References ExternalSource="BuiltIns" Name="[varchar]" />
+													</Entry>
+												</Relationship>
+											</Element>
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+							<Entry>
 								<Element Type="SqlSimpleColumn" Name="[dbo].[sp_Get_User].[@TABLE].[Delegators]">
 									<Relationship Name="TypeSpecifier">
 										<Entry>
@@ -16482,7 +16516,7 @@ END]]></Value>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
 				<Property Name="CreateOffset" Value="202" />
-				<Property Name="Length" Value="2416" />
+				<Property Name="Length" Value="2465" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Get_User]&#xD;&#xA;&#x9;@isActive VARCHAR(2),&#x9;&#xD;&#xA;&#x9;@Roles VARCHAR(MAX) = '',&#xD;&#xA;&#x9;@DelegatorID VARCHAR(36) = ''&#xD;&#xA;AS" />
@@ -16509,7 +16543,7 @@ BEGIN
 			dbo.Format24DateTime(ISNULL(A.UpdatedOn, A.CreatedOn)) [s_UpdatedOn],
 			A.UpdatedBy,
 			CASE WHEN A.isActive = 1 THEN 'Aktif' ELSE 'Non-Aktif' END [Status],
-			Img, Notifikasi
+			Img, Ekstension, Notifikasi
 	FROM	tblM_User A 
 	WHERE	A.UserID = @UserID			
 
@@ -16624,6 +16658,9 @@ END]]></Value>
 					<References Name="[dbo].[tblM_User].[Img]" />
 				</Entry>
 				<Entry>
+					<References Name="[dbo].[tblM_User].[Ekstension]" />
+				</Entry>
+				<Entry>
 					<References Name="[dbo].[tblM_User].[Notifikasi]" />
 				</Entry>
 				<Entry>
@@ -16655,7 +16692,7 @@ END]]></Value>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
 				<Property Name="CreateOffset" Value="202" />
-				<Property Name="Length" Value="1432" />
+				<Property Name="Length" Value="1444" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
 				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Get_User_By_UserID]&#xD;&#xA;&#x9;@UserID VARCHAR(36)&#xD;&#xA;AS" />
@@ -22089,10 +22126,12 @@ BEGIN
 	
 	ELSE IF(@Action = 'hapus')
 	BEGIN	
-	declare @countgroup  UNIQUEIDENTIFIER = (select top 1 DelegatorID from tblT_UserInDelegator where CONVERT(VARCHAR(36), id) = @ID)
-	declare @countuser int = (select count (DISTINCT UserID) from tblT_UserInDelegator where DelegatorID = @countgroup group by delegatorID having COUNT(*) > 1)
-	if @countuser > 1 
-	begin
+	--declare @countgroup  UNIQUEIDENTIFIER = (select top 1 DelegatorID from tblT_UserInDelegator where CONVERT(VARCHAR(36), id) = @ID)
+	--declare @countuser int = (select count (DISTINCT UserID) from tblT_UserInDelegator where DelegatorID = @countgroup group by delegatorID having COUNT(*) > 1)
+	--if @countuser > 1 
+	--begin
+		
+	--END
 		DECLARE @OldUserID UNIQUEIDENTIFIER = (SELECT TOP 1 UserID FROM tblT_UserInDelegator WHERE ID = @ID)
 
 		IF(SELECT COUNT(*) FROM tblT_UserInDelegator WHERE UserID = @OldUserID) = 1
@@ -22102,7 +22141,6 @@ BEGIN
 		DELETE FROM tblT_UserInDelegator WHERE ID = @ID;
 
 		EXEC sp_RecordAuditTrail @CreatedBy, 'Admin SPP', 'Member Delegator', @Audit, 'DELETE', @Email_Audit
-	END
 	END
 	
 END]]></Value>
@@ -22146,25 +22184,13 @@ END]]></Value>
 					<References Name="[dbo].[tblT_UserInDelegator]" />
 				</Entry>
 				<Entry>
-					<References Name="[dbo].[tblT_UserInDelegator].[DelegatorID]" />
-				</Entry>
-				<Entry>
-					<References ExternalSource="BuiltIns" Name="[varchar]" />
+					<References Name="[dbo].[tblT_UserInDelegator].[UserID]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblT_UserInDelegator].[ID]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[sp_Save_MemberDelegator].[@ID]" />
-				</Entry>
-				<Entry>
-					<References ExternalSource="BuiltIns" Name="[int]" />
-				</Entry>
-				<Entry>
-					<References Name="[dbo].[tblT_UserInDelegator].[UserID]" />
-				</Entry>
-				<Entry>
-					<References ExternalSource="BuiltIns" Name="[uniqueidentifier]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[sp_Save_MemberDelegator].[@Action]" />
@@ -22321,11 +22347,11 @@ END]]></Value>
 				</Entry>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
-				<Property Name="CreateOffset" Value="208" />
-				<Property Name="Length" Value="2253" />
+				<Property Name="CreateOffset" Value="196" />
+				<Property Name="Length" Value="2255" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
-				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,UserID&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- DelegatorID:&#x9;&lt;DelegatorID,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Save_MemberDelegator]&#xD;&#xA;&#x9;-- Add the parameters for the stored procedure here&#xD;&#xA;&#x9; @Action nvarchar(10),&#xD;&#xA;&#x9; @ID varchar(36),&#xD;&#xA;     @UserID varchar(36) = '',&#xD;&#xA;     @DelegatorID varchar(36) = '',&#xD;&#xA;&#x9; @CreatedBy nvarchar(200) = ''&#xD;&#xA;&#x9; &#xD;&#xA;AS" />
+				<Property Name="HeaderContents" Value="-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,UserID&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- DelegatorID:&#x9;&lt;DelegatorID,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Save_MemberDelegator]&#xD;&#xA;&#x9;-- Add the parameters for the stored procedure here&#xD;&#xA;&#x9; @Action nvarchar(10),&#xD;&#xA;&#x9; @ID varchar(36),&#xD;&#xA;     @UserID varchar(36) = '',&#xD;&#xA;     @DelegatorID varchar(36) = '',&#xD;&#xA;&#x9; @CreatedBy nvarchar(200) = ''&#xD;&#xA;&#x9; &#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[sp_Save_Penyaluran]">
@@ -23481,6 +23507,7 @@ BEGIN
 				,Jabatan
 				,Divisi
 				,Img
+				,Ekstension
 				,isActive
 				,CreatedBy
 			)
@@ -23499,6 +23526,7 @@ BEGIN
 				,NULLIF(@Jabatan, '')
 				,NULLIF(@Divisi, '')
 				,NULLIF(@Img, '')
+				,NULLIF(@Ekstension, '')
 				,@isActive				
 				,@CreatedBy
 		 )
@@ -23520,6 +23548,7 @@ BEGIN
 				Jabatan = NULLIF(@Jabatan, ''),
 				Divisi = NULLIF(@Divisi, ''),
 				Img = ISNULL(NULLIF(@Img, ''), Img),
+				Ekstension = ISNULL(NULLIF(@Ekstension, ''), Ekstension),
 				isActive = NULLIF(@isActive, ''),
 				UpdatedOn = GETDATE(),
 				UpdatedBy = NULLIF(@CreatedBy, '')
@@ -23633,6 +23662,9 @@ END]]></Value>
 					<References Name="[dbo].[tblM_User].[Img]" />
 				</Entry>
 				<Entry>
+					<References Name="[dbo].[tblM_User].[Ekstension]" />
+				</Entry>
+				<Entry>
 					<References Name="[dbo].[tblM_User].[isActive]" />
 				</Entry>
 				<Entry>
@@ -23667,6 +23699,9 @@ END]]></Value>
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[sp_Save_User].[@Img]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[sp_Save_User].[@Ekstension]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[sp_Save_User].[@isActive]" />
@@ -23990,6 +24025,25 @@ END]]></Value>
 					</Element>
 				</Entry>
 				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_Save_User].[@Ekstension]">
+						<Property Name="DefaultExpressionScript">
+							<Value><![CDATA['']]></Value>
+						</Property>
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="100" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
 					<Element Type="SqlSubroutineParameter" Name="[dbo].[sp_Save_User].[@isActive]">
 						<Relationship Name="Type">
 							<Entry>
@@ -24028,10 +24082,10 @@ END]]></Value>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
 				<Property Name="CreateOffset" Value="212" />
-				<Property Name="Length" Value="4112" />
+				<Property Name="Length" Value="4256" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
-				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Save_User]&#xD;&#xA;&#x9;-- Add the parameters for the stored procedure here&#xD;&#xA;&#x9;@Action nvarchar(50),&#xD;&#xA;&#x9;@UserID varchar(36),&#xD;&#xA;&#x9;@PasswordHash varchar(max) = '',&#xD;&#xA;&#x9;@Fullname varchar(100) = '',&#xD;&#xA;&#x9;@Email varchar(100) = '',&#xD;&#xA;&#x9;@Mobile varchar(50) = '',&#xD;&#xA;&#x9;@Address varchar(max) = '',&#xD;&#xA;&#x9;@Gender nvarchar(2) = '',&#x9;&#xD;&#xA;&#x9;@NIP varchar(100) = '',&#xD;&#xA;&#x9;@Jabatan varchar(200) = '',&#xD;&#xA;&#x9;@Divisi varchar(200) = '',&#xD;&#xA;&#x9;@ID_Roles varchar(max) = '',&#xD;&#xA;&#x9;@Img nvarchar(100) = '',&#xD;&#xA;&#x9;@isActive int,&#xD;&#xA;&#x9;@CreatedBy varchar(200)&#xD;&#xA;AS" />
+				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[sp_Save_User]&#xD;&#xA;&#x9;-- Add the parameters for the stored procedure here&#xD;&#xA;&#x9;@Action nvarchar(50),&#xD;&#xA;&#x9;@UserID varchar(36),&#xD;&#xA;&#x9;@PasswordHash varchar(max) = '',&#xD;&#xA;&#x9;@Fullname varchar(100) = '',&#xD;&#xA;&#x9;@Email varchar(100) = '',&#xD;&#xA;&#x9;@Mobile varchar(50) = '',&#xD;&#xA;&#x9;@Address varchar(max) = '',&#xD;&#xA;&#x9;@Gender nvarchar(2) = '',&#x9;&#xD;&#xA;&#x9;@NIP varchar(100) = '',&#xD;&#xA;&#x9;@Jabatan varchar(200) = '',&#xD;&#xA;&#x9;@Divisi varchar(200) = '',&#xD;&#xA;&#x9;@ID_Roles varchar(max) = '',&#xD;&#xA;&#x9;@Img nvarchar(100) = '',&#xD;&#xA;&#x9;@Ekstension nvarchar(100) = '',&#xD;&#xA;&#x9;@isActive int,&#xD;&#xA;&#x9;@CreatedBy varchar(200)&#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
 		<Element Type="SqlProcedure" Name="[dbo].[sp_SaveNotificationSetting]">
@@ -25430,6 +25484,7 @@ BEGIN
 			Jabatan = NULLIF(@Jabatan, ''),
 			Divisi = NULLIF(@Divisi, ''),
 			Img = ISNULL(NULLIF(@Img, ''), Img),
+			Ekstension = ISNULL(NULLIF(@Ekstension, ''), Ekstension),
 			UpdatedOn = GETDATE(),
 			UpdatedBy = NULLIF(@CreatedBy, '')
 	WHERE	UserID = @UserID
@@ -25499,6 +25554,12 @@ END]]></Value>
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[spUpdateMyProfileInternal].[@Img]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tblM_User].[Ekstension]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[spUpdateMyProfileInternal].[@Ekstension]" />
 				</Entry>
 				<Entry>
 					<References Name="[dbo].[tblM_User].[UpdatedOn]" />
@@ -25667,6 +25728,25 @@ END]]></Value>
 					</Element>
 				</Entry>
 				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[spUpdateMyProfileInternal].[@Ekstension]">
+						<Property Name="DefaultExpressionScript">
+							<Value><![CDATA['']]></Value>
+						</Property>
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="100" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
 					<Element Type="SqlSubroutineParameter" Name="[dbo].[spUpdateMyProfileInternal].[@CreatedBy]">
 						<Relationship Name="Type">
 							<Entry>
@@ -25690,10 +25770,10 @@ END]]></Value>
 			</Relationship>
 			<Annotation Type="SysCommentsObjectAnnotation">
 				<Property Name="CreateOffset" Value="212" />
-				<Property Name="Length" Value="1258" />
+				<Property Name="Length" Value="1354" />
 				<Property Name="StartLine" Value="1" />
 				<Property Name="StartColumn" Value="1" />
-				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[spUpdateMyProfileInternal]&#xD;&#xA;&#x9;-- Add the parameters for the stored procedure here&#xD;&#xA;&#x9;@UserID varchar(36),&#xD;&#xA;&#x9;@Fullname varchar(100) = '',&#xD;&#xA;&#x9;@Address varchar(max) = '',&#xD;&#xA;&#x9;@Gender nvarchar(2) = '',&#x9;&#xD;&#xA;&#x9;@NIP varchar(100) = '',&#xD;&#xA;&#x9;@Jabatan varchar(200) = '',&#xD;&#xA;&#x9;@Divisi varchar(200) = '',&#xD;&#xA;&#x9;@Img nvarchar(100) = '',&#xD;&#xA;&#x9;@CreatedBy varchar(50)&#xD;&#xA;AS" />
+				<Property Name="HeaderContents" Value="&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;-- =============================================&#xD;&#xA;-- Author:&#x9;&#x9;&lt;Author,,Name&gt;&#xD;&#xA;-- Create date: &lt;Create Date,,&gt;&#xD;&#xA;-- Description:&#x9;&lt;Description,,&gt;&#xD;&#xA;-- =============================================&#xD;&#xA;CREATE PROCEDURE [dbo].[spUpdateMyProfileInternal]&#xD;&#xA;&#x9;-- Add the parameters for the stored procedure here&#xD;&#xA;&#x9;@UserID varchar(36),&#xD;&#xA;&#x9;@Fullname varchar(100) = '',&#xD;&#xA;&#x9;@Address varchar(max) = '',&#xD;&#xA;&#x9;@Gender nvarchar(2) = '',&#x9;&#xD;&#xA;&#x9;@NIP varchar(100) = '',&#xD;&#xA;&#x9;@Jabatan varchar(200) = '',&#xD;&#xA;&#x9;@Divisi varchar(200) = '',&#xD;&#xA;&#x9;@Img nvarchar(100) = '',&#xD;&#xA;&#x9;@Ekstension nvarchar(100) = '',&#xD;&#xA;&#x9;@CreatedBy varchar(50)&#xD;&#xA;AS" />
 			</Annotation>
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[tblM_AuthParameter]">
@@ -26662,6 +26742,22 @@ END]]></Value>
 				</Entry>
 				<Entry>
 					<Element Type="SqlSimpleColumn" Name="[dbo].[tblM_User].[Img]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="100" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tblM_User].[Ekstension]">
 						<Relationship Name="TypeSpecifier">
 							<Entry>
 								<Element Type="SqlTypeSpecifier">
