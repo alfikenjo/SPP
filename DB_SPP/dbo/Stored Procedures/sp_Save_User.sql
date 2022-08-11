@@ -27,6 +27,7 @@ CREATE PROCEDURE [dbo].[sp_Save_User]
 	@Divisi varchar(200) = '',
 	@ID_Roles varchar(max) = '',
 	@Img nvarchar(100) = '',
+	@Ekstension nvarchar(100) = '',
 	@isActive int,
 	@CreatedBy varchar(200)
 AS
@@ -54,6 +55,7 @@ BEGIN
 				,Jabatan
 				,Divisi
 				,Img
+				,Ekstension
 				,isActive
 				,CreatedBy
 			)
@@ -72,6 +74,7 @@ BEGIN
 				,NULLIF(@Jabatan, '')
 				,NULLIF(@Divisi, '')
 				,NULLIF(@Img, '')
+				,NULLIF(@Ekstension, '')
 				,@isActive				
 				,@CreatedBy
 		 )
@@ -93,6 +96,7 @@ BEGIN
 				Jabatan = NULLIF(@Jabatan, ''),
 				Divisi = NULLIF(@Divisi, ''),
 				Img = ISNULL(NULLIF(@Img, ''), Img),
+				Ekstension = ISNULL(NULLIF(@Ekstension, ''), Ekstension),
 				isActive = NULLIF(@isActive, ''),
 				UpdatedOn = GETDATE(),
 				UpdatedBy = NULLIF(@CreatedBy, '')

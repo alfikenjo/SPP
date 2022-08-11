@@ -42,6 +42,7 @@ namespace Frontend_SPP.Controllers
             _logger = logger;
         }
 
+        [DisableRequestSizeLimit]
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString("LoginLock") != null)
@@ -93,7 +94,7 @@ namespace Frontend_SPP.Controllers
 
                 string Filename = MainData[i].Filename;
                 if (!string.IsNullOrEmpty(Filename))
-                    MainData[i].Filename = Helper.GetBinaryImage(Filename, MainData[i].Filename);
+                    MainData[i].Filename = Helper.GetBinaryImageEncrypted(Filename, MainData[i].Ekstension);
             }
 
             ViewBag.Banner = MainData.FirstOrDefault();
@@ -116,7 +117,7 @@ namespace Frontend_SPP.Controllers
                 {
                     string Ekstension = TentangSPP[i].Ekstension.ToLower();
                     if (Ekstension == ".jpg" || Ekstension == ".jpeg" || Ekstension == ".png")
-                        TentangSPP[i].Filename = Helper.GetBinaryImage(Filename, TentangSPP[i].Filename);
+                        TentangSPP[i].Filename = Helper.GetBinaryImageEncrypted(Filename, TentangSPP[i].Ekstension);
                 }
 
                 string Filename1 = TentangSPP[i].Filename1;
@@ -124,7 +125,7 @@ namespace Frontend_SPP.Controllers
                 {
                     string Ekstension1 = TentangSPP[i].Ekstension1.ToLower();
                     if (Ekstension1 == ".jpg" || Ekstension1 == ".jpeg" || Ekstension1 == ".png")
-                        TentangSPP[i].Filename1 = Helper.GetBinaryImage(Filename1, TentangSPP[i].Filename1);
+                        TentangSPP[i].Filename1 = Helper.GetBinaryImageEncrypted(Filename1, TentangSPP[i].Ekstension1);
                 }
 
             }
@@ -148,7 +149,7 @@ namespace Frontend_SPP.Controllers
                 {
                     string Ekstension = MediaPenyampaian[i].Ekstension.ToLower();
                     if (Ekstension == ".jpg" || Ekstension == ".jpeg" || Ekstension == ".png")
-                        MediaPenyampaian[i].Filename = Helper.GetBinaryImage(Filename, MediaPenyampaian[i].Filename);
+                        MediaPenyampaian[i].Filename = Helper.GetBinaryImageEncrypted(Filename, MediaPenyampaian[i].Ekstension);
                 }
 
                 string Filename1 = MediaPenyampaian[i].Filename1;
@@ -156,7 +157,7 @@ namespace Frontend_SPP.Controllers
                 {
                     string Ekstension1 = MediaPenyampaian[i].Ekstension1.ToLower();
                     if (Ekstension1 == ".jpg" || Ekstension1 == ".jpeg" || Ekstension1 == ".png")
-                        MediaPenyampaian[i].Filename1 = Helper.GetBinaryImage(Filename1, MediaPenyampaian[i].Filename1);
+                        MediaPenyampaian[i].Filename1 = Helper.GetBinaryImageEncrypted(Filename1, MediaPenyampaian[i].Ekstension);
                 }
 
             }
@@ -180,7 +181,7 @@ namespace Frontend_SPP.Controllers
                 {
                     string Ekstension = ContactUs[i].Ekstension.ToLower();
                     if (Ekstension == ".jpg" || Ekstension == ".jpeg" || Ekstension == ".png")
-                        ContactUs[i].Filename = Helper.GetBinaryImage(Filename, ContactUs[i].Filename);
+                        ContactUs[i].Filename = Helper.GetBinaryImageEncrypted(Filename, ContactUs[i].Ekstension);
                 }
 
                 string Filename1 = ContactUs[i].Filename1;
@@ -188,7 +189,7 @@ namespace Frontend_SPP.Controllers
                 {
                     string Ekstension1 = ContactUs[i].Ekstension1.ToLower();
                     if (Ekstension1 == ".jpg" || Ekstension1 == ".jpeg" || Ekstension1 == ".png")
-                        ContactUs[i].Filename1 = Helper.GetBinaryImage(Filename1, ContactUs[i].Filename1);
+                        ContactUs[i].Filename1 = Helper.GetBinaryImageEncrypted(Filename1, ContactUs[i].Ekstension1);
                 }
 
             }
@@ -324,7 +325,7 @@ namespace Frontend_SPP.Controllers
         }
 
         [HttpGet]
-        public ActionResult FillCaptcha()
+        public IActionResult FillCaptcha()
         {
             try
             {
@@ -347,7 +348,7 @@ namespace Frontend_SPP.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetFile(string Filename, string Extension)
+        public IActionResult GetFile(string Filename, string Extension)
         {
             byte[] bytes;
             using (var conn = new FtpClient(ftpAddress, ftpUsername, ftpPassword))
@@ -379,7 +380,7 @@ namespace Frontend_SPP.Controllers
 
         [HttpGet]
         [Obsolete]
-        public ActionResult ShowFile(string Filename, string Extension)
+        public IActionResult ShowFile(string Filename, string Extension)
         {
             try
             {
@@ -444,7 +445,7 @@ namespace Frontend_SPP.Controllers
 
         [HttpGet]
         [Obsolete]
-        public ActionResult PublicFile(string Filename, string Extension)
+        public IActionResult PublicFile(string Filename, string Extension)
         {
             try
             {
@@ -526,7 +527,7 @@ namespace Frontend_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult get_Chart_2_old(int start_year, int end_year, int start_month, int end_month)
+        public IActionResult get_Chart_2_old(int start_year, int end_year, int start_month, int end_month)
         {
             //var culture = HttpContext.Session.GetString("culture");
             try
@@ -550,7 +551,7 @@ namespace Frontend_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult get_Chart_3_old(int start_year, int end_year, int start_month, int end_month)
+        public IActionResult get_Chart_3_old(int start_year, int end_year, int start_month, int end_month)
         {
             //var culture = HttpContext.Session.GetString("culture");
             try
@@ -574,7 +575,7 @@ namespace Frontend_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult get_Chart_2(int start_year, int end_year, int start_month, int end_month)
+        public IActionResult get_Chart_2(int start_year, int end_year, int start_month, int end_month)
         {
             //var culture = HttpContext.Session.GetString("culture");
             try
@@ -598,7 +599,7 @@ namespace Frontend_SPP.Controllers
         }
 
         [HttpPost]
-        public ActionResult get_Chart_3(int start_year, int end_year, int start_month, int end_month)
+        public IActionResult get_Chart_3(int start_year, int end_year, int start_month, int end_month)
         {
             var culture = HttpContext.Session.GetString("culture");
             if (string.IsNullOrEmpty(culture))
@@ -625,76 +626,84 @@ namespace Frontend_SPP.Controllers
             }
         }
 
-        //        [HttpPost]
-        //        public ActionResult get_Chart_3(int start_year)
-        //        {
-        //            var culture = HttpContext.Session.GetString("culture");
-
-        //            //string JSONresult;
-        //            List<SqlParameter> param = new List<SqlParameter>();
-        //            param.Add(new SqlParameter("@StartYear", start_year));
-        //            //param.Add(new SqlParameter("@EndYear", end_year));
-        //            DataTable dt = mssql.GetDataTable("sp_get_Chart_3_bulanan", param);
-
-        //            List<Model_Laporan> MainData = new List<Model_Laporan>();
-        //            MainData = mssql.ConvertDataTable<Model_Laporan>(dt);
-        //            for (int i = 0; i < MainData.Count; i++)
-        //            {
-        //                if (culture == "en")
-        //                    MainData[i].Kategori = MainData[i].Kategori_EN;
-        //            }
-
-        //            List<Line_Chart> ListSeries = new List<Line_Chart>();
-        //            List<string> ListCategories = new List<string>();
-        //            MainData.GroupBy(x => x.Kategori).ToList().ForEach(x =>
-        //            {
-        //                var bgColor = RandomColorName();
-        //                if (bgColor.ToLower() == "black" || bgColor.ToLower() == "white")
-        //                    bgColor = RandomColorName();
-
-        //                string kategori = x.Key;
-
-        //                ListSeries.Add(new Line_Chart
-        //                {
-        //                    label = kategori,
-        //                    borderColor = bgColor,
-        //                    tension = "0.4"
-        //                });
-        //            });
-        //            //Get Series
-
-        //            if (culture == "in")
-        //            {
-        //                foreach (var MainItem in MainData.GroupBy(x => x.Bulan).Select(x => x.Key).ToList())
-        //                {
-        //                    List<int> ListCount = new List<int>();
-        //                    foreach (var SubItem in ListSeries)
-        //                    {
-        //                        if (SubItem.data == null) SubItem.data = new List<int>();
-        //                        SubItem.data.Add(MainData.Where(x => x.Bulan == MainItem && x.Kategori == SubItem.label).Select(x => x.Jumlah).FirstOrDefault());
-        //                    }
-        //                    ListCategories.Add(MainItem);
-        //                }
-        //            }
-        //            else if (culture == "en")
-        //            {
-        //                foreach (var MainItem in MainData.GroupBy(x => x.Bulan_EN).Select(x => x.Key).ToList())
-        //                {
-        //                    List<int> ListCount = new List<int>();
-        //                    foreach (var SubItem in ListSeries)
-        //                    {
-        //                        if (SubItem.data == null) SubItem.data = new List<int>();
-        //                        SubItem.data.Add(MainData.Where(x => x.Bulan_EN == MainItem && x.Kategori == SubItem.label).Select(x => x.Jumlah).FirstOrDefault());
-        //                    }
-        //                    ListCategories.Add(MainItem);
-        //                }
-        //            }
+        [HttpGet]
+        [DisableRequestSizeLimit]
+        public IActionResult sef(string Filename, string Extension)
+        {
 
 
-        //            string Title = "Jumlah Pengaduan Berdasarkan Jenis Pelanggaran";
-        //            if (culture == "en") Title = "Number of reports by Violation Categories";
-        //            return Json(new { Error = false, Message = new { Series = ListSeries, Categories = ListCategories.ToArray() }, Title = Title });
-        //        }
-        //    }
+            if (string.IsNullOrEmpty(StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
+                return RedirectToAction("Index", "Home");
+
+            int Authenticated = 0;
+            string Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+
+            if (!Helper.CheckUserActive(Email))
+                throw new Exception("Request is denied, you are not authorized to access this page");
+
+            DataRow drFilePengaduan = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_File_Evidence WHERE FileEvidence = '" + Filename + "' AND CreatedBy = '" + Email + "';");
+            Authenticated = Authenticated + int.Parse(drFilePengaduan["Count"].ToString());
+
+            DataRow drFilePengaduanByAdmin = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_File_Evidence A JOIN tblT_Dumas B ON A.ID_Header = B.ID WHERE A.FileEvidence = '98606dc9-6701-493d-8fdb-cb79bdec71d4' AND B.Email = '" + Email + "';");
+            Authenticated = Authenticated + int.Parse(drFilePengaduanByAdmin["Count"].ToString());
+
+            DataRow drFileIdentitas = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_Dumas_Detail WHERE FileIdentitas = '" + Filename + "' AND CreatedBy = '" + Email + "';");
+            Authenticated = Authenticated + int.Parse(drFileIdentitas["Count"].ToString());
+
+            DataRow drFileTanggapanPelapor = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_Tanggapan WHERE TipePengirim = 'Pelapor' AND Email = '" + Email + "' AND FileLampiran = '" + Filename + "'");
+            Authenticated = Authenticated + int.Parse(drFileTanggapanPelapor["Count"].ToString());
+
+            DataRow drFileTanggapanAdminSPP = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_Tanggapan A JOIN tblT_Dumas B ON A.IDPengaduan = B.ID WHERE B.Email = '" + Email + "' AND A.FileLampiran = '" + Filename + "'");
+            Authenticated = Authenticated + int.Parse(drFileTanggapanAdminSPP["Count"].ToString());
+
+            //DataRow drFileCMS = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_CMS WHERE Filename = '" + Filename + "' OR Filename1 = '" + Filename + "'");
+            //Authenticated = Authenticated + int.Parse(drFileCMS["Count"].ToString());
+
+            if (Authenticated == 0)
+                throw new Exception("Request is denied, you are not authorized to access this page");
+
+            if (Filename.Contains("."))
+            {
+                string[] FileNames = Filename.Split(".");
+                if (FileNames.Length == 2)
+                    Filename = FileNames[0].Trim();
+            }
+
+            if (Extension.Length > 0)
+                Extension = Extension.Trim().ToLower().Replace(".", "");
+
+            try
+            {
+                string mimeType = MimeMapping.GetMimeMapping(Filename + "." + Extension);
+                MemoryStream ms = new MemoryStream(Helper.FileDecryptionToByte(Filename));
+                Response.Headers.Add("Content-Disposition", "inline; filename=" + Filename + "." + Extension);
+                return File(ms, mimeType);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = true, Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [DisableRequestSizeLimit]
+        public IActionResult gef(string Filename, string Extension)
+        {
+
+            if (Extension.Length > 0)
+                Extension = Extension.Trim().ToLower().Replace(".", "");
+
+            try
+            {
+                string mimeType = MimeMapping.GetMimeMapping(Filename + "." + Extension);
+                MemoryStream ms = new MemoryStream(Helper.FileDecryptionToByte(Filename));
+                Response.Headers.Add("Content-Disposition", "attachment; filename=" + Filename + "." + Extension);
+                return File(ms, mimeType);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = true, Message = ex.Message });
+            }
+        }
     }
 }

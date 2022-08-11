@@ -12,7 +12,8 @@ namespace BO_SPP.Models
         public string Email { get; set; }
         public string Mobile { get; set; }
         public string Img { get; set; }
-        
+        public string Ekstension { get; set; }
+
         public string Delegators { get; set; }
         public string DelegatorName { get; set; }
 

@@ -17,6 +17,7 @@ namespace BO_SPP.Models
         public string Jabatan { get; set; }
         public string Divisi { get; set; }
         public string Img { get; set; }
+        public string Ekstension { get; set; }
         public int isActive { get; set; }
 
         public string Roles { get; set; }

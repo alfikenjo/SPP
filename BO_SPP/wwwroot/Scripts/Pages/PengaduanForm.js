@@ -368,7 +368,7 @@ function FillForm(ID) {
                 if (data.FilepathFilePenyaluran) {
                     var Ekstension = data.Keterangan_Penyaluran_Ekstension.toLowerCase();
                     var div = document.getElementById('div_fu_Keterangan_Penyaluran_Filename'); div.style.display = 'block';
-                    var sb = '<a target="_blank" href="../Home/ShowFile?Filename=' + data.Keterangan_Penyaluran_Filename + '&Extension=' + Ekstension + '" class="btn btn-sm btn-outline-primary" style="cursor: pointer">File Lampiran</a>';
+                    var sb = '<a target="_blank" href="../Home/sef?Filename=' + data.Keterangan_Penyaluran_Filename + '&Extension=' + Ekstension + '" class="btn btn-sm btn-outline-primary" style="cursor: pointer">File Lampiran</a>';
                     if (Ekstension == '.jpg' || Ekstension == '.png' || Ekstension == '.jpeg')
                         sb = '<a onclick="show_image(\'' + data.FilepathFilePenyaluran + '\', \'Foto Lampiran\')" class="btn btn-sm btn-outline-primary" style="cursor: pointer">Foto Lampiran</a>';
 
@@ -378,7 +378,7 @@ function FillForm(ID) {
                 if (data.FilepathFilePemeriksaan) {
                     var Ekstension = data.Keterangan_Pemeriksaan_Ekstension.toLowerCase();
                     var div = document.getElementById('div_fu_Keterangan_Pemeriksaan_Filename'); div.style.display = 'block';
-                    var sb = '<a target="_blank" href="../Home/ShowFile?Filename=' + data.Keterangan_Pemeriksaan_Filename + '&Extension=' + Ekstension + '" class="btn btn-sm btn-outline-primary" style="cursor: pointer">File Lampiran</a>';
+                    var sb = '<a target="_blank" href="../Home/sef?Filename=' + data.Keterangan_Pemeriksaan_Filename + '&Extension=' + Ekstension + '" class="btn btn-sm btn-outline-primary" style="cursor: pointer">File Lampiran</a>';
                     if (Ekstension == '.jpg' || Ekstension == '.png' || Ekstension == '.jpeg')
                         sb = '<a onclick="show_image(\'' + data.FilepathFilePemeriksaan + '\', \'Foto Lampiran\')" class="btn btn-sm btn-outline-primary" style="cursor: pointer">Foto Lampiran</a>';
 
@@ -388,7 +388,7 @@ function FillForm(ID) {
                 if (data.FilepathFileKonfirmasi) {
                     var Ekstension = data.Keterangan_Konfirmasi_Ekstension.toLowerCase();
                     var div = document.getElementById('div_fu_Keterangan_Konfirmasi_Filename'); div.style.display = 'block';
-                    var sb = '<a target="_blank" href="../Home/ShowFile?Filename=' + data.Keterangan_Konfirmasi_Filename + '&Extension=' + Ekstension + '" class="btn btn-sm btn-outline-primary" style="cursor: pointer">File Lampiran</a>';
+                    var sb = '<a target="_blank" href="../Home/sef?Filename=' + data.Keterangan_Konfirmasi_Filename + '&Extension=' + Ekstension + '" class="btn btn-sm btn-outline-primary" style="cursor: pointer">File Lampiran</a>';
                     if (Ekstension == '.jpg' || Ekstension == '.png' || Ekstension == '.jpeg')
                         sb = '<a onclick="show_image(\'' + data.FilepathFileKonfirmasi + '\', \'Foto Lampiran\')" class="btn btn-sm btn-outline-primary" style="cursor: pointer">Foto Lampiran</a>';
 
@@ -398,7 +398,7 @@ function FillForm(ID) {
                 if (data.FilepathFileRespon) {
                     var Ekstension = data.Keterangan_Respon_Ekstension.toLowerCase();
                     var div = document.getElementById('div_fu_Keterangan_Respon_Filename'); div.style.display = 'block';
-                    var sb = '<a target="_blank" href="../Home/ShowFile?Filename=' + data.Keterangan_Respon_Filename + '&Extension=' + Ekstension + '" class="btn btn-sm btn-outline-primary" style="cursor: pointer">File Lampiran</a>';
+                    var sb = '<a target="_blank" href="../Home/sef?Filename=' + data.Keterangan_Respon_Filename + '&Extension=' + Ekstension + '" class="btn btn-sm btn-outline-primary" style="cursor: pointer">File Lampiran</a>';
                     if (Ekstension == '.jpg' || Ekstension == '.png' || Ekstension == '.jpeg')
                         sb = '<a onclick="show_image(\'' + data.FilepathFileRespon + '\', \'Foto Lampiran\')" class="btn btn-sm btn-outline-primary" style="cursor: pointer">Foto Lampiran</a>';
 
@@ -558,7 +558,7 @@ function load_file_evidence(ID_Header) {
                     for (var i = 0; i < Result.Message.length; ++i) {
                         var div = document.getElementById('File_Bukti_Pendukung');
                         var num = i + 1;
-                        var sb = '<a target="_blank" href="../Home/ShowFile?Filename=' + Result.Message[i].FileEvidence + '&Extension=' + Result.Message[i].FileEvidence_Ekstension + '" class="badge badge-primary ml-2 mb-2" style="cursor: pointer">File Evidence (' + num + ')</a>';
+                        var sb = '<a target="_blank" href="../Home/sef?Filename=' + Result.Message[i].FileEvidence + '&Extension=' + Result.Message[i].FileEvidence_Ekstension + '" class="badge badge-primary ml-2 mb-2" style="cursor: pointer">File Evidence (' + num + ')</a>';
                         if (Result.Message[i].FileEvidence_Ekstension == '.jpg' || Result.Message[i].FileEvidence_Ekstension == '.png' || Result.Message[i].FileEvidence_Ekstension == '.jpeg')
                             sb = '<a onclick="show_image(\'' + Result.Message[i].FilepathFileEvidence + '\', \'Foto Evidence (' + num + ')\')" class="badge badge-primary ml-2 mb-2" style="cursor: pointer">Foto Evidence (' + num + ')</a>';
 
@@ -1056,7 +1056,7 @@ function FillTanggapan() {
                     var Path = "";
 
                     if (FileLampiran_Ekstension == ".mp3" || FileLampiran_Ekstension == ".mpeg") {
-                        Path = "../Home/GetFile?Filename=" + FileLampiran + "&Extension=" + FileLampiran_Ekstension + "";
+                        Path = "../Home/gef?Filename=" + FileLampiran + "&Extension=" + FileLampiran_Ekstension + "";
                         sb += "<div class='iq-media-group'>" +
                             "<a href='#' class='iq-media'>" +
                             "<a href='" + Path + "' class='btn btn-outline-danger btn-sm' style='text-style: italic'><i class='fa fa-download'></i> Download Lampiran</a>" +
@@ -1065,7 +1065,7 @@ function FillTanggapan() {
                     }
                     else if (FileLampiran_Ekstension == ".jpg" || FileLampiran_Ekstension == ".jpeg" || FileLampiran_Ekstension == ".png") {
                         var title = 'File Lampiran'
-                        Path = "../Home/GetFile?Filename=" + FileLampiran + "&Extension=" + FileLampiran_Ekstension + "";
+                        Path = "../Home/gef?Filename=" + FileLampiran + "&Extension=" + FileLampiran_Ekstension + "";
                         sb += "<div class='iq-media-group'>" +
                             "<a href='#' class='iq-media'>" +
                             '<button onclick="show_image(\'' + value.FilepathFileLampiran + '\', \'' + title + '\');" class="btn btn-outline-danger btn-sm" style="text-style: italic"><i class="fa fa-download"></i> Lihat Lampiran</button>' +
@@ -1073,7 +1073,7 @@ function FillTanggapan() {
                             "</div>";
                     }
                     else {
-                        Path = "../Home/ShowFile?Filename=" + FileLampiran + "&Extension=" + FileLampiran_Ekstension + "";
+                        Path = "../Home/sef?Filename=" + FileLampiran + "&Extension=" + FileLampiran_Ekstension + "";
                         sb += "<div class='iq-media-group'>" +
                             "<a href='#' class='iq-media'>" +
                             "<a href='" + Path + "' target='_blank' class='btn btn-outline-danger btn-sm' style='text-style: italic'><i class='fa fa-download'></i> Buka Lampiran</a>" +
@@ -1163,7 +1163,7 @@ function FillTanggapanInternal() {
                     var Path = "";
 
                     if (FileLampiran_Ekstension == ".mp3" || FileLampiran_Ekstension == ".mpeg") {
-                        Path = "../Home/GetFile?Filename=" + FileLampiran + "&Extension=" + FileLampiran_Ekstension + "";
+                        Path = "../Home/gef?Filename=" + FileLampiran + "&Extension=" + FileLampiran_Ekstension + "";
                         sb += "<div class='iq-media-group'>" +
                             "<a href='#' class='iq-media'>" +
                             "<a href='" + Path + "' class='btn btn-outline-danger btn-sm' style='text-style: italic'><i class='fa fa-download'></i> Download Lampiran</a>" +
@@ -1172,7 +1172,7 @@ function FillTanggapanInternal() {
                     }
                     else if (FileLampiran_Ekstension == ".jpg" || FileLampiran_Ekstension == ".jpeg" || FileLampiran_Ekstension == ".png") {
                         var title = 'File Lampiran'
-                        Path = "../Home/GetFile?Filename=" + FileLampiran + "&Extension=" + FileLampiran_Ekstension + "";
+                        Path = "../Home/gef?Filename=" + FileLampiran + "&Extension=" + FileLampiran_Ekstension + "";
                         sb += "<div class='iq-media-group'>" +
                             "<a href='#' class='iq-media'>" +
                             '<button onclick="show_image(\'' + value.FilepathFileLampiran + '\', \'' + title + '\');" class="btn btn-outline-danger btn-sm" style="text-style: italic"><i class="fa fa-download"></i> Lihat Lampiran</button>' +
@@ -1180,7 +1180,7 @@ function FillTanggapanInternal() {
                             "</div>";
                     }
                     else {
-                        Path = "../Home/ShowFile?Filename=" + FileLampiran + "&Extension=" + FileLampiran_Ekstension + "";
+                        Path = "../Home/sef?Filename=" + FileLampiran + "&Extension=" + FileLampiran_Ekstension + "";
                         sb += "<div class='iq-media-group'>" +
                             "<a href='#' class='iq-media'>" +
                             "<a href='" + Path + "' target='_blank' class='btn btn-outline-danger btn-sm' style='text-style: italic'><i class='fa fa-download'></i> Buka Lampiran</a>" +

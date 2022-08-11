@@ -24,6 +24,7 @@ BEGIN
 			dbo.Format_StringNumber(A.Mobile) [Mobile], 
 			A.Email,		
 			A.Img,
+			A.Ekstension,
 			ISNULL((SELECT DISTINCT B.Name + '; ' AS 'data()' FROM tblT_UserInDelegator X JOIN tblM_Delegator B ON X.DelegatorID = B.ID WHERE A.UserID = X.UserID FOR XML PATH('')), '') [Delegators],
 			(SELECT Name FROM tblM_Delegator WHERE ID = @DelegatorID) [DelegatorName],
 			CASE WHEN A.isActive = 1 THEN 'Aktif' ELSE 'Non-Aktif' END [Status]

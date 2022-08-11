@@ -37,38 +37,3 @@ $('#FormInput').validate({
     }
 });
 
-//function TestLDAP() {
-//    var username = $('#email').val();
-//    if (username != "") {
-//        $.ajax({
-//            url: VP + 'Account/GetADUserByUsername',
-//            type: 'POST',
-//            data: {
-//                username: username
-//            },
-//            success: function (Result) {
-//                if (Result.Error == false) {
-//                    var data = Result.Message;
-//                    if (data == null)
-//                        CustomNotif("error|failed to connect|" + data + "");
-//                    else
-//                        CustomNotif("success|connected|" + data + "");
-
-//                } else {
-//                    CustomNotif("error|Oops|" + Result.Message + "");
-//                }
-//            },
-//            error: function (xhr, status, error) {
-//                CustomNotif("error|Oops|" + error + "");
-//            }
-//        })
-//    }
-//    else {
-//        CustomNotif("error|cannot use empty username|please input username");
-//    }
-    
-//}
-
-//function OpenLDAP() {
-//    document.getElementById('div_username').style.display = 'block';
-//}

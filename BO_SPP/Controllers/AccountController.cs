@@ -34,6 +34,9 @@ namespace BO_SPP.Controllers
             if (!string.IsNullOrEmpty(ID))
                 HttpContext.Session.SetString("IDPengaduan", ID);
 
+            //Helper.EncryptAllFiles();
+
+
             return View();
         }
 
@@ -261,7 +264,7 @@ namespace BO_SPP.Controllers
                     MainData[i].UserID = StringCipher.Encrypt(MainData[i].UserID) + "|" + HttpContext.Session.GetString("SessionID");
 
                     if (!string.IsNullOrEmpty(MainData[i].Img))
-                        MainData[i].Img = Helper.GetBinaryImage(MainData[i].Img, "png");
+                        MainData[i].Img = Helper.GetBinaryImageEncrypted(MainData[i].Img, string.IsNullOrEmpty(MainData[i].Ekstension) ? "jpg" : MainData[i].Ekstension);
                 }
 
                 return Json(new { Error = false, Message = MainData });
@@ -301,7 +304,7 @@ namespace BO_SPP.Controllers
                     MainData[i].UserID = StringCipher.Encrypt(MainData[i].UserID) + "|" + HttpContext.Session.GetString("SessionID");
 
                     if (!string.IsNullOrEmpty(MainData[i].Img))
-                        MainData[i].Img = Helper.GetBinaryImage(MainData[i].Img, "png");
+                        MainData[i].Img = Helper.GetBinaryImageEncrypted(MainData[i].Img, string.IsNullOrEmpty(MainData[i].Ekstension) ? "jpg" : MainData[i].Ekstension);
                 }
 
                 return Json(new { Error = false, Message = MainData });
@@ -370,22 +373,16 @@ namespace BO_SPP.Controllers
                         if (file.Length > 0)
                         {
                             FotoFileExtension = System.IO.Path.GetExtension(file.FileName).Trim();
-                            FotoFilename = _UserID + FotoFileExtension;
+                            FotoFilename = _UserID;
 
                             if (FotoFileExtension.ToLower() == ".jpg" || FotoFileExtension.ToLower() == ".png" || FotoFileExtension.ToLower() == ".jpeg")
                             {
-                                var filePath = Path.GetTempFileName();
-                                using (var stream = System.IO.File.Create(filePath))
+                                string upload = Helper.UploadFTPWithEcryption(file, FotoFilename, FotoFileExtension);
+                                if (upload != "success")
                                 {
-                                    file.CopyTo(stream);
-
-                                    string upload = Helper.UploadFTP(stream, FotoFilename, FotoFileExtension);
-                                    if (upload != "success")
-                                    {
-                                        FotoFilename = "";
-                                        FotoFileExtension = "";
-                                        throw new Exception(upload);
-                                    }
+                                    FotoFilename = "";
+                                    FotoFileExtension = "";
+                                    throw new Exception(upload);
                                 }
                             }
                             else
@@ -417,6 +414,7 @@ namespace BO_SPP.Controllers
                 param.Add(new SqlParameter("@Divisi", sani.Sanitize(Model.Divisi)));
                 param.Add(new SqlParameter("@ID_Roles", sani.Sanitize(Model.ID_Roles)));
                 param.Add(new SqlParameter("@Img", FotoFilename));
+                param.Add(new SqlParameter("@Ekstension", FotoFileExtension));
                 param.Add(new SqlParameter("@isActive", Model.isActive));
                 param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
 
@@ -529,7 +527,7 @@ namespace BO_SPP.Controllers
                     var Img = MainData[i].Img;
                     if (!string.IsNullOrEmpty(Img))
                     {
-                        MainData[i].Img = Helper.GetBinaryImage(MainData[i].Img, "jpg");
+                        MainData[i].Img = Helper.GetBinaryImageEncrypted(MainData[i].Img, string.IsNullOrEmpty(MainData[i].Ekstension) ? "jpg" : MainData[i].Ekstension);
                     }
                 }
 
@@ -568,7 +566,7 @@ namespace BO_SPP.Controllers
                         if (file.Length > 0)
                         {
                             FotoFileExtension = System.IO.Path.GetExtension(file.FileName).Trim();
-                            FotoFilename = Model.UserID.ToString() + FotoFileExtension;
+                            FotoFilename = sani.Sanitize(Model.UserID).ToString();
 
                             if (FotoFileExtension.ToLower() == ".jpg" || FotoFileExtension.ToLower() == ".png" || FotoFileExtension.ToLower() == ".jpeg")
                             {
@@ -577,7 +575,7 @@ namespace BO_SPP.Controllers
                                 {
                                     file.CopyTo(stream);
 
-                                    string upload = Helper.UploadFTP(stream, FotoFilename, FotoFileExtension);
+                                    string upload = Helper.UploadFTPWithEcryption(file, FotoFilename, FotoFileExtension);
                                     if (upload != "success")
                                     {
                                         FotoFilename = "";
@@ -586,7 +584,7 @@ namespace BO_SPP.Controllers
                                     }
                                     else
                                     {
-                                        string imgPath = Helper.GetBinaryImage(FotoFilename, "jpg");
+                                        string imgPath = Helper.GetBinaryImageEncrypted(FotoFilename, FotoFileExtension);
                                         HttpContext.Session.SetString("img", imgPath);
                                     }
                                 }
@@ -615,6 +613,7 @@ namespace BO_SPP.Controllers
                 param.Add(new SqlParameter("@Jabatan", sani.Sanitize(Model.Jabatan)));
                 param.Add(new SqlParameter("@Divisi", sani.Sanitize(Model.Divisi)));
                 param.Add(new SqlParameter("@Img", FotoFilename));
+                param.Add(new SqlParameter("@Ekstension", FotoFileExtension));
                 param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
 
                 mssql.ExecuteNonQuery("spUpdateMyProfileInternal", param);
@@ -842,7 +841,7 @@ namespace BO_SPP.Controllers
                     HttpContext.Session.SetString("img", "../image/default_avatar.png");
                 else
                 {
-                    string imgPath = Helper.GetBinaryImage(dt_User.Rows[0]["Img"].ToString(), "jpg");
+                    string imgPath = Helper.GetBinaryImageEncrypted(dt_User.Rows[0]["Img"].ToString(), dt_User.Rows[0]["Ekstension"].ToString());
                     HttpContext.Session.SetString("img", imgPath);
                 }
 
@@ -917,7 +916,7 @@ namespace BO_SPP.Controllers
                             HttpContext.Session.SetString("img", "../image/default_avatar.png");
                         else
                         {
-                            string imgPath = Helper.GetBinaryImage(dt_User.Rows[0]["Img"].ToString(), "jpg");
+                            string imgPath = Helper.GetBinaryImageEncrypted(dt_User.Rows[0]["Img"].ToString(), dt_User.Rows[0]["Ekstension"].ToString());
                             HttpContext.Session.SetString("img", imgPath);
                         }
 

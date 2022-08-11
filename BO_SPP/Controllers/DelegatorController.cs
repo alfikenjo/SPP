@@ -249,7 +249,7 @@ namespace BO_SPP.Controllers
                     MainData[i].UserID = StringCipher.Encrypt(MainData[i].UserID) + "|" + HttpContext.Session.GetString("SessionID");
 
                     if (!string.IsNullOrEmpty(MainData[i].Img))
-                        MainData[i].Img = Helper.GetBinaryImage(MainData[i].Img, "png");
+                        MainData[i].Img = Helper.GetBinaryImageEncrypted(MainData[i].Img, string.IsNullOrEmpty(MainData[i].Ekstension) ? "jpg" : MainData[i].Ekstension);
                 }
 
                 return Json(new { Error = false, Message = MainData });
@@ -381,7 +381,7 @@ namespace BO_SPP.Controllers
                 {
                     MainData[i].UserID = StringCipher.Encrypt(MainData[i].UserID) + "|" + HttpContext.Session.GetString("SessionID");
                     if (!string.IsNullOrEmpty(MainData[i].Img))
-                        MainData[i].Img = Helper.GetBinaryImage(MainData[i].Img, "png");
+                        MainData[i].Img = Helper.GetBinaryImageEncrypted(MainData[i].Img, string.IsNullOrEmpty(MainData[i].Ekstension) ? "jpg" : MainData[i].Ekstension);
                 }
 
                 return Json(new { Error = false, Message = MainData });

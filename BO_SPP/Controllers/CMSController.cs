@@ -58,7 +58,7 @@ namespace BO_SPP.Controllers
 
                     string Filename = MainData[i].Filename;
                     if (!string.IsNullOrEmpty(Filename))
-                        MainData[i].Filename = Helper.GetBinaryImage(Filename, MainData[i].Filename);
+                        MainData[i].Filename = Helper.GetBinaryImageEncrypted(Filename, MainData[i].Ekstension);
                 }
                 return Json(new { Error = false, Message = MainData });
             }
@@ -100,11 +100,11 @@ namespace BO_SPP.Controllers
 
                     string Filename_ID = MainData[i].Filename_ID;
                     if (!string.IsNullOrEmpty(Filename_ID))
-                        MainData[i].Filename_ID = Helper.GetBinaryImage(Filename_ID, MainData[i].Filename_ID);
+                        MainData[i].Filename_ID = Helper.GetBinaryImageEncrypted(Filename_ID, MainData[i].Ekstension_ID);
 
                     string Filename_EN = MainData[i].Filename_EN;
                     if (!string.IsNullOrEmpty(Filename_EN))
-                        MainData[i].Filename_EN = Helper.GetBinaryImage(Filename_EN, MainData[i].Filename_EN);
+                        MainData[i].Filename_EN = Helper.GetBinaryImageEncrypted(Filename_EN, MainData[i].Ekstension_EN);
                 }
 
                 return Json(new { Error = false, Message = MainData });
@@ -166,14 +166,14 @@ namespace BO_SPP.Controllers
                         if (file.Length > 0)
                         {
                             Ekstension_ID = System.IO.Path.GetExtension(file.FileName).Trim();
-                            Filename_ID = "Banner_ID_" + _ID + Ekstension_ID;
+                            Filename_ID = "Banner_ID_" + _ID;
 
                             var filePath = Path.GetTempFileName();
                             using (var stream = System.IO.File.Create(filePath))
                             {
                                 file.CopyTo(stream);
 
-                                string upload = Helper.UploadFTP(stream, Filename_ID, Ekstension_ID);
+                                string upload = Helper.UploadFTPWithEcryption(file, Filename_ID, Ekstension_ID);
                                 if (upload != "success")
                                 {
                                     Filename_ID = "";
@@ -224,14 +224,14 @@ namespace BO_SPP.Controllers
                         if (file.Length > 0)
                         {
                             Ekstension_EN = System.IO.Path.GetExtension(file.FileName).Trim();
-                            Filename_EN = "Banner_EN_" + _ID + Ekstension_EN;
+                            Filename_EN = "Banner_EN_" + _ID;
 
                             var filePath = Path.GetTempFileName();
                             using (var stream = System.IO.File.Create(filePath))
                             {
                                 file.CopyTo(stream);
 
-                                string upload = Helper.UploadFTP(stream, Filename_EN, Ekstension_EN);
+                                string upload = Helper.UploadFTPWithEcryption(file, Filename_EN, Ekstension_EN);
                                 if (upload != "success")
                                 {
                                     Filename_EN = Filename_ID;
@@ -437,7 +437,7 @@ namespace BO_SPP.Controllers
                     {
                         string Ekstension = MainData[i].Ekstension.ToLower();
                         if (Ekstension == ".jpg" || Ekstension == ".jpeg" || Ekstension == ".png")
-                            MainData[i].Filename = Helper.GetBinaryImage(Filename, MainData[i].Filename);
+                            MainData[i].Filename = Helper.GetBinaryImageEncrypted(Filename, MainData[i].Ekstension);
                     }
 
                     string Filename1 = MainData[i].Filename1;
@@ -445,7 +445,7 @@ namespace BO_SPP.Controllers
                     {
                         string Ekstension1 = MainData[i].Ekstension1.ToLower();
                         if (Ekstension1 == ".jpg" || Ekstension1 == ".jpeg" || Ekstension1 == ".png")
-                            MainData[i].Filename1 = Helper.GetBinaryImage(Filename1, MainData[i].Filename1);
+                            MainData[i].Filename1 = Helper.GetBinaryImageEncrypted(Filename1, MainData[i].Ekstension1);
                     }
 
                 }
@@ -470,7 +470,7 @@ namespace BO_SPP.Controllers
 
                 string ID = sani.Sanitize(Model.ID);
                 string _ID = Guid.NewGuid().ToString();
-       
+
                 if (!string.IsNullOrEmpty(sani.Sanitize(Model.Title_ID)) && string.IsNullOrEmpty(sani.Sanitize(Model.Title_EN)))
                     throw new Exception("Title versi English tidak valid|document.getElementById('nav_EN').click(); document.getElementById('Title_EN').focus()");
 
@@ -510,7 +510,7 @@ namespace BO_SPP.Controllers
                 #region Upload_ID
                 string Filename_ID = "", Ekstension_ID = "";
                 if (Model.Upload_ID != null)
-                {                  
+                {
                     List<IFormFile> files = new List<IFormFile>();
                     files.Add(Model.Upload_ID);
                     foreach (IFormFile file in files)
@@ -518,14 +518,14 @@ namespace BO_SPP.Controllers
                         if (file.Length > 0)
                         {
                             Ekstension_ID = System.IO.Path.GetExtension(file.FileName).Trim();
-                            Filename_ID = Tipe.Trim().Replace(" ", "") + "_fn_ID_" + _ID + Ekstension_ID.Trim();
+                            Filename_ID = Tipe.Trim().Replace(" ", "") + "_fn_ID_" + _ID;
 
                             var filePath = Path.GetTempFileName();
                             using (var stream = System.IO.File.Create(filePath))
                             {
                                 file.CopyTo(stream);
 
-                                string upload = Helper.UploadFTP(stream, Filename_ID, Ekstension_ID);
+                                string upload = Helper.UploadFTPWithEcryption(file, Filename_ID, Ekstension_ID);
                                 if (upload != "success")
                                 {
                                     Filename_ID = "";
@@ -553,14 +553,14 @@ namespace BO_SPP.Controllers
                         if (file.Length > 0)
                         {
                             Ekstension1_ID = System.IO.Path.GetExtension(file.FileName).Trim();
-                            Filename1_ID = Tipe.Trim().Replace(" ", "") + "_fn1_ID_" + _ID + Ekstension1_ID.Trim();
+                            Filename1_ID = Tipe.Trim().Replace(" ", "") + "_fn1_ID_" + _ID;
 
                             var filePath = Path.GetTempFileName();
                             using (var stream = System.IO.File.Create(filePath))
                             {
                                 file.CopyTo(stream);
 
-                                string upload = Helper.UploadFTP(stream, Filename1_ID, Ekstension1_ID);
+                                string upload = Helper.UploadFTPWithEcryption(file, Filename1_ID, Ekstension1_ID);
                                 if (upload != "success")
                                 {
                                     Filename1_ID = "";
@@ -623,14 +623,14 @@ namespace BO_SPP.Controllers
                         if (file.Length > 0)
                         {
                             Ekstension_EN = System.IO.Path.GetExtension(file.FileName).Trim();
-                            Filename_EN = Tipe.Trim().Replace(" ", "") + "_fn_EN_" + _ID + Ekstension_EN.Trim();
+                            Filename_EN = Tipe.Trim().Replace(" ", "") + "_fn_EN_" + _ID;
 
                             var filePath = Path.GetTempFileName();
                             using (var stream = System.IO.File.Create(filePath))
                             {
                                 file.CopyTo(stream);
 
-                                string upload = Helper.UploadFTP(stream, Filename_EN, Ekstension_EN);
+                                string upload = Helper.UploadFTPWithEcryption(file, Filename_EN, Ekstension_EN);
                                 if (upload != "success")
                                 {
                                     Filename_EN = Filename_ID;
@@ -658,14 +658,14 @@ namespace BO_SPP.Controllers
                         if (file.Length > 0)
                         {
                             Ekstension1_EN = System.IO.Path.GetExtension(file.FileName).Trim();
-                            Filename1_EN = Tipe.Trim().Replace(" ", "") + "_fn1_EN_" + _ID + Ekstension1_EN.Trim();
+                            Filename1_EN = Tipe.Trim().Replace(" ", "") + "_fn1_EN_" + _ID;
 
                             var filePath = Path.GetTempFileName();
                             using (var stream = System.IO.File.Create(filePath))
                             {
                                 file.CopyTo(stream);
 
-                                string upload = Helper.UploadFTP(stream, Filename1_EN, Ekstension1_EN);
+                                string upload = Helper.UploadFTPWithEcryption(file, Filename1_EN, Ekstension1_EN);
                                 if (upload != "success")
                                 {
                                     Filename1_EN = Filename1_ID;
@@ -750,7 +750,7 @@ namespace BO_SPP.Controllers
                     {
                         string Ekstension = MainData[i].Ekstension.ToLower();
                         if (Ekstension == ".jpg" || Ekstension == ".jpeg" || Ekstension == ".png")
-                            MainData[i].Filename = Helper.GetBinaryImage(Filename, MainData[i].Filename);
+                            MainData[i].Filename = Helper.GetBinaryImageEncrypted(Filename, MainData[i].Ekstension);
                     }
 
                     string Filename1 = MainData[i].Filename1;
@@ -758,7 +758,7 @@ namespace BO_SPP.Controllers
                     {
                         string Ekstension1 = MainData[i].Ekstension1.ToLower();
                         if (Ekstension1 == ".jpg" || Ekstension1 == ".jpeg" || Ekstension1 == ".png")
-                            MainData[i].Filename1 = Helper.GetBinaryImage(Filename1, MainData[i].Filename1);
+                            MainData[i].Filename1 = Helper.GetBinaryImageEncrypted(Filename1, MainData[i].Ekstension1);
                     }
 
                 }
@@ -802,7 +802,7 @@ namespace BO_SPP.Controllers
                     {
                         string Ekstension = MainData[i].Ekstension.ToLower();
                         if (Ekstension == ".jpg" || Ekstension == ".jpeg" || Ekstension == ".png")
-                            MainData[i].Filename = Helper.GetBinaryImage(Filename, MainData[i].Filename);
+                            MainData[i].Filename = Helper.GetBinaryImageEncrypted(Filename, MainData[i].Ekstension);
                     }
 
                     string Filename1 = MainData[i].Filename1;
@@ -810,7 +810,7 @@ namespace BO_SPP.Controllers
                     {
                         string Ekstension1 = MainData[i].Ekstension1.ToLower();
                         if (Ekstension1 == ".jpg" || Ekstension1 == ".jpeg" || Ekstension1 == ".png")
-                            MainData[i].Filename1 = Helper.GetBinaryImage(Filename1, MainData[i].Filename1);
+                            MainData[i].Filename1 = Helper.GetBinaryImageEncrypted(Filename1, MainData[i].Ekstension1);
                     }
 
                 }

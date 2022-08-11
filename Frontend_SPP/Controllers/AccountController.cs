@@ -117,7 +117,7 @@ namespace Frontend_SPP.Controllers
                     var Img = MainData[i].Img;
                     if (!string.IsNullOrEmpty(Img))
                     {
-                        MainData[i].Img = Helper.GetBinaryImage(MainData[i].Img, "jpg");
+                        MainData[i].Img = Helper.GetBinaryImageEncrypted(MainData[i].Img, MainData[i].Ekstension);
                     }
                 }
 
@@ -157,7 +157,7 @@ namespace Frontend_SPP.Controllers
                         if (file.Length > 0)
                         {
                             FotoFileExtension = System.IO.Path.GetExtension(file.FileName).Trim();
-                            FotoFilename = StringCipher.Decrypt(HttpContext.Session.GetString("UserID")) + FotoFileExtension;
+                            FotoFilename = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));
 
                             if (FotoFileExtension.ToLower() == ".jpg" || FotoFileExtension.ToLower() == ".png" || FotoFileExtension.ToLower() == ".jpeg")
                             {
@@ -166,7 +166,7 @@ namespace Frontend_SPP.Controllers
                                 {
                                     file.CopyTo(stream);
 
-                                    string upload = Helper.UploadFTP(stream, FotoFilename, FotoFileExtension);
+                                    string upload = Helper.UploadFTPWithEcryption(file, FotoFilename, FotoFileExtension);
                                     if (upload != "success")
                                     {
                                         FotoFilename = "";
@@ -175,7 +175,7 @@ namespace Frontend_SPP.Controllers
                                     }
                                     else
                                     {
-                                        string imgPath = Helper.GetBinaryImage(FotoFilename, "jpg");
+                                        string imgPath = Helper.GetBinaryImageEncrypted(FotoFilename, FotoFileExtension);
                                         HttpContext.Session.SetString("img", imgPath);
                                     }
                                 }
@@ -629,7 +629,7 @@ namespace Frontend_SPP.Controllers
                         HttpContext.Session.SetString("img", "../image/default_avatar.png");
                     else
                     {
-                        string imgPath = Helper.GetBinaryImage(dt_User.Rows[0]["Img"].ToString(), "jpg");
+                        string imgPath = Helper.GetBinaryImageEncrypted(dt_User.Rows[0]["Img"].ToString(), dt_User.Rows[0]["Ekstension"].ToString());
                         HttpContext.Session.SetString("img", imgPath);
                     }
 

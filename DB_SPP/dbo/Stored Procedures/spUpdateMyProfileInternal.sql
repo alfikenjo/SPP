@@ -22,6 +22,7 @@ CREATE PROCEDURE [dbo].[spUpdateMyProfileInternal]
 	@Jabatan varchar(200) = '',
 	@Divisi varchar(200) = '',
 	@Img nvarchar(100) = '',
+	@Ekstension nvarchar(100) = '',
 	@CreatedBy varchar(50)
 AS
 BEGIN
@@ -38,6 +39,7 @@ BEGIN
 			Jabatan = NULLIF(@Jabatan, ''),
 			Divisi = NULLIF(@Divisi, ''),
 			Img = ISNULL(NULLIF(@Img, ''), Img),
+			Ekstension = ISNULL(NULLIF(@Ekstension, ''), Ekstension),
 			UpdatedOn = GETDATE(),
 			UpdatedBy = NULLIF(@CreatedBy, '')
 	WHERE	UserID = @UserID

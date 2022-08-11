@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Frontend_SPP.Models;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using System.Text.RegularExpressions;
@@ -136,40 +137,6 @@ namespace Frontend_SPP.Common
             return result;
         }
 
-        public static string UploadFileToFTP(string Filepath, string Filename)
-        {
-            string result = "";
-            try
-            {
-                using (var ftp = new FtpClient(ftpAddress, ftpUsername, ftpPassword))
-                {
-                    ftp.Connect();
-                    ftp.UploadFile(Filepath, FolderPath + Filename, FtpRemoteExists.Overwrite, true);
-                    result = "success";
-                }
-            }
-            catch (Exception exc)
-            {
-                result = "failed, " + exc.Message;
-            }
-            return result;
-        }
-
-        public static bool UploadFile(IFormFile ufile, string Filename)
-        {
-            if (ufile != null && ufile.Length > 0)
-            {
-                //var fileName = Path.GetFileName(ufile.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\repo", Filename);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    ufile.CopyToAsync(fileStream);
-                }
-                return true;
-            }
-            return false;
-        }
-
         public static string GetImageCaptcha(string key, string captcha)
         {
             string Result;
@@ -281,23 +248,7 @@ namespace Frontend_SPP.Common
             {
                 return 0;
             }
-        }
-
-        public static string ComposeMsgNotification(string Fullname, string Sender, string Group, string Thread, string Messages)
-        {
-            string _domain_name = ConfigurationManager.AppSetting["FileConfiguration:domain_name"];
-            string HTML = "<div class='email-wrapper'>" +
-                          "  <p> Yang terhormat Bapak/Ibu: <strong> " + Fullname + "</strong></p>" +
-                          "  <p> Anda telah menerima pesan diskusi dibawah ini pada Aplikasi <strong> Portal SPP</strong></p>" +
-                          "  <p> </p>" +
-                          "  <p> <ul><li> Group Diskusi: <strong>" + Group + "</strong></li><li> Thread/Subject: <strong>" + Thread + "</strong> </li><li> Pengirim: <strong>" + Sender + "</strong> </li><li> Pesan: <strong>" + Messages + "</strong> </li></ul></p>" +
-                          "  <p> Klik pada tombol dibawah ini untuk login ke aplikasi Portal SPP</p>" +
-                          "  <p> <a href='" + _domain_name + "/Forum/Index' target='_blank' rel='noopener' title='Klik untuk login ke Portal SPP'><button style='padding: 10px; background-color: aquamarine; font-size: 14px; font-weight: bold; cursor: pointer'>Login ke Back Office Aplikasi Portal SPP</button></a></p> " +
-                          "  <p> Email ini bersifat RAHASIA, mohon tidak menyerahkan informasi ini kepada pihak manapun</p>    <p></p>    <p></p>    <p><strong> Portal SPP Kemenkeu </strong></p>    <p></p>    <p><sub><em> *) Anda menerima email ini karena Anda terdaftar pada Back Office Portal SPP. Bila Anda merasa ini adalah kesalahan, harap abaikan email ini.Email ini dikirim secara otomatis, jangan membalas email ini</em></sub></p>" +
-                          "  </div>";
-
-            return HTML;
-        }
+        }        
 
         public static void RecordAuditTrail(string Username, string Menu, string Halaman, string Item, string Action, string Description)
         {
@@ -465,5 +416,349 @@ namespace Frontend_SPP.Common
             return int.Parse(drIsUserActive["Count"].ToString()) > 0;
         }
 
+        public static string UploadFTPWithEcryption(IFormFile file, string Filename, string Ekstension)
+        {
+            string result = "";
+            try
+            {
+                if (Ekstension.Length > 0)
+                    Ekstension = Ekstension.Trim().ToLower().Replace(".", "");
+
+                bool ValidEkstension = false;
+                DataTable dt_FileEkstensionFilter = mssql.GetDataTable("SELECT Name FROM FileEkstensionFilter ORDER BY Name");
+                foreach (DataRow dr in dt_FileEkstensionFilter.Rows)
+                {
+                    string Eks = dr["Name"].ToString().Replace(".", "").Trim();
+                    string FileEkstensionFilter = Eks;
+
+                    if (Ekstension == Eks.ToLower())
+                        ValidEkstension = true;
+                }
+
+                if (!ValidEkstension)
+                    throw new Exception("Failed, file or attachment is not valid");
+
+                long MaxUploadSize = 1;
+                DataTable dtFileUpload = mssql.GetDataTable("SELECT TOP 1 * FROM tblM_Referensi WHERE Type = 'Max Upload Size'");
+                if (dtFileUpload.Rows.Count == 1)
+                    MaxUploadSize = int.Parse(dtFileUpload.Rows[0]["Value"].ToString());
+
+                using (var original_ms = new MemoryStream())
+                {
+                    file.CopyTo(original_ms);
+                    long size = original_ms.Length / 1024;
+                    if (size > (MaxUploadSize * 1000))
+                        throw new Exception("Declined, file upload cannot exceed " + MaxUploadSize + " MB");
+
+                    if (original_ms.Length == 0)
+                        throw new Exception("Failed, file or attachment is not valid");
+                }
+
+
+                string EncryptionKey = "MAKV2SPBNI99212";
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+
+                using (var encryptedStream = new MemoryStream())
+                {
+                    using (Aes encryptor = Aes.Create())
+                    {
+                        encryptor.Key = pdb.GetBytes(32);
+                        encryptor.IV = pdb.GetBytes(16);
+                        using (CryptoStream cryptoStream = new CryptoStream(encryptedStream, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                        {
+                            using (var ms = new MemoryStream())
+                            {
+                                file.CopyTo(ms);
+                                var fileBytes = ms.ToArray();
+
+                                using (var originalByteStream = new MemoryStream(fileBytes))
+                                {
+                                    int data;
+                                    while ((data = originalByteStream.ReadByte()) != -1)
+                                        cryptoStream.WriteByte((byte)data);
+                                }
+                            }
+                        }
+                    }
+
+                    var encryptedBytes = encryptedStream.ToArray();
+                    Stream st = new MemoryStream(encryptedBytes);
+
+                    using (var ftp = new FtpClient(ftpAddress, ftpUsername, ftpPassword))
+                    {
+                        ftp.Connect();
+                        ftp.Upload(st, FolderPath + Filename, FtpRemoteExists.Overwrite, true);
+                        result = "success";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+        }
+
+        public static string FileDecryption(string FileName, string FileExtension)
+        {
+            if (FileExtension.Length > 0)
+                FileExtension = FileExtension.Trim().ToLower().Replace(".", "");
+
+            string Result;
+            string EncryptionKey = "MAKV2SPBNI99212";
+            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+            try
+            {
+                using (var conn = new FtpClient(ftpAddress, ftpUsername, ftpPassword))
+                {
+                    conn.Connect();
+
+                    using (var istream = conn.OpenRead(FolderPath + FileName))
+                    {
+                        try
+                        {
+                            byte[] bytes;
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                istream.CopyTo(memoryStream);
+                                bytes = memoryStream.ToArray();
+                            }
+
+                            using (var encryptedStream = new MemoryStream(bytes))
+                            {
+                                using (var decryptedStream = new MemoryStream())
+                                {
+                                    using (Aes encryptor = Aes.Create())
+                                    {
+                                        encryptor.Key = pdb.GetBytes(32);
+                                        encryptor.IV = pdb.GetBytes(16);
+                                        using (var decryptor = encryptor.CreateDecryptor())
+                                        {
+                                            using (var cryptoStream = new CryptoStream(encryptedStream, decryptor, CryptoStreamMode.Read))
+                                            {
+                                                int data;
+
+                                                while ((data = cryptoStream.ReadByte()) != -1)
+                                                    decryptedStream.WriteByte((byte)data);
+                                            }
+                                        }
+                                    }
+
+                                    decryptedStream.Position = 0;
+                                    var decryptedBytes = decryptedStream.ToArray();
+
+                                    string base64 = Convert.ToBase64String(decryptedBytes);
+                                    string contenttype = "image";
+                                    if (FileExtension == "pdf")
+                                        contenttype = "application";
+                                    Result = "data:" + contenttype + "/" + FileExtension + ";base64," + base64;
+                                }
+                            }
+                        }
+                        finally
+                        {
+                            istream.Close();
+                        }
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                Result = "failed, " + exc.Message;
+            }
+
+            return Result;
+        }
+
+        public static byte[] FileDecryptionToByte(string FileName)
+        {
+            if (FileName.Contains("."))
+            {
+                string[] FileNames = FileName.Split(".");
+                if (FileNames.Length == 2)
+                    FileName = FileNames[0].Trim();
+            }
+
+            byte[] st;
+            string EncryptionKey = "MAKV2SPBNI99212";
+            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+            using (var conn = new FtpClient(ftpAddress, ftpUsername, ftpPassword))
+            {
+                conn.Connect();
+
+                using (var istream = conn.OpenRead(FolderPath + FileName))
+                {
+                    try
+                    {
+                        byte[] bytes;
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            istream.CopyTo(memoryStream);
+                            bytes = memoryStream.ToArray();
+                        }
+
+                        using (var encryptedStream = new MemoryStream(bytes))
+                        {
+                            using (var decryptedStream = new MemoryStream())
+                            {
+                                using (Aes encryptor = Aes.Create())
+                                {
+                                    encryptor.Key = pdb.GetBytes(32);
+                                    encryptor.IV = pdb.GetBytes(16);
+                                    using (var decryptor = encryptor.CreateDecryptor())
+                                    {
+                                        using (var cryptoStream = new CryptoStream(encryptedStream, decryptor, CryptoStreamMode.Read))
+                                        {
+                                            int data;
+
+                                            while ((data = cryptoStream.ReadByte()) != -1)
+                                                decryptedStream.WriteByte((byte)data);
+                                        }
+                                    }
+                                }
+
+                                decryptedStream.Position = 0;
+                                st = decryptedStream.ToArray();
+                                return st;
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        istream.Close();
+                    }
+                }
+            }
+
+        }
+
+        public static string GetBinaryImageEncrypted(string FileName, string FileExtension)
+        {
+            FileName = FileName.Replace(FileExtension, "");
+
+            if (FileExtension.Length > 0)
+                FileExtension = FileExtension.Trim().ToLower().Replace(".", "");
+
+            string Result;
+            string EncryptionKey = "MAKV2SPBNI99212";
+            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+
+            try
+            {
+                using (var conn = new FtpClient(ftpAddress, ftpUsername, ftpPassword))
+                {
+                    conn.Connect();
+
+                    // open an read-only stream to the file
+                    using (var istream = conn.OpenRead(FolderPath + FileName))
+                    {
+                        try
+                        {
+                            byte[] bytes;
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                istream.CopyTo(memoryStream);
+                                bytes = memoryStream.ToArray();
+                            }
+
+                            using (var encryptedStream = new MemoryStream(bytes))
+                            {
+                                using (var decryptedStream = new MemoryStream())
+                                {
+                                    using (Aes encryptor = Aes.Create())
+                                    {
+                                        encryptor.Key = pdb.GetBytes(32);
+                                        encryptor.IV = pdb.GetBytes(16);
+                                        using (var decryptor = encryptor.CreateDecryptor())
+                                        {
+                                            using (var cryptoStream = new CryptoStream(encryptedStream, decryptor, CryptoStreamMode.Read))
+                                            {
+                                                int data;
+
+                                                while ((data = cryptoStream.ReadByte()) != -1)
+                                                    decryptedStream.WriteByte((byte)data);
+                                            }
+                                        }
+                                    }
+
+                                    decryptedStream.Position = 0;
+                                    var decryptedBytes = decryptedStream.ToArray();
+                                    string base64 = Convert.ToBase64String(decryptedBytes);
+                                    string mimeType = MimeMapping.GetMimeMapping(FileName + "." + FileExtension);
+                                    Result = "data:" + mimeType + ";base64," + base64;
+                                }
+                            }
+
+                        }
+                        finally
+                        {
+                            istream.Close();
+                        }
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                Result = "failed, " + exc.Message;
+            }
+
+            return Result;
+        }
+
+        public static string EncryptFile(Stream file, string Filename, string Ekstension)
+        {
+            string result = "";
+            try
+            {
+                Filename = Filename.Replace(Ekstension, "");
+
+                if (Ekstension.Length > 0)
+                    Ekstension = Ekstension.Trim().ToLower().Replace(".", "");
+
+                string EncryptionKey = "MAKV2SPBNI99212";
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+
+                using (var encryptedStream = new MemoryStream())
+                {
+                    using (Aes encryptor = Aes.Create())
+                    {
+                        encryptor.Key = pdb.GetBytes(32);
+                        encryptor.IV = pdb.GetBytes(16);
+                        using (CryptoStream cryptoStream = new CryptoStream(encryptedStream, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                        {
+                            using (var ms = new MemoryStream())
+                            {
+                                file.CopyTo(ms);
+                                var fileBytes = ms.ToArray();
+
+                                using (var originalByteStream = new MemoryStream(fileBytes))
+                                {
+                                    int data;
+                                    while ((data = originalByteStream.ReadByte()) != -1)
+                                        cryptoStream.WriteByte((byte)data);
+                                }
+                            }
+                        }
+                    }
+
+                    var encryptedBytes = encryptedStream.ToArray();
+                    Stream st = new MemoryStream(encryptedBytes);
+
+                    using (var ftp = new FtpClient(ftpAddress, ftpUsername, ftpPassword))
+                    {
+                        ftp.Connect();
+                        ftp.Upload(st, FolderPath + Filename, FtpRemoteExists.Overwrite, true);
+                        result = "success";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+        }
     }
 }

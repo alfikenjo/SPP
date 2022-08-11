@@ -28,7 +28,7 @@ BEGIN
 			dbo.Format24DateTime(ISNULL(A.UpdatedOn, A.CreatedOn)) [s_UpdatedOn],
 			A.UpdatedBy,
 			CASE WHEN A.isActive = 1 THEN 'Aktif' ELSE 'Non-Aktif' END [Status],
-			Img, Notifikasi
+			Img, Ekstension, Notifikasi
 	FROM	tblM_User A 
 	WHERE	A.UserID = @UserID			
 

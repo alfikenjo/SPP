@@ -27,6 +27,7 @@ BEGIN
 			dbo.Format24DateTime(B.CreatedOn) [s_UpdatedOn],
 			B.CreatedBy,
 			A.Img,
+			A.Ekstension,
 			(SELECT Name FROM tblM_Delegator WHERE ID = @DelegatorID) [DelegatorName]
 			--(SELECT DISTINCT B.Name + '; ' AS 'data()' FROM tblT_UserInDelegator X LEFT JOIN tblM_Delegator B ON X.DelegatorID = B.ID WHERE A.UserID = X.UserID FOR XML PATH('')) [Delegators]
 	FROM	tblM_User A

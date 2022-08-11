@@ -9,6 +9,7 @@ using System;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace BO_SPP.Controllers
 {
@@ -35,10 +36,11 @@ namespace BO_SPP.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }        
+        }
 
         [HttpGet]
-        public ActionResult GetFile(string Filename, string Extension)
+        [DisableRequestSizeLimit]
+        public IActionResult GetFile(string Filename, string Extension)
         {
             try
             {
@@ -84,7 +86,8 @@ namespace BO_SPP.Controllers
         }
 
         [HttpGet]
-        public ActionResult ShowFile(string Filename, string Extension)
+        [DisableRequestSizeLimit]
+        public IActionResult ShowFile(string Filename, string Extension)
         {
             try
             {
@@ -126,6 +129,60 @@ namespace BO_SPP.Controllers
             }
 
 
+        }
+
+        [HttpGet]
+        [DisableRequestSizeLimit]
+        public IActionResult sef(string Filename, string Extension)
+        {
+
+            if (Extension.Length > 0)
+                Extension = Extension.Trim().ToLower().Replace(".", "");
+
+            try
+            {
+                if (string.IsNullOrEmpty(StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
+                    return RedirectToAction("Index", "Dashboard");
+
+                if (!Helper.GrantedFile(Filename, StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
+                    throw new Exception("Request is denied, you are not authorized to access this page");
+
+                string mimeType = MimeMapping.GetMimeMapping(Filename + "." + Extension);
+                MemoryStream ms = new MemoryStream(Helper.FileDecryptionToByte(Filename));
+                Response.Headers.Add("Content-Disposition", "inline; filename=" + Filename + "." + Extension);
+                return File(ms, mimeType);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = true, Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [DisableRequestSizeLimit]
+        public IActionResult gef(string Filename, string Extension)
+        {
+
+            if (Extension.Length > 0)
+                Extension = Extension.Trim().ToLower().Replace(".", "");
+
+            try
+            {
+                if (string.IsNullOrEmpty(StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
+                    return RedirectToAction("Index", "Dashboard");
+
+                if (!Helper.GrantedFile(Filename, StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
+                    throw new Exception("Request is denied, you are not authorized to access this page");
+
+                string mimeType = MimeMapping.GetMimeMapping(Filename + "." + Extension);
+                MemoryStream ms = new MemoryStream(Helper.FileDecryptionToByte(Filename));
+                Response.Headers.Add("Content-Disposition", "attachment; filename=" + Filename + "." + Extension);
+                return File(ms, mimeType);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = true, Message = ex.Message });
+            }
         }
     }
 }

@@ -64,7 +64,7 @@
                                                 <img id="imgempPicture" class="crm-profile-pic rounded-circle avatar-100" src="@HttpContextAccessor.HttpContext.Session.GetString("img")" alt="profile-pic" />
                                                 <div class="crm-p-image bg-primary">
                                                     <i class="las la-pen upload-button"></i>
-                                                    <input type="file" id="fuempPicture" name="fuempPicture" class="file-upload" />
+                                                    <input type="file" id="fuempPicture" name="fuempPicture" accept="image/*" class="file-upload" />
                                                 </div>
                                                 <div class="crm-p-image bg-danger" style="left: 0 !important; font-size: 13px;line-height: 26px;">
                                                     <i class="las la-trash" onclick="ClearFile('fuempPicture');"></i>

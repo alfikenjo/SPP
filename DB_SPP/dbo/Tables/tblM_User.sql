@@ -14,6 +14,7 @@
     [Jabatan]             VARCHAR (200)    NULL,
     [ID_Unit]             UNIQUEIDENTIFIER NULL,
     [Img]                 NVARCHAR (100)   NULL,
+    [Ekstension]          NVARCHAR (100)   NULL,
     [Notifikasi]          INT              CONSTRAINT [DF__tblM_User__Notif__31EC6D26] DEFAULT ((1)) NOT NULL,
     [isActive]            INT              CONSTRAINT [DF__tblM_User__isAct__32E0915F] DEFAULT ((1)) NULL,
     [LastLoginDate]       DATETIME         NULL,

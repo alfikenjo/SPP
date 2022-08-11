@@ -32,6 +32,7 @@ namespace Frontend_SPP.Models
         public string Jabatan { get; set; }
         public Guid? ID_Unit { get; set; }
         public string Img { get; set; }
+        public string Ekstension { get; set; }
         public int isActive { get; set; }
         public Nullable<DateTime> LastLoginDate { get; set; }
         public Nullable<DateTime> LastPasswordChanged { get; set; }

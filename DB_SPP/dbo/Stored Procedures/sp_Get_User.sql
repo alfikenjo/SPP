@@ -23,7 +23,7 @@ BEGIN
 	
 	SET NOCOUNT ON;
 	
-	DECLARE @TABLE AS TABLE (UserID VARCHAR(36), Fullname VARCHAR(MAX), Mobile VARCHAR(MAX), Email VARCHAR(MAX), NIP VARCHAR(MAX), Jabatan VARCHAR(MAX), Divisi VARCHAR(MAX), isActive INT, Roles VARCHAR(MAX), s_UpdatedOn VARCHAR(MAX), UpdatedBy VARCHAR(MAX), Status VARCHAR(MAX), Img VARCHAR(MAX), Delegators VARCHAR(MAX));
+	DECLARE @TABLE AS TABLE (UserID VARCHAR(36), Fullname VARCHAR(MAX), Mobile VARCHAR(MAX), Email VARCHAR(MAX), NIP VARCHAR(MAX), Jabatan VARCHAR(MAX), Divisi VARCHAR(MAX), isActive INT, Roles VARCHAR(MAX), s_UpdatedOn VARCHAR(MAX), UpdatedBy VARCHAR(MAX), Status VARCHAR(MAX), Img VARCHAR(MAX), Ekstension VARCHAR(MAX), Delegators VARCHAR(MAX));
 
 	DECLARE @QUERY VARCHAR(MAX);
 
@@ -35,7 +35,7 @@ BEGIN
 						dbo.Format24DateTime(ISNULL(A.UpdatedOn, A.CreatedOn)) [UpdatedOn],
 						ISNULL(A.UpdatedBy, A.CreatedBy),
 						CASE WHEN A.isActive = 1 THEN ''Aktif'' ELSE ''Non-Aktif'' END [Status],
-						Img,
+						Img, Ekstension,
 						(SELECT DISTINCT B.Name + ''; '' AS ''data()'' FROM tblT_UserInDelegator X LEFT JOIN tblM_Delegator B ON X.DelegatorID = B.ID WHERE A.UserID = X.UserID FOR XML PATH('''')) [Delegators]
 				FROM	tblM_User A											
 				WHERE	ISNULL(IsDeleted, 0) = 0';
@@ -57,7 +57,7 @@ BEGIN
 		INSERT INTO @TABLE
 		EXECUTE (@QUERY);
 
-		SELECT  UserID, Fullname, Mobile, Email, NIP, Jabatan, isActive, SUBSTRING(Roles, 1, 254) [Roles], s_UpdatedOn, UpdatedBy, Status, Img, Delegators 
+		SELECT  UserID, Fullname, Mobile, Email, NIP, Jabatan, isActive, SUBSTRING(Roles, 1, 254) [Roles], s_UpdatedOn, UpdatedBy, Status, Img, Ekstension, Delegators 
 		FROM	@TABLE WHERE Roles LIKE '%'+ @Roles +'%';
 	END	
 	ELSE
