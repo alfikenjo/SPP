@@ -420,6 +420,70 @@ namespace BO_SPP.Controllers
                 return Json(new { Error = true, Message = 0 });
             }
         }
+
+        public IActionResult Configuration()
+        {
+            string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
+                return RedirectToAction("Index", "Dashboard");
+
+            ViewData["CurrentControllerName"] = "Setting";
+            ViewData["CurrentActionName"] = "OTP Configuration";
+            ViewData["Title"] = "OTP Configuration";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GetConfiguration()
+        {
+            try
+            {
+                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+                string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
+                    throw new Exception("Invalid Authorization|window.location='/'");
+
+                DataTable dtConfiguration = mssql.GetDataTable("EXEC sp_Get_config");
+                List<Configuration> Configuration = new List<Configuration>();
+                Configuration = mssql.ConvertDataTable<Configuration>(dtConfiguration);
+
+                return Json(new { Error = false, Message = Configuration });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = true, Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SaveConfiguration(Configuration Model)
+        {
+            try
+            {
+                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+                string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+                if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
+                    throw new Exception("Invalid Authorization|window.location='/'");
+
+                #region Save           
+
+                List<SqlParameter> param = new List<SqlParameter>();
+                param.Add(new SqlParameter("@Request_OTP", sani.Sanitize(Model.Request_OTP)));
+                param.Add(new SqlParameter("@Submit_OTP", sani.Sanitize(Model.Submit_OTP)));
+
+
+                mssql.ExecuteNonQuery("sp_saveConfig", param);
+                #endregion Save
+
+                return Json(new { Error = false, Message = "" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = true, Message = ex.Message });
+            }
+        }
     }
 
 

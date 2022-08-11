@@ -279,6 +279,9 @@ namespace Frontend_SPP.Controllers
                 string PhoneChanged = "";
                 if (Mobile.Length >= 8 && Mobile.Length <= 15 && Mobile != OldMobile)
                 {
+                    int OTPTimes = 0;
+                    if (!string.IsNullOrEmpty(HttpContext.Session.GetString("OTPTimes")))
+                        OTPTimes = int.Parse(HttpContext.Session.GetString("OTPTimes"));
 
                     string UserID = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));
                     string New_OTP_ID = Guid.NewGuid().ToString();
@@ -297,7 +300,21 @@ namespace Frontend_SPP.Controllers
 
                     string SMS_Respon = Helper.SendSMSSingle(SMS_Body, Mobile);
                     if (SMS_Respon == "Success")
+                    {
                         mssql.ExecuteNonQuery("UPDATE tblT_OTP SET SMS_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_OTP_ID + "'");
+                        OTPTimes = OTPTimes + 1;
+                        HttpContext.Session.SetString("OTPTimes", OTPTimes.ToString());
+                        HttpContext.Session.SetString("ReqTimes", DateTime.Now.ToString());
+                        if (OTPTimes == 3)
+                        {
+                            HttpContext.Session.Remove("OTPTimes");
+                            HttpContext.Session.Remove("ReqTimes");
+                            HttpContext.Session.SetString("OTPLock", DateTime.Now.ToString());
+                        }
+                        else
+                            HttpContext.Session.Remove("OTPLock");
+                    }
+
                     else
                         throw new Exception(SMS_Respon);
 
@@ -730,16 +747,37 @@ namespace Frontend_SPP.Controllers
                         throw new Exception("Sistem mendeteksi Nomor Handphone ini digunakan oleh lebih dari 1 akun, silahkan menghubungi layanan helpdesk SPP PT SMI");
                 }
 
+                if (HttpContext.Session.GetString("ReqTimes") != null)
+                {
+                    DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
+                    int ReqOTP = Convert.ToInt32(DTreq.Rows[0]["Request_OTP"].ToString());
+                    int submitOTP = Convert.ToInt32(DTreq.Rows[0]["Submit_OTP"].ToString());
+                    DateTime current = DateTime.Now;
+                    DateTime Reqlocked = Convert.ToDateTime(HttpContext.Session.GetString("ReqTimes").ToString()).AddSeconds(ReqOTP);
+                    string ReqLockedUntil = Reqlocked.ToString("HH:mm:ss");
+                    if (current < Reqlocked)
+                        if (culture == "en")
+                            throw new Exception("Sorry, please wait for the next " + ReqOTP + " second (until " + ReqLockedUntil + ") to using OTP");
+                        else
+                            throw new Exception("Maaf,  silahkan menunggu selama " + ReqOTP + " detik kedepan (hingga " + ReqLockedUntil + ") untuk dapat menggunakan OTP");
+
+
+                }
+
                 if (HttpContext.Session.GetString("OTPLock") != null)
                 {
+                    DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
+                    int ReqOTP = Convert.ToInt32(DTreq.Rows[0]["Request_OTP"].ToString());
+                    int submitOTP = Convert.ToInt32(DTreq.Rows[0]["Submit_OTP"].ToString());
                     DateTime current = DateTime.Now;
-                    DateTime locked = Convert.ToDateTime(HttpContext.Session.GetString("OTPLock").ToString()).AddMinutes(10);
-                    string LockedUntil = locked.ToString("HH:mm");
+                    DateTime locked = Convert.ToDateTime(HttpContext.Session.GetString("OTPLock").ToString()).AddMinutes(submitOTP);
+                    string LockedUntil = locked.ToString("HH:mm:ss");
+
                     if (current < locked)
                         if (culture == "en")
-                            throw new Exception("Sorry, you have used OTP for 3 (three) times, please wait for the next 10 minutes (until " + LockedUntil + ") to using OTP");
+                            throw new Exception("Sorry, you have used OTP for 3 (three) times, please wait for the next " + submitOTP + " minutes (until " + LockedUntil + ") to using OTP");
                         else
-                            throw new Exception("Maaf, Anda sudah menggunakan OTP sebanyak 3 (tiga) kali, silahkan menunggu selama 10 menit kedepan (hingga " + LockedUntil + ") untuk dapat menggunakan OTP");
+                            throw new Exception("Maaf, Anda sudah menggunakan OTP sebanyak 3 (tiga) kali, silahkan menunggu selama " + submitOTP + " menit kedepan (hingga " + LockedUntil + ") untuk dapat menggunakan OTP");
                 }
 
                 string UserID = dtUser.Rows[0]["UserID"].ToString();
@@ -763,9 +801,11 @@ namespace Frontend_SPP.Controllers
                     mssql.ExecuteNonQuery("UPDATE tblT_User_Password_Forgotten SET Mail_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_User_Password_Forgotten_ID + "'");
                     OTPTimes = OTPTimes + 1;
                     HttpContext.Session.SetString("OTPTimes", OTPTimes.ToString());
+                    HttpContext.Session.SetString("ReqTimes", DateTime.Now.ToString());
                     if (OTPTimes == 3)
                     {
                         HttpContext.Session.Remove("OTPTimes");
+                        HttpContext.Session.Remove("ReqTimes");
                         HttpContext.Session.SetString("OTPLock", DateTime.Now.ToString());
                     }
                     else
@@ -875,16 +915,37 @@ namespace Frontend_SPP.Controllers
                         throw new Exception("Proses ditolak");
                 }
 
+                if (HttpContext.Session.GetString("ReqTimes") != null)
+                {
+                    DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
+                    int ReqOTP = Convert.ToInt32(DTreq.Rows[0]["Request_OTP"].ToString());
+                    int submitOTP = Convert.ToInt32(DTreq.Rows[0]["Submit_OTP"].ToString());
+                    DateTime current = DateTime.Now;
+                    DateTime Reqlocked = Convert.ToDateTime(HttpContext.Session.GetString("ReqTimes").ToString()).AddSeconds(ReqOTP);
+                    string ReqLockedUntil = Reqlocked.ToString("HH:mm:ss");
+                    if (current < Reqlocked)
+                        if (culture == "en")
+                            throw new Exception("Sorry, please wait for the next " + ReqOTP + " second (until " + ReqLockedUntil + ") to using OTP");
+                        else
+                            throw new Exception("Maaf,  silahkan menunggu selama " + ReqOTP + " detik kedepan (hingga " + ReqLockedUntil + ") untuk dapat menggunakan OTP");
+
+                   
+                }
+
                 if (HttpContext.Session.GetString("OTPLock") != null)
                 {
+                    DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
+                    int ReqOTP = Convert.ToInt32(DTreq.Rows[0]["Request_OTP"].ToString());
+                    int submitOTP = Convert.ToInt32(DTreq.Rows[0]["Submit_OTP"].ToString());
                     DateTime current = DateTime.Now;
-                    DateTime locked = Convert.ToDateTime(HttpContext.Session.GetString("OTPLock").ToString()).AddMinutes(10);
-                    string LockedUntil = locked.ToString("HH:mm");
-                    if (current < locked)
+                    DateTime locked = Convert.ToDateTime(HttpContext.Session.GetString("OTPLock").ToString()).AddMinutes(submitOTP);
+                    string LockedUntil = locked.ToString("HH:mm:ss");
+                   
+                  if (current < locked)
                         if (culture == "en")
-                            throw new Exception("Sorry, you have used OTP for 3 (three) times, please wait for the next 10 minutes (until " + LockedUntil + ") to using OTP");
+                            throw new Exception("Sorry, you have used OTP for 3 (three) times, please wait for the next "+submitOTP+" minutes (until " + LockedUntil + ") to using OTP");
                         else
-                            throw new Exception("Maaf, Anda sudah menggunakan OTP sebanyak 3 (tiga) kali, silahkan menunggu selama 10 menit kedepan (hingga " + LockedUntil + ") untuk dapat menggunakan OTP");
+                            throw new Exception("Maaf, Anda sudah menggunakan OTP sebanyak 3 (tiga) kali, silahkan menunggu selama " + submitOTP + " menit kedepan (hingga " + LockedUntil + ") untuk dapat menggunakan OTP");
                 }
 
                 string Mobile = DT.Rows[0]["Mobile"].ToString();
@@ -909,9 +970,11 @@ namespace Frontend_SPP.Controllers
                     mssql.ExecuteNonQuery("UPDATE tblT_User_Password_Forgotten SET Mail_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_User_Password_Forgotten_ID + "'");
                     OTPTimes = OTPTimes + 1;
                     HttpContext.Session.SetString("OTPTimes", OTPTimes.ToString());
+                    HttpContext.Session.SetString("ReqTimes", DateTime.Now.ToString());
                     if (OTPTimes == 3)
                     {
                         HttpContext.Session.Remove("OTPTimes");
+                        HttpContext.Session.Remove("ReqTimes");
                         HttpContext.Session.SetString("OTPLock", DateTime.Now.ToString());
                     }
                     else
@@ -976,16 +1039,37 @@ namespace Frontend_SPP.Controllers
                 string PhoneChanged = "";
                 if (Mobile.Length >= 8 && Mobile.Length <= 15)
                 {
+                    if (HttpContext.Session.GetString("ReqTimes") != null)
+                    {
+                        DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
+                        int ReqOTP = Convert.ToInt32(DTreq.Rows[0]["Request_OTP"].ToString());
+                        int submitOTP = Convert.ToInt32(DTreq.Rows[0]["Submit_OTP"].ToString());
+                        DateTime current = DateTime.Now;
+                        DateTime Reqlocked = Convert.ToDateTime(HttpContext.Session.GetString("ReqTimes").ToString()).AddSeconds(ReqOTP);
+                        string ReqLockedUntil = Reqlocked.ToString("HH:mm:ss");
+                        if (current < Reqlocked)
+                            if (culture == "en")
+                                throw new Exception("Sorry, please wait for the next " + ReqOTP + " second (until " + ReqLockedUntil + ") to using OTP");
+                            else
+                                throw new Exception("Maaf,  silahkan menunggu selama " + ReqOTP + " detik kedepan (hingga " + ReqLockedUntil + ") untuk dapat menggunakan OTP");
+
+
+                    }
+
                     if (HttpContext.Session.GetString("OTPLock") != null)
                     {
+                        DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
+                        int ReqOTP = Convert.ToInt32(DTreq.Rows[0]["Request_OTP"].ToString());
+                        int submitOTP = Convert.ToInt32(DTreq.Rows[0]["Submit_OTP"].ToString());
                         DateTime current = DateTime.Now;
-                        DateTime locked = Convert.ToDateTime(HttpContext.Session.GetString("OTPLock").ToString()).AddMinutes(10);
-                        string LockedUntil = locked.ToString("HH:mm");
+                        DateTime locked = Convert.ToDateTime(HttpContext.Session.GetString("OTPLock").ToString()).AddMinutes(submitOTP);
+                        string LockedUntil = locked.ToString("HH:mm:ss");
+
                         if (current < locked)
                             if (culture == "en")
-                                throw new Exception("Sorry, you have used OTP for 3 (three) times, please wait for the next 10 minutes (until " + LockedUntil + ") to using OTP");
+                                throw new Exception("Sorry, you have used OTP for 3 (three) times, please wait for the next " + submitOTP + " minutes (until " + LockedUntil + ") to using OTP");
                             else
-                                throw new Exception("Maaf, Anda sudah menggunakan OTP sebanyak 3 (tiga) kali, silahkan menunggu selama 10 menit kedepan (hingga " + LockedUntil + ") untuk dapat menggunakan OTP");
+                                throw new Exception("Maaf, Anda sudah menggunakan OTP sebanyak 3 (tiga) kali, silahkan menunggu selama " + submitOTP + " menit kedepan (hingga " + LockedUntil + ") untuk dapat menggunakan OTP");
                     }
 
                     string UserID = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));
@@ -1008,9 +1092,11 @@ namespace Frontend_SPP.Controllers
                         mssql.ExecuteNonQuery("UPDATE tblT_OTP SET SMS_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_OTP_ID + "'");
                         OTPTimes = OTPTimes + 1;
                         HttpContext.Session.SetString("OTPTimes", OTPTimes.ToString());
+                        HttpContext.Session.SetString("ReqTimes", DateTime.Now.ToString());
                         if (OTPTimes == 3)
                         {
                             HttpContext.Session.Remove("OTPTimes");
+                            HttpContext.Session.Remove("ReqTimes");
                             HttpContext.Session.SetString("OTPLock", DateTime.Now.ToString());
                         }
                         else

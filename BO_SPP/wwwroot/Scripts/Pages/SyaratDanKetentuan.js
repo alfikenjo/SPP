@@ -30,7 +30,7 @@ function FillForm_ID() {
                     if (data.Filename) {
                         var path = data.Filename;
                         document.getElementById('div_Preview_ID').style.display = 'block';
-                        Path = "../Home/ShowFile?Filename=" + data.Filename + "&Extension=" + data.Ekstension + "";
+                        Path = "../Home/sef?Filename=" + data.Filename + "&Extension=" + data.Ekstension + "";
                         var sb = "<div class='iq-media-group'>" +
                             "<a href='#' class='iq-media'>" +
                             "<a href='" + Path + "' target='_blank' class='btn btn-outline-danger btn-sm' style='text-style: italic'><i class='fa fa-download'></i> Buka Lampiran</a>" +
@@ -78,7 +78,7 @@ function FillForm_EN() {
 
                     if (data.Filename) {
                         document.getElementById('div_Preview_EN').style.display = 'block';                        
-                        Path = "../Home/ShowFile?Filename=" + data.Filename + "&Extension=" + data.Ekstension + "";
+                        Path = "../Home/sef?Filename=" + data.Filename + "&Extension=" + data.Ekstension + "";
                         var sb = "<div class='iq-media-group'>" +
                             "<a href='#' class='iq-media'>" +
                             "<a href='" + Path + "' target='_blank' class='btn btn-outline-danger btn-sm' style='text-style: italic'><i class='fa fa-download'></i> Buka Lampiran</a>" +

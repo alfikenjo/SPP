@@ -43,7 +43,7 @@ function FillForm_ID() {
                     if (data.Filename1) {
                         var Ekstension = data.Ekstension1.toLowerCase();
                         var div = document.getElementById('div_Filename1_ID');
-                        var sb = '<a target="_blank" href="../Home/ShowFile?Filename=' + data.Filename1 + '&Extension=' + Ekstension + '" class="btn btn-sm btn-outline-primary" style="cursor: pointer">Buka Lampiran</a>';
+                        var sb = '<a target="_blank" href="../Home/sef?Filename=' + data.Filename1 + '&Extension=' + Ekstension + '" class="btn btn-sm btn-outline-primary" style="cursor: pointer">Buka Lampiran</a>';
                         div.innerHTML = sb;
                     }
 
@@ -96,7 +96,7 @@ function FillForm_EN() {
                     if (data.Filename1) {
                         var Ekstension = data.Ekstension1.toLowerCase();
                         var div = document.getElementById('div_Filename1_EN');
-                        var sb = '<a target="_blank" href="../Home/ShowFile?Filename=' + data.Filename1 + '&Extension=' + Ekstension + '" class="btn btn-sm btn-outline-primary" style="cursor: pointer">Open Attachment</a>';
+                        var sb = '<a target="_blank" href="../Home/sef?Filename=' + data.Filename1 + '&Extension=' + Ekstension + '" class="btn btn-sm btn-outline-primary" style="cursor: pointer">Open Attachment</a>';
                         div.innerHTML = sb;
                     }
 
