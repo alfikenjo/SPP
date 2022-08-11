@@ -300,14 +300,15 @@ namespace BO_SPP.Controllers
                 }
                 else if (Action == "hapus")
                 {
-                    DataRow drCountMember = mssql.GetDataRow("select COUNT(*) [Count] from  tblT_UserInDelegator a inner join tblT_Dumas b on a.DelegatorID = b.DelegatorID where a.DelegatorID = (SELECT DelegatorID FROM tblT_UserInDelegator WHERE  ID = '" + UserIDOk + "') and b.Status not in ('Selesai')");
-                    if (int.Parse(drCountMember["Count"].ToString()) > 1)
-                        throw new Exception("Maaf User Delegator tidak boleh kosong masih memiliki [" + int.Parse(drCountMember["Count"].ToString()) + "] Aduan");
-
                     string SanitizedID = sani.Sanitize(Model.ID);
                     ID = StringCipher.Decrypt(SanitizedID.Split("|")[0]);
                     if (SanitizedID.Split("|")[1] != HttpContext.Session.GetString("SessionID"))
                         throw new Exception("Invalid Authorization|window.location='/'");
+
+                    DataRow drCountMember = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_UserInDelegator A JOIN tblM_User B ON A.UserID = B.UserID AND B.isActive = 1 AND B.IsDeleted = 0 AND A.ID <> '" + ID + "' WHERE A.DelegatorID = (SELECT DelegatorID FROM tblT_UserInDelegator WHERE ID = '" + ID + "')");
+                    if (int.Parse(drCountMember["Count"].ToString()) < 1)
+                        throw new Exception("Maaf, tidak dapat menghapus member, setiap grup Delegator wajib memiliki minimal 1 (satu) member yang aktif");
+
                 }
 
                 #region Save

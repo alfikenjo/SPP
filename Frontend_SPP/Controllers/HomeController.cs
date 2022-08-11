@@ -631,49 +631,46 @@ namespace Frontend_SPP.Controllers
         public IActionResult sef(string Filename, string Extension)
         {
 
-
-            if (string.IsNullOrEmpty(StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
-                return RedirectToAction("Index", "Home");
-
-            int Authenticated = 0;
-            string Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
-
-            if (!Helper.CheckUserActive(Email))
-                throw new Exception("Request is denied, you are not authorized to access this page");
-
-            DataRow drFilePengaduan = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_File_Evidence WHERE FileEvidence = '" + Filename + "' AND CreatedBy = '" + Email + "';");
-            Authenticated = Authenticated + int.Parse(drFilePengaduan["Count"].ToString());
-
-            DataRow drFilePengaduanByAdmin = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_File_Evidence A JOIN tblT_Dumas B ON A.ID_Header = B.ID WHERE A.FileEvidence = '98606dc9-6701-493d-8fdb-cb79bdec71d4' AND B.Email = '" + Email + "';");
-            Authenticated = Authenticated + int.Parse(drFilePengaduanByAdmin["Count"].ToString());
-
-            DataRow drFileIdentitas = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_Dumas_Detail WHERE FileIdentitas = '" + Filename + "' AND CreatedBy = '" + Email + "';");
-            Authenticated = Authenticated + int.Parse(drFileIdentitas["Count"].ToString());
-
-            DataRow drFileTanggapanPelapor = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_Tanggapan WHERE TipePengirim = 'Pelapor' AND Email = '" + Email + "' AND FileLampiran = '" + Filename + "'");
-            Authenticated = Authenticated + int.Parse(drFileTanggapanPelapor["Count"].ToString());
-
-            DataRow drFileTanggapanAdminSPP = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_Tanggapan A JOIN tblT_Dumas B ON A.IDPengaduan = B.ID WHERE B.Email = '" + Email + "' AND A.FileLampiran = '" + Filename + "'");
-            Authenticated = Authenticated + int.Parse(drFileTanggapanAdminSPP["Count"].ToString());
-
-            //DataRow drFileCMS = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_CMS WHERE Filename = '" + Filename + "' OR Filename1 = '" + Filename + "'");
-            //Authenticated = Authenticated + int.Parse(drFileCMS["Count"].ToString());
-
-            if (Authenticated == 0)
-                throw new Exception("Request is denied, you are not authorized to access this page");
-
-            if (Filename.Contains("."))
-            {
-                string[] FileNames = Filename.Split(".");
-                if (FileNames.Length == 2)
-                    Filename = FileNames[0].Trim();
-            }
-
-            if (Extension.Length > 0)
-                Extension = Extension.Trim().ToLower().Replace(".", "");
-
             try
             {
+                if (string.IsNullOrEmpty(StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
+                    return RedirectToAction("Index", "Dashboard");
+
+                int Authenticated = 0;
+                string Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+
+                if (!Helper.CheckUserActive(Email))
+                    throw new Exception("Request is denied, you are not authorized to access this page");
+
+                DataRow drFilePengaduan = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_File_Evidence WHERE FileEvidence = '" + Filename + "' AND CreatedBy = '" + Email + "';");
+                Authenticated = Authenticated + int.Parse(drFilePengaduan["Count"].ToString());
+
+                DataRow drFilePengaduanByAdmin = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_File_Evidence A JOIN tblT_Dumas B ON A.ID_Header = B.ID WHERE A.FileEvidence = '" + Filename + "' AND B.Email = '" + Email + "';");
+                Authenticated = Authenticated + int.Parse(drFilePengaduanByAdmin["Count"].ToString());
+
+                DataRow drFileIdentitas = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_Dumas_Detail WHERE FileIdentitas = '" + Filename + "' AND CreatedBy = '" + Email + "';");
+                Authenticated = Authenticated + int.Parse(drFileIdentitas["Count"].ToString());
+
+                DataRow drFileTanggapanPelapor = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_Tanggapan WHERE TipePengirim = 'Pelapor' AND Email = '" + Email + "' AND FileLampiran = '" + Filename + "'");
+                Authenticated = Authenticated + int.Parse(drFileTanggapanPelapor["Count"].ToString());
+
+                DataRow drFileTanggapanAdminSPP = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_Tanggapan A JOIN tblT_Dumas B ON A.IDPengaduan = B.ID AND A.TipePengirim IN ('Admin SPP', 'Pelapor') WHERE B.Email = '" + Email + "' AND A.FileLampiran = '" + Filename + "'");
+                Authenticated = Authenticated + int.Parse(drFileTanggapanAdminSPP["Count"].ToString());
+
+                if (Authenticated == 0)
+                    throw new Exception("Request is denied, you are not authorized to access this page");
+
+                if (Filename.Contains("."))
+                {
+                    string[] FileNames = Filename.Split(".");
+                    if (FileNames.Length == 2)
+                        Filename = FileNames[0].Trim();
+                }
+
+                if (Extension.Length > 0)
+                    Extension = Extension.Trim().ToLower().Replace(".", "");
+
+
                 string mimeType = MimeMapping.GetMimeMapping(Filename + "." + Extension);
                 MemoryStream ms = new MemoryStream(Helper.FileDecryptionToByte(Filename));
                 Response.Headers.Add("Content-Disposition", "inline; filename=" + Filename + "." + Extension);
@@ -681,7 +678,9 @@ namespace Frontend_SPP.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { Error = true, Message = ex.Message });
+                HttpContext.Session.SetString("msg", ex.Message);
+                return RedirectToAction("Index", "Dashboard");
+
             }
         }
 

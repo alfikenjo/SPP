@@ -28,10 +28,11 @@ BEGIN
 			B.CreatedBy,
 			A.Img,
 			A.Ekstension,
-			(SELECT Name FROM tblM_Delegator WHERE ID = @DelegatorID) [DelegatorName]
+			(SELECT Name FROM tblM_Delegator WHERE ID = @DelegatorID) [DelegatorName],
+			CASE WHEN A.isActive = 1 THEN 'Aktif' ELSE 'Non-Aktif' END [Status]
 			--(SELECT DISTINCT B.Name + '; ' AS 'data()' FROM tblT_UserInDelegator X LEFT JOIN tblM_Delegator B ON X.DelegatorID = B.ID WHERE A.UserID = X.UserID FOR XML PATH('')) [Delegators]
 	FROM	tblM_User A
-			JOIN tblT_UserInDelegator B ON A.UserID = B.UserID AND B.DelegatorID = @DelegatorID							
+			JOIN tblT_UserInDelegator B ON A.UserID = B.UserID AND B.DelegatorID = @DelegatorID AND A.IsDeleted = 0
 	
 	
 	

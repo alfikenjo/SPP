@@ -58,6 +58,13 @@
                 }
             },
             {
+                data: 'Status', defaultContent: '',
+                render: function (data, type, full, meta) {
+                    if (data != null) return data.replace(/</g, "&lt;").replace(/>/g, "&gt;"); else return null
+
+                }
+            },
+            {
                 data: '', defaultContent: '',
                 render: function (data, type, full, meta) {
                     return '<td>' +

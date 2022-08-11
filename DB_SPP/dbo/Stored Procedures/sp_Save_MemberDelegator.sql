@@ -1,10 +1,4 @@
-﻿
-
-
-
-
-
--- =============================================
+﻿-- =============================================
 -- Author:		<Author,,UserID>
 -- Create date: <Create Date,,>
 -- DelegatorID:	<DelegatorID,,>
@@ -51,10 +45,12 @@ BEGIN
 	
 	ELSE IF(@Action = 'hapus')
 	BEGIN	
-	declare @countgroup  UNIQUEIDENTIFIER = (select top 1 DelegatorID from tblT_UserInDelegator where CONVERT(VARCHAR(36), id) = @ID)
-	declare @countuser int = (select count (DISTINCT UserID) from tblT_UserInDelegator where DelegatorID = @countgroup group by delegatorID having COUNT(*) > 1)
-	if @countuser > 1 
-	begin
+	--declare @countgroup  UNIQUEIDENTIFIER = (select top 1 DelegatorID from tblT_UserInDelegator where CONVERT(VARCHAR(36), id) = @ID)
+	--declare @countuser int = (select count (DISTINCT UserID) from tblT_UserInDelegator where DelegatorID = @countgroup group by delegatorID having COUNT(*) > 1)
+	--if @countuser > 1 
+	--begin
+		
+	--END
 		DECLARE @OldUserID UNIQUEIDENTIFIER = (SELECT TOP 1 UserID FROM tblT_UserInDelegator WHERE ID = @ID)
 
 		IF(SELECT COUNT(*) FROM tblT_UserInDelegator WHERE UserID = @OldUserID) = 1
@@ -64,7 +60,6 @@ BEGIN
 		DELETE FROM tblT_UserInDelegator WHERE ID = @ID;
 
 		EXEC sp_RecordAuditTrail @CreatedBy, 'Admin SPP', 'Member Delegator', @Audit, 'DELETE', @Email_Audit
-	END
 	END
 	
 END
