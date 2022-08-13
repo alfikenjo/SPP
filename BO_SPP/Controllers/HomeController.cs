@@ -154,7 +154,8 @@ namespace BO_SPP.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { Error = true, Message = ex.Message });
+                HttpContext.Session.SetString("msg", ex.Message);
+                return RedirectToAction("Index", "Dashboard");
             }
         }
 
