@@ -36,7 +36,6 @@
         <div class="card">
             <div class="card-body p-0">
                 <div class="iq-edit-list usr-edit">
-                    <input type="hidden" id="hf_Username" name="hf_Username" />
                     <input type="hidden" id="hf_tab" name="hf_tab" />
                     <input type="hidden" id="Action" name="Action" />
                     <input type="hidden" id="ID" name="ID" />
@@ -241,7 +240,7 @@
                                     </div>
 
                                     <div id="form_File_Bukti_Pendukung" class="form-group col-sm-6">
-                                        <label>File Bukti Pendukung</label><small class="ml-2">(Format @ViewBag.FileEkstensionFilter)</small>
+                                        <label>File Bukti Pendukung</label><small class="ml-2">(Format Document/Image/Audio/Video)</small>
                                         <div id="div_FileEvidence" style="display: none" class="custom-badge"><a id="a_FileEvidence" target="_blank" class="badge badge-danger ml-2" style="cursor: pointer">Preview File</a></div>
                                         <input type="file" id="fu_FileEvidence" name="fu_FileEvidence" multiple onchange="validatefile(this)" class="form-control-file" />
                                     </div>
@@ -330,7 +329,7 @@
 
                                 <div class="row align-items-center">
                                     <div class="form-group col-sm-6">
-                                        <label>File Lampiran</label><small class="ml-2">(Format @ViewBag.FileEkstensionFilter)</small>
+                                        <label>File Lampiran</label><small class="ml-2">(Format Document/Image/Audio/Video)</small>
                                         <input type="file" id="fu_FileLampiran" name="fu_FileLampiran" onchange="validatefile(this)" class="form-control-file" />
                                     </div>
                                 </div>
@@ -390,7 +389,7 @@
 
                                 <div class="row align-items-center">
                                     <div class="form-group col-sm-6">
-                                        <label>File Lampiran</label><small class="ml-2">(Format @ViewBag.FileEkstensionFilter)</small>
+                                        <label>File Lampiran</label><small class="ml-2">(Format Document/Image/Audio/Video)</small>
                                         <input type="file" id="fu_FileLampiran_Internal" name="fu_FileLampiran_Internal" onchange="validatefile(this)" class="form-control-file" />
                                     </div>
                                 </div>
@@ -454,7 +453,7 @@
                                         <textarea style="text-align: justify" id="txt_Keterangan_Penyaluran" name="txt_Keterangan_Penyaluran" class="form-control h150"></textarea>
                                     </div>
                                     <div id="form_File_Keterangan_Penyaluran_Filename" class="form-group col-sm-12">
-                                        <label>Lampiran</label><small class="ml-2">(Format @ViewBag.FileEkstensionFilter)</small>
+                                        <label>Lampiran</label><small class="ml-2">(Format Document/Image/Audio/Video)</small>
                                         <div id="div_fu_Keterangan_Penyaluran_Filename" style="display: none" class="custom-badge"><a id="a_fu_Keterangan_Penyaluran_Filename" target="_blank" class="badge badge-danger ml-2" style="cursor: pointer">Preview File</a></div>
                                         <input type="file" id="fu_Keterangan_Penyaluran_Filename" name="fu_Keterangan_Penyaluran_Filename" onchange="validatefile(this)" class="form-control-file" />
                                     </div>
@@ -491,7 +490,7 @@
                                         <textarea style="text-align: justify" id="txt_Keterangan_Pemeriksaan" name="txt_Keterangan_Pemeriksaan" class="form-control h150"></textarea>
                                     </div>
                                     <div id="form_File_Keterangan_Pemeriksaan_Filename" class="form-group col-sm-12">
-                                        <label>File Lampiran Hasil Investigasi</label><small class="ml-2">(Format @ViewBag.FileEkstensionFilter)</small>
+                                        <label>File Lampiran Hasil Investigasi</label><small class="ml-2">(Format Document/Image/Audio/Video)</small>
                                         <div id="div_fu_Keterangan_Pemeriksaan_Filename" style="display: none" class="custom-badge"><a id="a_fu_Keterangan_Pemeriksaan_Filename" target="_blank" class="badge badge-danger ml-2" style="cursor: pointer">Preview File</a></div>
                                         <input type="file" id="fu_Keterangan_Pemeriksaan_Filename" name="fu_Keterangan_Pemeriksaan_Filename" onchange="validatefile(this)" class="form-control-file" />
                                     </div>
@@ -500,7 +499,7 @@
                                         <textarea style="text-align: justify" id="txt_Keterangan_Konfirmasi" name="txt_Keterangan_Konfirmasi" class="form-control h150"></textarea>
                                     </div>
                                     <div id="form_File_Keterangan_Konfirmasi_Filename" class="form-group col-sm-12">
-                                        <label>File Lampiran Hasil Konfirmasi/Klarifikasi</label><small class="ml-2">(Format @ViewBag.FileEkstensionFilter)</small>
+                                        <label>File Lampiran Hasil Konfirmasi/Klarifikasi</label><small class="ml-2">(Format Document/Image/Audio/Video)</small>
                                         <div id="div_fu_Keterangan_Konfirmasi_Filename" style="display: none" class="custom-badge"><a id="a_fu_Keterangan_Konfirmasi_Filename" target="_blank" class="badge badge-danger ml-2" style="cursor: pointer">Preview File</a></div>
                                         <input type="file" id="fu_Keterangan_Konfirmasi_Filename" name="fu_Keterangan_Konfirmasi_Filename" onchange="validatefile(this)" class="form-control-file" />
                                     </div>
@@ -514,7 +513,7 @@
                             <div class="card-header d-flex justify-content-between">
                                 <div class="header-title">
                                     <h4 class="card-title">Respon Final</h4>
-                                    <small id="ResponByDate">Direspon oleh Admin SPP</small>
+                                    <small id="ResponByDate" style="display: block; margin-top: 7px;">Direspon oleh Admin SPP</small>
                                     <small>Informasi dibawah ini disampaikan kepada Pelapor sebagai hasil dari penanganan pengaduan.</small>
                                 </div>
                                 <p class="mb-0">
@@ -536,7 +535,7 @@
                                         <textarea style="text-align: justify" id="txt_Keterangan_Respon" name="txt_Keterangan_Respon" class="form-control h150"></textarea>
                                     </div>
                                     <div id="form_File_Keterangan_Respon_Filename" class="form-group col-sm-12">
-                                        <label>Lampiran</label><small class="ml-2">(Format @ViewBag.FileEkstensionFilter)</small>
+                                        <label>Lampiran</label><small class="ml-2">(Format Document/Image/Audio/Video)</small>
                                         <div id="div_fu_Keterangan_Respon_Filename" style="display: none" class="custom-badge"><a id="a_fu_Keterangan_Respon_Filename" target="_blank" class="badge badge-danger ml-2" style="cursor: pointer">Preview File</a></div>
                                         <input type="file" id="fu_Keterangan_Respon_Filename" name="fu_Keterangan_Respon_Filename" onchange="validatefile(this)" class="form-control-file" />
                                     </div>

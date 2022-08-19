@@ -15,7 +15,7 @@ CREATE PROCEDURE [dbo].[sp_Save_Delegator]
      @Name nvarchar(255) = '',
      @Description nvarchar(max) = '',
      @isActive int = 1,
-	 @CreatedBy nvarchar(200) = ''
+	 @CreatedBy nvarchar(MAX) = ''
 	 
 AS
 BEGIN

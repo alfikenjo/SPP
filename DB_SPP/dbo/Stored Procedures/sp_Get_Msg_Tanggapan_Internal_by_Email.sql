@@ -12,10 +12,10 @@
 -- Description:	<Description,,>
 -- =============================================
 CREATE PROCEDURE [dbo].[sp_Get_Msg_Tanggapan_Internal_by_Email]
-    @Email varchar(200)	
+    @Email VARCHAR(MAX)	
 AS
 BEGIN
-	--DECLARE @Email varchar(200)	= 'alfi.kenjo@gmail.com' --'mh.alfi.syahri@gmail.com' --
+	--DECLARE @Email VARCHAR(MAX)	= 'alfi.kenjo@gmail.com' --'mh.alfi.syahri@gmail.com' --
 	
 	DECLARE @TipePengirim VARCHAR(200) = ''
 	DECLARE @UserID UNIQUEIDENTIFIER = (SELECT TOP 1 UserID FROM vw_UserInRole WHERE Email = @Email AND [Role] IN ('Delegator', 'Admin SPP'))

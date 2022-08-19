@@ -15,7 +15,7 @@ CREATE PROCEDURE [dbo].[spChangePassword]
 	-- Add the parameters for the stored procedure here
 	@UserID varchar(36),
 	@PasswordHash varchar(MAX) = '',
-	@CreatedBy varchar(50)
+	@CreatedBy varchar(MAX)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -29,6 +29,6 @@ BEGIN
 			UpdatedBy = NULLIF(@CreatedBy, '')
 	WHERE	UserID = @UserID
 
-	DECLARE @Email_Audit VARCHAR(200) = (SELECT Email FROM tblM_User WHERE UserID = @UserID)
+	DECLARE @Email_Audit VARCHAR(MAX) = (SELECT Email FROM tblM_User WHERE UserID = @UserID)
 	EXEC sp_RecordAuditTrail @CreatedBy, 'My Profile', 'Password', NULL, 'UPDATE', @Email_Audit
 END

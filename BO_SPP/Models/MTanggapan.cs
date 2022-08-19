@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BO_SPP.Common;
 
 namespace BO_SPP.Models
 {
@@ -13,13 +11,20 @@ namespace BO_SPP.Models
         public string JenisPengaduan { get; set; }
         public string IDPengaduan { get; set; }
         public string TipePengirim { get; set; }
-        public string Email { get; set; }
-        public string Nama { get; set; }
-        public string Tanggapan { get; set; }
+
+        private string email; public string Email { get { return email; } set { email = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
+        private string nama; public string Nama { get { return nama; } set { nama = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
+        private string tanggapan; public string Tanggapan { get { return tanggapan; } set { tanggapan = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
+        private string createdby; public string CreatedBy { get { return createdby; } set { createdby = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
+
+        public string enc_Email { get { return email; } set { email = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
+        public string enc_Nama { get { return nama; } set { nama = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
+        public string enc_Tanggapan { get { return tanggapan; } set { tanggapan = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
+        public string enc_CreatedBy { get { return createdby; } set { createdby = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
+
         public string FileLampiran { get; set; }
         public string FileLampiran_Ekstension { get; set; }
         public Nullable<DateTime> CreatedOn { get; set; }
-        public string CreatedBy { get; set; }
         public int IsRead { get; set; }
         public Nullable<DateTime> ReadOn { get; set; }
         public string _Createdon { get; set; }

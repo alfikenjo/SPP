@@ -1,9 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[sp_Get_Dashboard_Internal_By_Email]
-	@Email VARCHAR(200) = ''
+	@Email VARCHAR(MAX) = ''
 AS
 BEGIN
 
-	--DECLARE @Email VARCHAR(200) = 'spp.ptsmi@gmail.com'
+	--DECLARE @Email VARCHAR(MAX) = 'spp.ptsmi@gmail.com'
 
 	--SELECT * FROM vw_userInRole WHERE Email = @Email
 	--SELECT * FROM tblM_User

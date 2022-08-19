@@ -17,12 +17,12 @@ BEGIN
 
 	SET NOCOUNT ON;
 	
-	DECLARE @TABLE AS TABLE (UserID UNIQUEIDENTIFIER, Fullname VARCHAR(150), Mobile VARCHAR(100), Email VARCHAR(100), NIP VARCHAR(100), Jabatan VARCHAR(100), isActive INT, Roles VARCHAR(MAX), s_UpdatedOn VARCHAR(50), UpdatedBy VARCHAR(30), Status VARCHAR(20), Img VARCHAR(100), Delegators VARCHAR(MAX));
+	DECLARE @TABLE AS TABLE (UserID UNIQUEIDENTIFIER, Fullname VARCHAR(MAX), Mobile VARCHAR(MAX), Email VARCHAR(MAX), NIP VARCHAR(MAX), Jabatan VARCHAR(MAX), isActive INT, Roles VARCHAR(MAX), s_UpdatedOn VARCHAR(50), UpdatedBy VARCHAR(MAX), Status VARCHAR(100), Img VARCHAR(100), Delegators VARCHAR(MAX));
 	
 	SELECT	CONVERT(VARCHAR(36), B.ID) [ID], 
 			CONVERT(VARCHAR(36), A.UserID) [UserID], 
 			A.Fullname, 
-			dbo.Format_StringNumber(A.Mobile) [Mobile], 
+			A.Mobile, 
 			A.Email,
 			dbo.Format24DateTime(B.CreatedOn) [s_UpdatedOn],
 			B.CreatedBy,

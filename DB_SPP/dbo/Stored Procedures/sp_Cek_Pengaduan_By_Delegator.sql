@@ -14,7 +14,7 @@
 -- Description:	<Description,,>
 -- =============================================
 CREATE PROCEDURE [dbo].[sp_Cek_Pengaduan_By_Delegator]
-	@Email VARCHAR(200),
+	@Email VARCHAR(MAX),
 	@ID VARCHAR(36) 
 AS
 BEGIN

@@ -31,9 +31,9 @@ namespace BO_SPP.Controllers
             ViewData["CurrentActionName"] = "Daftar Pengaduan";
             ViewData["Title"] = "Daftar Pengaduan";
 
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
 
-            ViewBag.Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewBag.Email = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
             ViewBag.Role = HttpContext.Session.GetString("fr");
 
             return View();
@@ -57,21 +57,10 @@ namespace BO_SPP.Controllers
             ViewData["CurrentControllerName"] = "";
             ViewData["CurrentActionName"] = "Form Pengaduan";
             ViewData["Title"] = "Formulir Pengaduan";
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
 
-            ViewBag.Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewBag.Email = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
             ViewBag.Role = HttpContext.Session.GetString("fr");
-
-            string FileEkstensionFilter = "";
-            DataTable dt_FileEkstensionFilter = mssql.GetDataTable("SELECT Name FROM FileEkstensionFilterDummy ORDER BY Name");
-            foreach (DataRow dr in dt_FileEkstensionFilter.Rows)
-            {
-                string Eks = dr["Name"].ToString().Replace(".", "").Trim();
-                FileEkstensionFilter += Eks + "/";
-            }
-            if (FileEkstensionFilter.Length > 0)
-                FileEkstensionFilter = FileEkstensionFilter.Substring(0, FileEkstensionFilter.Length - 1);
-            ViewBag.FileEkstensionFilter = FileEkstensionFilter;
 
             return View();
         }
@@ -84,7 +73,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@Email", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
@@ -113,13 +102,13 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string _ID = StringCipher.Decrypt(sani.Sanitize(ID).Split("|")[0]);
                 string SessionIDDesc = sani.Sanitize(ID).Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
 
 
@@ -132,7 +121,7 @@ namespace BO_SPP.Controllers
 
                 if (!Helper.GrantedPengaduan(_ID, StringCipher.Decrypt(HttpContext.Session.GetString("Email")), HttpContext.Session.GetString("fr")))
                 {
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
                 }
 
                 List<Pengaduan> MainData = new List<Pengaduan>();
@@ -141,6 +130,15 @@ namespace BO_SPP.Controllers
                 for (int i = 0; i < MainData.Count; i++)
                 {
                     MainData[i].ID = StringCipher.Encrypt(MainData[i].ID) + "|" + HttpContext.Session.GetString("SessionID");
+
+                    if (MainData[i].PenyaluranByDate != null)
+                        MainData[i].PenyaluranByDate = "Direspon oleh Admin SPP: " + MainData[i].PenyaluranBy + " @" + MainData[i].PenyaluranByDate;
+
+                    if (MainData[i].TindakLanjutByDate != null)
+                        MainData[i].TindakLanjutByDate = "Ditindaklanjuti oleh Grup Delegator: " + MainData[i].DelegatorName + " / " + MainData[i].TindakLanjutBy + " @" + MainData[i].TindakLanjutByDate;
+
+                    if (MainData[i].ResponByDate != null)
+                        MainData[i].ResponByDate = "Diselesaikan oleh Admin SPP: " + MainData[i].ResponBy + " @" + MainData[i].ResponByDate;
 
                     string FilePenyaluran = MainData[i].Keterangan_Penyaluran_Filename;
                     if (!string.IsNullOrEmpty(FilePenyaluran))
@@ -176,7 +174,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string ID = sani.Sanitize(Model.ID);
                 string _ID = "";
@@ -187,7 +185,7 @@ namespace BO_SPP.Controllers
                     string SessionIDDesc = ID.Split("|")[1];
 
                     if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                        throw new Exception("Invalid Authorization|window.location='/'");
+                        throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
                 }
 
                 if (string.IsNullOrEmpty(_ID))
@@ -197,9 +195,25 @@ namespace BO_SPP.Controllers
                 if (int.Parse(drDetailPengaduan["Count"].ToString()) == 0)
                     throw new Exception("Ditolak, Anda belum menginput identitas pihak yang terlapor, mohon periksa kembali");
 
-                if (!string.IsNullOrEmpty(sani.Sanitize(Model.Email)))
+                string enc_Email = sani.Sanitize(Model.enc_Email);
+                string enc_Handphone = sani.Sanitize(Model.enc_Handphone);
+                string enc_TempatKejadian = sani.Sanitize(Model.enc_TempatKejadian);
+                string enc_Kronologi = sani.Sanitize(Model.enc_Kronologi);
+                string enc_PenyaluranBy = sani.Sanitize(Model.enc_PenyaluranBy);
+                string enc_TindakLanjutBy = sani.Sanitize(Model.enc_TindakLanjutBy);
+                string enc_ResponBy = sani.Sanitize(Model.enc_ResponBy);
+                string enc_CreatedBy = sani.Sanitize(Model.enc_CreatedBy);
+                string enc_UpdatedBy = sani.Sanitize(Model.enc_UpdatedBy);
+                string enc_ProsesBy = sani.Sanitize(Model.enc_ProsesBy);
+                string enc_Jenis_Pelanggaran = sani.Sanitize(Model.enc_Jenis_Pelanggaran);
+                string enc_Keterangan_Penyaluran = sani.Sanitize(Model.enc_Keterangan_Penyaluran);
+                string enc_Keterangan_Pemeriksaan = sani.Sanitize(Model.enc_Keterangan_Pemeriksaan);
+                string enc_Keterangan_Konfirmasi = sani.Sanitize(Model.enc_Keterangan_Konfirmasi);
+                string enc_Keterangan_Respon = sani.Sanitize(Model.enc_Keterangan_Respon);
+
+                if (!string.IsNullOrEmpty(enc_Email))
                 {
-                    DataRow drCekIsExistEmailAdmin = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM vw_UserInRole WHERE Email = '" + sani.Sanitize(Model.Email) + "' AND Role IN ('Admin SPP', 'System Administrator')");
+                    DataRow drCekIsExistEmailAdmin = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM vw_UserInRole WHERE Email = '" + enc_Email + "' AND Role IN ('Admin SPP', 'System Administrator', 'Delegator')");
                     if (int.Parse(drCekIsExistEmailAdmin["Count"].ToString()) > 0)
                         throw new Exception("Ditolak, Email pelapor sudah terdaftar sebagai petugas Admin, mohon periksa kembali");
                 }
@@ -256,12 +270,12 @@ namespace BO_SPP.Controllers
                 param.Add(new SqlParameter("@ID", _ID));
                 param.Add(new SqlParameter("@Sumber", sani.Sanitize(Model.Sumber)));
                 param.Add(new SqlParameter("@Nomor", Nomor));
-                param.Add(new SqlParameter("@Email", sani.Sanitize(Model.Email)));
-                param.Add(new SqlParameter("@Handphone", sani.Sanitize(Model.Handphone)));
-                param.Add(new SqlParameter("@Jenis_Pelanggaran", sani.Sanitize(Model.Jenis_Pelanggaran)));
-                param.Add(new SqlParameter("@TempatKejadian", sani.Sanitize(Model.TempatKejadian)));
+                param.Add(new SqlParameter("@Email", enc_Email));
+                param.Add(new SqlParameter("@Handphone", enc_Handphone));
+                param.Add(new SqlParameter("@Jenis_Pelanggaran", enc_Jenis_Pelanggaran));
+                param.Add(new SqlParameter("@TempatKejadian", enc_TempatKejadian));
                 param.Add(new SqlParameter("@WaktuKejadian", WaktuKejadian));
-                param.Add(new SqlParameter("@Kronologi", sani.Sanitize(Model.Kronologi)));
+                param.Add(new SqlParameter("@Kronologi", enc_Kronologi));
                 param.Add(new SqlParameter("@Status", Status));
                 param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
 
@@ -274,21 +288,21 @@ namespace BO_SPP.Controllers
                 DataTable dt_Email_Admin_Pusat = mssql.GetDataTable("sp_Get_Email_Admin_Pusat");
                 foreach (DataRow dr in dt_Email_Admin_Pusat.Rows)
                 {
-                    string EmailPelapor = !string.IsNullOrEmpty(sani.Sanitize(Model.Email)) ? sani.Sanitize(Model.Email) : "not available";
-                    string EmailAdminPusat = dr["Email"].ToString();
-                    string Fullname = dr["Fullname"].ToString();
+                    string EmailPelapor = !string.IsNullOrEmpty(enc_Email) ? aes.Dec(enc_Email) : "not available";
+                    string EmailAdminPusat = aes.Dec(dr["Email"].ToString());
+                    string Fullname = !string.IsNullOrEmpty(dr["Fullname"].ToString()) ? aes.Dec(dr["Fullname"].ToString()) : "";
                     Helper.SendMail(EmailAdminPusat, Subject, MailComposer.compose_mail_body_kirim_dumas(_ID, Fullname, Nomor, EmailPelapor, TanggalKirim));
                 }
                 #endregion Notifikasi_ke_Admin_Pusat
 
                 #region Notifikasi_ke_Pelapor
-                if (!string.IsNullOrEmpty(sani.Sanitize(Model.Email)))
+                if (!string.IsNullOrEmpty(enc_Email))
                 {
-                    string EmailUser = sani.Sanitize(Model.Email);
+                    string EmailUser = enc_Email;
                     string NewRandomPassword = Helper.RandomString(8);
                     string HashPassword = PassHash.HashPassword(NewRandomPassword);
                     string New_User_Verification_ID = Guid.NewGuid().ToString();
-                    string Mobile = sani.Sanitize(Model.Handphone);
+                    string Mobile = enc_Handphone;
 
                     DataRow drRegistered = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM vw_UserInRole WHERE Email = '" + EmailUser + "' AND Role = 'Pelapor' AND ISNULL(isActive, 0) = 1");
                     int isRegistered = int.Parse(drRegistered["Count"].ToString());
@@ -342,7 +356,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 if (string.IsNullOrEmpty(sani.Sanitize(Model.Nama)) && sani.Sanitize(Model.Action) != "hapus")
                     throw new Exception("Ditolak, mohon mengisi Nama pihak yang dilaporkan");
@@ -360,7 +374,7 @@ namespace BO_SPP.Controllers
                     string SessionIDDesc2 = Model.ID_Header.Split("|")[1];
 
                     if (SessionIDDesc2 != HttpContext.Session.GetString("SessionID"))
-                        throw new Exception("Invalid Authorization|window.location='/'");
+                        throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
                 }
 
                 if (Action == "add")
@@ -373,7 +387,7 @@ namespace BO_SPP.Controllers
                     string SessionIDDesc = Model.ID.Split("|")[1];
 
                     if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                        throw new Exception("Invalid Authorization|window.location='/'");
+                        throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 }
 
@@ -448,7 +462,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string ID = sani.Sanitize(ID_Header);
 
@@ -456,7 +470,7 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = ID.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@ID_Header", _ID));
@@ -489,7 +503,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 ID = sani.Sanitize(ID);
 
@@ -497,11 +511,11 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = ID.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 if (!Helper.GrantedPengaduan(_ID, StringCipher.Decrypt(HttpContext.Session.GetString("Email")), HttpContext.Session.GetString("fr")))
                 {
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
                 }
 
 
@@ -537,7 +551,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string ID = sani.Sanitize(ID_Header);
 
@@ -545,7 +559,7 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = ID.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@ID_Header", _ID));
@@ -579,7 +593,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string _ID = StringCipher.Decrypt(sani.Sanitize(ID_Pengaduan).Split("|")[0]);
                 mssql.ExecuteNonQuery("UPDATE tblT_Tanggapan SET IsRead = 1, ReadOn = GETDATE() WHERE IDPengaduan = '" + _ID + "' AND TipePengirim = 'Pelapor' AND IsRead = 0");
@@ -599,7 +613,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string ID = sani.Sanitize(ID_Pengaduan);
 
@@ -607,7 +621,7 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = ID.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@IDPengaduan", _ID));
@@ -644,7 +658,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string IDPengaduan = sani.Sanitize(Model.IDPengaduan);
 
@@ -652,7 +666,7 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = IDPengaduan.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 Model.ID = Guid.NewGuid().ToString();
 
@@ -694,7 +708,8 @@ namespace BO_SPP.Controllers
                 #region Kirim Tanggapan
 
                 string ID_Pengaduan = _ID;
-                string Tanggapan = sani.Sanitize(Model.Tanggapan);
+
+                string enc_Tanggapan = sani.Sanitize(Model.enc_Tanggapan);
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@ID", Model.ID));
@@ -702,10 +717,10 @@ namespace BO_SPP.Controllers
                 param.Add(new SqlParameter("@IDPengaduan", _ID));
                 param.Add(new SqlParameter("@TipePengirim", sani.Sanitize(Model.TipePengirim)));
                 param.Add(new SqlParameter("@Email", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
-                param.Add(new SqlParameter("@Tanggapan", Tanggapan));
+                param.Add(new SqlParameter("@Tanggapan", enc_Tanggapan));
                 param.Add(new SqlParameter("@FileLampiran", FileLampiran));
                 param.Add(new SqlParameter("@FileLampiran_Ekstension", FileLampiran_Ekstension));
-                param.Add(new SqlParameter("@CreatedBy", HttpContext.Session.GetString("fn")));
+                param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
 
                 mssql.ExecuteNonQuery("sp_Kirim_Tanggapan_Admin_SPP", param);
 
@@ -715,11 +730,13 @@ namespace BO_SPP.Controllers
                 int EmailSent = 0;
                 DataTable dt = mssql.GetDataTable("SELECT * FROM tblT_Dumas WHERE ID = '" + _ID + "'");
                 string Nomor = dt.Rows[0]["Nomor"].ToString();
-                string Email_Pelapor = dt.Rows[0]["Email"].ToString();
                 foreach (DataRow dr in dt.Rows)
                 {
-                    string EmailPelapor = dr["Email"].ToString();
-                    EmailSent = Helper.SendMail(EmailPelapor, "SPP PTSMI - Respon Tanggapan Pengaduan", MailComposer.compose_mail_body_tanggapan_ke_pelapor(Nomor));
+                    if (!string.IsNullOrEmpty(dr["Email"].ToString()))
+                    {
+                        string EmailPelapor = aes.Dec(dr["Email"].ToString());
+                        EmailSent = Helper.SendMail(EmailPelapor, "SPP PTSMI - Respon Tanggapan Pengaduan", MailComposer.compose_mail_body_tanggapan_ke_pelapor(Nomor));
+                    }
                 }
                 #endregion Notifikasi_ke_Pelapor  
 
@@ -740,7 +757,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 DataRow dr_Login = mssql.GetDataRow("SELECT COUNT(*) [Jumlah] FROM tblT_User_Login WHERE UserID = '" + StringCipher.Decrypt(HttpContext.Session.GetString("UserID")) + "' AND ID = '" + StringCipher.Decrypt(HttpContext.Session.GetString("SessionID")) + "' AND isActive = 1");
                 if (int.Parse(dr_Login["Jumlah"].ToString()) == 0)
@@ -769,7 +786,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string ID = sani.Sanitize(Model.ID);
 
@@ -777,7 +794,7 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = ID.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 if (sani.Sanitize(Model.Status) == "Diproses" && string.IsNullOrEmpty(sani.Sanitize(Model.DelegatorID)))
                     throw new Exception("Ditolak, Anda belum memilih grup delegator, mohon periksa kembali");
@@ -826,11 +843,11 @@ namespace BO_SPP.Controllers
                 param.Add(new SqlParameter("@ID", _ID));
                 param.Add(new SqlParameter("@Status", sani.Sanitize(Model.Status)));
                 param.Add(new SqlParameter("@DelegatorID", sani.Sanitize(Model.DelegatorID)));
-                param.Add(new SqlParameter("@Jenis_Pelanggaran", sani.Sanitize(Model.Jenis_Pelanggaran)));
-                param.Add(new SqlParameter("@Keterangan_Penyaluran", sani.Sanitize(Model.Keterangan_Penyaluran)));
+                param.Add(new SqlParameter("@Jenis_Pelanggaran", sani.Sanitize(Model.enc_Jenis_Pelanggaran)));
+                param.Add(new SqlParameter("@Keterangan_Penyaluran", sani.Sanitize(Model.enc_Keterangan_Penyaluran)));
                 param.Add(new SqlParameter("@Keterangan_Penyaluran_Filename", Keterangan_Penyaluran_Filename));
                 param.Add(new SqlParameter("@Keterangan_Penyaluran_Ekstension", Keterangan_Penyaluran_Ekstension));
-                param.Add(new SqlParameter("@CreatedBy", HttpContext.Session.GetString("fn")));
+                param.Add(new SqlParameter("@CreatedBy", aes.Enc(HttpContext.Session.GetString("fn"))));
                 mssql.ExecuteNonQuery("sp_Save_Penyaluran", param);
 
                 #endregion Save
@@ -843,10 +860,10 @@ namespace BO_SPP.Controllers
                 DataTable dt_Email_Delegator = mssql.GetDataTable("sp_Get_Email_Delegator", paramEmail);
                 foreach (DataRow dr in dt_Email_Delegator.Rows)
                 {
-                    string EmailDelegator = dr["Email"].ToString();
-                    string Fullname = dr["Fullname"].ToString();
+                    string EmailDelegator = aes.Dec(dr["Email"].ToString());
+                    string Fullname = aes.Dec(dr["Fullname"].ToString());
                     string Nomor = dr["Nomor"].ToString();
-                    string EmailPelapor = dr["EmailPelapor"].ToString();
+                    string EmailPelapor = !string.IsNullOrEmpty(dr["EmailPelapor"].ToString()) ? aes.Dec(dr["EmailPelapor"].ToString()) : "";
                     string DelegatorName = dr["DelegatorName"].ToString();
                     string TanggalKirim = dr["TanggalKirim"].ToString();
                     EmailSent = Helper.SendMail(EmailDelegator, Subject, MailComposer.compose_mail_body_submit_delegasi(_ID, Fullname, Nomor, EmailPelapor, DelegatorName, TanggalKirim));
@@ -870,7 +887,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string ID = sani.Sanitize(Model.ID);
 
@@ -878,7 +895,7 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = ID.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 if (string.IsNullOrEmpty(sani.Sanitize(Model.Keterangan_Pemeriksaan)))
                     throw new Exception("Maaf Anda belum mengisikan Keterangan Pemeriksaan");
@@ -961,10 +978,10 @@ namespace BO_SPP.Controllers
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@ID", _ID));
                 param.Add(new SqlParameter("@Status", sani.Sanitize(Model.Status)));
-                param.Add(new SqlParameter("@Keterangan_Pemeriksaan", sani.Sanitize(Model.Keterangan_Pemeriksaan)));
+                param.Add(new SqlParameter("@Keterangan_Pemeriksaan", sani.Sanitize(Model.enc_Keterangan_Pemeriksaan)));
                 param.Add(new SqlParameter("@Keterangan_Pemeriksaan_Filename", Keterangan_Pemeriksaan_Filename));
                 param.Add(new SqlParameter("@Keterangan_Pemeriksaan_Ekstension", Keterangan_Pemeriksaan_Ekstension));
-                param.Add(new SqlParameter("@Keterangan_Konfirmasi", sani.Sanitize(Model.Keterangan_Konfirmasi)));
+                param.Add(new SqlParameter("@Keterangan_Konfirmasi", sani.Sanitize(Model.enc_Keterangan_Konfirmasi)));
                 param.Add(new SqlParameter("@Keterangan_Konfirmasi_Filename", Keterangan_Konfirmasi_Filename));
                 param.Add(new SqlParameter("@Keterangan_Konfirmasi_Ekstension", Keterangan_Konfirmasi_Ekstension));
                 param.Add(new SqlParameter("@CreatedBy", HttpContext.Session.GetString("fn")));
@@ -980,10 +997,10 @@ namespace BO_SPP.Controllers
                 DataTable dt_Email_Admin_SPP = mssql.GetDataTable("sp_Get_Email_Admin_SPP", paramEmail);
                 foreach (DataRow dr in dt_Email_Admin_SPP.Rows)
                 {
-                    string EmailAdminSPP = dr["Email"].ToString();
-                    string Fullname = dr["Fullname"].ToString();
+                    string EmailAdminSPP = aes.Dec(dr["Email"].ToString());
+                    string Fullname = !string.IsNullOrEmpty(dr["Fullname"].ToString()) ? aes.Dec(dr["Fullname"].ToString()) : "";
                     string Nomor = dr["Nomor"].ToString();
-                    string EmailPelapor = dr["EmailPelapor"].ToString();
+                    string EmailPelapor = !string.IsNullOrEmpty(dr["EmailPelapor"].ToString()) ? aes.Dec(dr["EmailPelapor"].ToString()) : "";
                     string DelegatorName = dr["DelegatorName"].ToString();
                     string TanggalKirim = dr["TanggalKirim"].ToString();
                     EmailSent = Helper.SendMail(EmailAdminSPP, Subject, MailComposer.compose_mail_body_submit_dari_delegator_ke_admin_spp(_ID, Fullname, Nomor, EmailPelapor, DelegatorName, TanggalKirim, sani.Sanitize(Model.Status)));
@@ -1007,7 +1024,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string ID = sani.Sanitize(Model.ID);
 
@@ -1015,7 +1032,7 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = ID.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string Keterangan_Respon_Filename = "", Keterangan_Respon_Ekstension = "";
                 #region Upload
@@ -1057,7 +1074,7 @@ namespace BO_SPP.Controllers
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@ID", _ID));
                 param.Add(new SqlParameter("@Status", sani.Sanitize(Model.Status)));
-                param.Add(new SqlParameter("@Keterangan_Respon", sani.Sanitize(Model.Keterangan_Respon)));
+                param.Add(new SqlParameter("@Keterangan_Respon", sani.Sanitize(Model.enc_Keterangan_Respon)));
                 param.Add(new SqlParameter("@Keterangan_Respon_Filename", Keterangan_Respon_Filename));
                 param.Add(new SqlParameter("@Keterangan_Respon_Ekstension", Keterangan_Respon_Ekstension));
                 param.Add(new SqlParameter("@CreatedBy", HttpContext.Session.GetString("fn")));
@@ -1071,10 +1088,13 @@ namespace BO_SPP.Controllers
                 DataTable dt_Email_Pelapor = mssql.GetDataTable("SELECT Email, Nomor, dbo.FormatDate_Indonesia_Lengkap(CreatedOn) [TanggalKirim] FROM tblT_Dumas WHERE ID = '" + _ID + "'");
                 foreach (DataRow dr in dt_Email_Pelapor.Rows)
                 {
-                    string EmailPelapor = dr["Email"].ToString();
-                    string Nomor = dr["Nomor"].ToString();
-                    string TanggalKirim = dr["TanggalKirim"].ToString();
-                    EmailSent = Helper.SendMail(EmailPelapor, Subject, MailComposer.compose_mail_body_kirim_respon_ke_pelapor(_ID, Nomor, TanggalKirim, sani.Sanitize(Model.Status)));
+                    if (!string.IsNullOrEmpty(dr["Email"].ToString()))
+                    {
+                        string EmailPelapor = aes.Dec(dr["Email"].ToString());
+                        string Nomor = dr["Nomor"].ToString();
+                        string TanggalKirim = dr["TanggalKirim"].ToString();
+                        EmailSent = Helper.SendMail(EmailPelapor, Subject, MailComposer.compose_mail_body_kirim_respon_ke_pelapor(_ID, Nomor, TanggalKirim, sani.Sanitize(Model.Status)));
+                    }
                 }
                 #endregion Notifikasi_ke_Pelapor
 
@@ -1094,7 +1114,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string DelegatorID = "";
                 DataTable dt = mssql.GetDataTable("SELECT * FROM tblT_Dumas WHERE ID = '" + sani.Sanitize(ID) + "'");
@@ -1119,7 +1139,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string ID = sani.Sanitize(ID_Pengaduan);
 
@@ -1127,7 +1147,7 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = ID.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@IDPengaduan", _ID));
@@ -1165,7 +1185,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string IDPengaduan = sani.Sanitize(Model.IDPengaduan);
 
@@ -1173,7 +1193,7 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = IDPengaduan.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 Model.ID = Guid.NewGuid().ToString();
 
@@ -1215,7 +1235,7 @@ namespace BO_SPP.Controllers
                 #region Kirim Tanggapan
 
                 string ID_Pengaduan = _ID;
-                string Tanggapan = sani.Sanitize(Model.Tanggapan);
+                string Tanggapan = sani.Sanitize(Model.enc_Tanggapan);
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@ID", Model.ID));
@@ -1226,7 +1246,7 @@ namespace BO_SPP.Controllers
                 param.Add(new SqlParameter("@Tanggapan", Tanggapan));
                 param.Add(new SqlParameter("@FileLampiran", FileLampiran));
                 param.Add(new SqlParameter("@FileLampiran_Ekstension", FileLampiran_Ekstension));
-                param.Add(new SqlParameter("@CreatedBy", HttpContext.Session.GetString("fn")));
+                param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
 
                 mssql.ExecuteNonQuery("sp_Kirim_Tanggapan_Internal", param);
 
@@ -1242,8 +1262,8 @@ namespace BO_SPP.Controllers
                     DataTable dt_Email_Admin_Pusat = mssql.GetDataTable("sp_Get_Email_Admin_Pusat");
                     foreach (DataRow dr in dt_Email_Admin_Pusat.Rows)
                     {
-                        string EmailAdminPusat = dr["Email"].ToString();
-                        string Fullname = dr["Fullname"].ToString();
+                        string EmailAdminPusat = aes.Dec(dr["Email"].ToString());
+                        string Fullname = aes.Dec(dr["Fullname"].ToString());
                         EmailSent = Helper.SendMail(EmailAdminPusat, "SPP PTSMI - Respon Tanggapan Pengaduan", MailComposer.compose_mail_body_tanggapan_ke_Admin_SPP(ID_Pengaduan, Fullname, Nomor));
                     }
                     #endregion Notifikasi_ke_Admin_Pusat  
@@ -1256,8 +1276,8 @@ namespace BO_SPP.Controllers
                     DataTable dt_Email_Delegator = mssql.GetDataTable("sp_Get_Email_Delegator", paramDel);
                     foreach (DataRow dr in dt_Email_Delegator.Rows)
                     {
-                        string EmailDelegator = dr["Email"].ToString();
-                        string Fullname = dr["Fullname"].ToString();
+                        string EmailDelegator = aes.Dec(dr["Email"].ToString());
+                        string Fullname = aes.Dec(dr["Fullname"].ToString());
                         EmailSent = Helper.SendMail(EmailDelegator, "SPP PTSMI - Respon Tanggapan Pengaduan", MailComposer.compose_mail_body_tanggapan_ke_Delegator(ID_Pengaduan, Fullname, Nomor));
                     }
                     #endregion Notifikasi_ke_Delegator  
@@ -1280,7 +1300,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string _ID = StringCipher.Decrypt(sani.Sanitize(ID_Pengaduan).Split("|")[0]);
                 mssql.ExecuteNonQuery("UPDATE tblT_Tanggapan SET IsRead = 1, ReadOn = GETDATE() WHERE IDPengaduan = '" + _ID + "' AND TipePengirim = '" + sani.Sanitize(TipePengirim) + "' AND IsRead = 0");
@@ -1301,7 +1321,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 DataRow dr_Login = mssql.GetDataRow("SELECT COUNT(*) [Jumlah] FROM tblT_User_Login WHERE UserID = '" + StringCipher.Decrypt(HttpContext.Session.GetString("UserID")) + "' AND ID = '" + StringCipher.Decrypt(HttpContext.Session.GetString("SessionID")) + "' AND isActive = 1");
                 if (int.Parse(dr_Login["Jumlah"].ToString()) == 0)
@@ -1329,7 +1349,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@Tipe", "Jenis Pelanggaran"));
@@ -1343,7 +1363,7 @@ namespace BO_SPP.Controllers
             {
                 return Json(new { Error = true, Message = ex.Message });
             }
-        }        
+        }
 
     }
 }

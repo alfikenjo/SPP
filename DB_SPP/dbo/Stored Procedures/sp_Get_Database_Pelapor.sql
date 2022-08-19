@@ -9,14 +9,14 @@
 -- =============================================
 CREATE PROCEDURE [dbo].[sp_Get_Database_Pelapor]
 	@isActive VARCHAR(2) = '',
-	@Email VARCHAR(200) = '',
+	@Email VARCHAR(MAX) = '',
 	@Status VARCHAR(200) = '',
 	@Jenis VARCHAR(200) = ''
 AS
 BEGIN
 
 	--DECLARE @isActive VARCHAR(2) = '',
-	--@Email VARCHAR(200) = '',
+	--@Email VARCHAR(MAX) = '',
 	--@Status VARCHAR(200) = '',
 	--@Jenis VARCHAR(200) = 'Dumas'
 
@@ -26,7 +26,7 @@ BEGIN
 		SELECT	ROW_NUMBER() OVER(ORDER BY A.Fullname ASC) [No],
 				A.Email [Fullname], 
 				A.Email,
-				dbo.Format_StringNumber(A.Mobile) [Mobile], 				
+				A.Mobile, 				
 				dbo.Format24DateTime(ISNULL(A.UpdatedOn, A.CreatedOn)) [UpdatedOn],
 				ISNULL(A.UpdatedBy, A.CreatedBy) [UpdatedBy],
 				CASE WHEN A.isActive = 1 THEN 'Aktif' ELSE 'Non-Aktif' END [Status],
@@ -43,7 +43,7 @@ BEGIN
 		SELECT	ROW_NUMBER() OVER(ORDER BY A.Fullname ASC) [No],
 				A.Email [Fullname], 
 				A.Email,
-				dbo.Format_StringNumber(A.Mobile) [Mobile], 				
+				A.Mobile, 				
 				dbo.Format24DateTime(ISNULL(A.UpdatedOn, A.CreatedOn)) [UpdatedOn],
 				ISNULL(A.UpdatedBy, A.CreatedBy) [UpdatedBy],
 				CASE WHEN A.isActive = 1 THEN 'Aktif' ELSE 'Non-Aktif' END [Status],

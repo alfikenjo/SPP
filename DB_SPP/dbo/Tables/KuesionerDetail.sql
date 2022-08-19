@@ -7,8 +7,8 @@
     [Label]       VARCHAR (MAX)    NULL,
     [Required]    BIT NULL DEFAULT(0),
     [CreatedOn]   DATETIME         DEFAULT (getdate()) NOT NULL,
-    [CreatedBy]   VARCHAR (200)    NULL,
+    [CreatedBy]   VARCHAR (MAX)    NULL,
     [UpdatedOn]   DATETIME         DEFAULT (getdate()) NULL,
-    [UpdatedBy]   VARCHAR (200)    NULL,
+    [UpdatedBy]   VARCHAR (MAX)    NULL,
     PRIMARY KEY CLUSTERED ([ID] ASC)
 )

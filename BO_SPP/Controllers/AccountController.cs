@@ -34,8 +34,7 @@ namespace BO_SPP.Controllers
             if (!string.IsNullOrEmpty(ID))
                 HttpContext.Session.SetString("IDPengaduan", ID);
 
-            //Helper.EncryptAllFiles();
-
+            //aes.EncryptDatabase();
 
             return View();
         }
@@ -45,13 +44,10 @@ namespace BO_SPP.Controllers
             ViewData["Fullname"] = null;
             ViewData["Roles"] = null;
             ViewData["Unit"] = null;
-            HttpContext.Session.Clear();
-
             Helper.RecordAuditTrail(StringCipher.Decrypt(HttpContext.Session.GetString("Email")), "BO SPP", "Log Out", "", "Log out", "");
-
+            HttpContext.Session.Clear();
             return RedirectToAction("Signin", "Account");
         }
-
 
         #region Role
         public IActionResult Role()
@@ -330,13 +326,14 @@ namespace BO_SPP.Controllers
                 string HashPassword = "";
                 string _UserID = Guid.NewGuid().ToString();
                 Model.UserID = sani.Sanitize(Model.UserID);
+                string enc_Email = sani.Sanitize(Model.enc_Email);
                 if (Action == "add")
                 {
-                    HashPassword = PassHash.HashPassword(sani.Sanitize(Model.Email));
+                    HashPassword = PassHash.HashPassword(enc_Email);
 
-                    DataRow drIsExist = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblM_User WHERE Email = '" + sani.Sanitize(Model.Email) + "'");
+                    DataRow drIsExist = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblM_User WHERE Email = '" + enc_Email + "'");
                     if (int.Parse(drIsExist["Count"].ToString()) > 0)
-                        throw new Exception("Proses Ditolak, Akun dengan alamat email [" + sani.Sanitize(Model.Email) + "] sudah terdaftar sebelumnya");
+                        throw new Exception("Proses Ditolak, Akun dengan alamat email [" + aes.Dec(enc_Email) + "] sudah terdaftar sebelumnya");
                 }
                 else
                 {
@@ -356,9 +353,9 @@ namespace BO_SPP.Controllers
 
                 if (Action == "edit")
                 {
-                    DataRow drIsExist = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblM_User WHERE Email = '" + sani.Sanitize(Model.Email) + "' AND UserID <> '" + _UserID + "' AND IsDeleted = 0");
+                    DataRow drIsExist = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblM_User WHERE Email = '" + enc_Email + "' AND UserID <> '" + _UserID + "' AND IsDeleted = 0");
                     if (int.Parse(drIsExist["Count"].ToString()) > 0)
-                        throw new Exception("Proses Ditolak, Akun dengan alamat email [" + sani.Sanitize(Model.Email) + "] sudah terdaftar sebelumnya");
+                        throw new Exception("Proses Ditolak, Akun dengan alamat email [" + aes.Dec(enc_Email) + "] sudah terdaftar sebelumnya");
                 }
 
 
@@ -400,18 +397,25 @@ namespace BO_SPP.Controllers
 
                 #region Save User
 
+                string Fullname = sani.Sanitize(Model.enc_Fullname);
+                string Mobile = sani.Sanitize(Model.enc_Mobile);
+                string Address = sani.Sanitize(Model.enc_Address);
+                string NIP = sani.Sanitize(Model.enc_NIP);
+                string Jabatan = sani.Sanitize(Model.enc_Jabatan);
+                string Divisi = sani.Sanitize(Model.enc_Divisi);
+
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@Action", Action));
                 param.Add(new SqlParameter("@UserID", _UserID));
                 param.Add(new SqlParameter("@PasswordHash", HashPassword));
-                param.Add(new SqlParameter("@Fullname", sani.Sanitize(Model.Fullname)));
-                param.Add(new SqlParameter("@Email", sani.Sanitize(Model.Email)));
-                param.Add(new SqlParameter("@Mobile", sani.Sanitize(Model.Mobile)));
-                param.Add(new SqlParameter("@Address", sani.Sanitize(Model.Address)));
+                param.Add(new SqlParameter("@Fullname", Fullname));
+                param.Add(new SqlParameter("@Email", enc_Email));
+                param.Add(new SqlParameter("@Mobile", Mobile));
+                param.Add(new SqlParameter("@Address", Address));
                 param.Add(new SqlParameter("@Gender", sani.Sanitize(Model.Gender)));
-                param.Add(new SqlParameter("@NIP", sani.Sanitize(Model.NIP)));
-                param.Add(new SqlParameter("@Jabatan", sani.Sanitize(Model.Jabatan)));
-                param.Add(new SqlParameter("@Divisi", sani.Sanitize(Model.Divisi)));
+                param.Add(new SqlParameter("@NIP", NIP));
+                param.Add(new SqlParameter("@Jabatan", Jabatan));
+                param.Add(new SqlParameter("@Divisi", Divisi));
                 param.Add(new SqlParameter("@ID_Roles", sani.Sanitize(Model.ID_Roles)));
                 param.Add(new SqlParameter("@Img", FotoFilename));
                 param.Add(new SqlParameter("@Ekstension", FotoFileExtension));
@@ -430,7 +434,7 @@ namespace BO_SPP.Controllers
                     {
                         Roles += dr["Role"].ToString() + ";";
                     }
-                    Helper.SendMail(sani.Sanitize(Model.Email), "Back Office SPP PTSMI - Selamat Bergabung", MailComposer.compose_mail_body_new_user_admin(sani.Sanitize(Model.Fullname), sani.Sanitize(Model.Email), Roles));
+                    Helper.SendMail(aes.Dec(enc_Email), "Back Office SPP PTSMI - Selamat Bergabung", MailComposer.compose_mail_body_new_user_admin(aes.Dec(Fullname), aes.Dec(enc_Email), Roles));
                     #endregion Notifikasi_Akun_Baru  
                 }
 
@@ -469,6 +473,16 @@ namespace BO_SPP.Controllers
             param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
             param.Add(new SqlParameter("@Tipe", "Download PDF"));
             DataTable dt = mssql.GetDataTable("sp_Download_User", param);
+            foreach (DataRow dr in dt.Rows)
+            {
+                dr["Fullname"] = !string.IsNullOrEmpty(dr["Fullname"].ToString()) ? aes.Dec(dr["Fullname"].ToString()) : "";
+                dr["Mobile"] = !string.IsNullOrEmpty(dr["Mobile"].ToString()) ? aes.Dec(dr["Mobile"].ToString()) : "";
+                dr["Email"] = !string.IsNullOrEmpty(dr["Email"].ToString()) ? aes.Dec(dr["Email"].ToString()) : "";
+                dr["NIP"] = !string.IsNullOrEmpty(dr["NIP"].ToString()) ? aes.Dec(dr["NIP"].ToString()) : "";
+                dr["Jabatan"] = !string.IsNullOrEmpty(dr["Jabatan"].ToString()) ? aes.Dec(dr["Jabatan"].ToString()) : "";
+                dr["UpdatedBy"] = !string.IsNullOrEmpty(dr["UpdatedBy"].ToString()) ? aes.Dec(dr["UpdatedBy"].ToString()) : "";
+                dt.AcceptChanges();
+            }
 
             var wb = new ClosedXML.Excel.XLWorkbook();
             var KP = dt;
@@ -604,22 +618,29 @@ namespace BO_SPP.Controllers
 
                 #region Save User
 
+                string Fullname = sani.Sanitize(Model.enc_Fullname);
+                string Address = sani.Sanitize(Model.enc_Address);
+                string NIP = sani.Sanitize(Model.enc_NIP);
+                string Jabatan = sani.Sanitize(Model.enc_Jabatan);
+                string Divisi = sani.Sanitize(Model.enc_Divisi);
+
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@UserID", Model.UserID));
-                param.Add(new SqlParameter("@Fullname", sani.Sanitize(Model.Fullname)));
-                param.Add(new SqlParameter("@Address", sani.Sanitize(Model.Address)));
+                param.Add(new SqlParameter("@Fullname", Fullname));
+                param.Add(new SqlParameter("@Address", Address));
                 param.Add(new SqlParameter("@Gender", Model.Gender));
-                param.Add(new SqlParameter("@NIP", sani.Sanitize(Model.NIP)));
-                param.Add(new SqlParameter("@Jabatan", sani.Sanitize(Model.Jabatan)));
-                param.Add(new SqlParameter("@Divisi", sani.Sanitize(Model.Divisi)));
+                param.Add(new SqlParameter("@NIP", NIP));
+                param.Add(new SqlParameter("@Jabatan", Jabatan));
+                param.Add(new SqlParameter("@Divisi", Divisi));
                 param.Add(new SqlParameter("@Img", FotoFilename));
                 param.Add(new SqlParameter("@Ekstension", FotoFileExtension));
                 param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
 
+                string asd = Fullname;
                 mssql.ExecuteNonQuery("spUpdateMyProfileInternal", param);
                 #endregion Save User
 
-                HttpContext.Session.SetString("fn", Model.Fullname);
+                HttpContext.Session.SetString("fn", aes.Dec(Fullname));
 
 
                 return Json(new { Error = false, Message = Model.UserID });
@@ -636,11 +657,11 @@ namespace BO_SPP.Controllers
             try
             {
                 if (string.IsNullOrEmpty(StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
-                    throw new Exception("Invalid Authorization|window.location='../'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 DataRow dr_Login = mssql.GetDataRow("SELECT COUNT(*) [Jumlah] FROM tblT_User_Login WHERE UserID = '" + StringCipher.Decrypt(HttpContext.Session.GetString("UserID")) + "' AND ID = '" + StringCipher.Decrypt(HttpContext.Session.GetString("SessionID")) + "' AND isActive = 1");
                 if (int.Parse(dr_Login["Jumlah"].ToString()) == 0)
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Signin", "Account");
 
                 string UserID = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));
                 DataRow dr = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblM_User WHERE UserID = '" + UserID + "' AND Img IS NOT NULL");
@@ -665,30 +686,30 @@ namespace BO_SPP.Controllers
             try
             {
                 if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
-                    throw new Exception("Invalid Authorization|window.location='../'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 DataRow dr_Login = mssql.GetDataRow("SELECT COUNT(*) [Jumlah] FROM tblT_User_Login WHERE UserID = '" + StringCipher.Decrypt(HttpContext.Session.GetString("UserID")) + "' AND ID = '" + StringCipher.Decrypt(HttpContext.Session.GetString("SessionID")) + "' AND isActive = 1");
                 if (int.Parse(dr_Login["Jumlah"].ToString()) == 0)
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Signin", "Account");
 
                 var EmailNotification = Model.EmailNotification;
 
                 string OldMobile = "";
                 DataTable dtOld = mssql.GetDataTable("SELECT Mobile FROM tblM_User WHERE UserID = '" + StringCipher.Decrypt(HttpContext.Session.GetString("UserID")) + "' AND Mobile_Verification = 1");
                 if (dtOld.Rows.Count == 1)
-                    OldMobile = dtOld.Rows[0]["Mobile"].ToString();
+                    OldMobile = !string.IsNullOrEmpty(dtOld.Rows[0]["Mobile"].ToString()) ? aes.Dec(dtOld.Rows[0]["Mobile"].ToString()) : "";
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@UserID", StringCipher.Decrypt(HttpContext.Session.GetString("UserID"))));
-                param.Add(new SqlParameter("@Mobile", sani.Sanitize(Model.Mobile)));
+                param.Add(new SqlParameter("@Mobile", sani.Sanitize(Model.enc_Mobile)));
                 param.Add(new SqlParameter("@EmailNotification", Model.EmailNotification));
                 param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
 
                 mssql.ExecuteNonQuery("spUpdateAccountInternal", param);
 
-                string Mobile = sani.Sanitize(Model.Mobile);
+                string Mobile = sani.Sanitize(Model.enc_Mobile);
                 string PhoneChanged = "";
-                if (Mobile.Length >= 8 && Mobile.Length <= 15 && Mobile != OldMobile)
+                if (aes.Dec(Mobile).Length >= 8 && aes.Dec(Mobile).Length <= 15 && aes.Dec(Mobile) != OldMobile)
                 {
 
                     string UserID = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));
@@ -698,12 +719,12 @@ namespace BO_SPP.Controllers
                     string OTP = generator.Next(0, 1000000).ToString("D6");
 
                     mssql.ExecuteNonQuery("DELETE FROM tblT_OTP WHERE UserID = '" + UserID + "'");
-                    mssql.ExecuteNonQuery("INSERT INTO tblT_OTP (ID, UserID, Mobile, OTP, Status) VALUES ('" + New_OTP_ID + "', '" + UserID + "', '" + Mobile + "', '" + OTP + "', 'Not verified')");
+                    mssql.ExecuteNonQuery("INSERT INTO tblT_OTP (ID, UserID, Mobile, OTP, Status) VALUES ('" + New_OTP_ID + "', '" + UserID + "', '" + aes.Dec(Mobile) + "', '" + OTP + "', 'Not verified')");
 
                     //SEND OTP VIA SMS GATEWAY
                     string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP PT SMI bila Anda tidak merasa meminta OTP ini.";
 
-                    string SMS_Respon = Helper.SendSMSSingle(SMS_Body, Mobile);
+                    string SMS_Respon = Helper.SendSMSSingle(SMS_Body, aes.Dec(Mobile));
                     if (SMS_Respon == "Success")
                         mssql.ExecuteNonQuery("UPDATE tblT_OTP SET SMS_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_OTP_ID + "'");
                     else
@@ -805,12 +826,11 @@ namespace BO_SPP.Controllers
             password = sani.Sanitize(password);
             captcha = sani.Sanitize(captcha);
             string username = email.Trim().Replace("@ptsmi.co.id", "");
-
-
+            string encrypted_email = aes.Enc(email);
             string ByPass = ConfigurationManager.AppSetting["FileConfiguration:ByPass"];
             if (ByPass == "1")
             {
-                DataTable DT = mssql.GetDataTable("SELECT * FROM tblM_User WHERE Email = '" + email + "' AND ISNULL(isActive, 0) = 1");
+                DataTable DT = mssql.GetDataTable("SELECT * FROM tblM_User WHERE Email = '" + encrypted_email + "' AND ISNULL(isActive, 0) = 1");
                 if (DT.Rows.Count != 1)
                 {
                     ViewBag.error = "Invalid BP Account";
@@ -826,8 +846,8 @@ namespace BO_SPP.Controllers
                 DataTable dt_User = mssql.GetDataTable("sp_Get_User_By_UserID", param);
 
                 HttpContext.Session.SetString("UserID", StringCipher.Encrypt(DT.Rows[0]["UserID"].ToString()));
-                HttpContext.Session.SetString("Email", StringCipher.Encrypt(email));
-                HttpContext.Session.SetString("fn", DT.Rows[0]["Fullname"].ToString());
+                HttpContext.Session.SetString("Email", StringCipher.Encrypt(encrypted_email));
+                HttpContext.Session.SetString("fn", !string.IsNullOrEmpty(DT.Rows[0]["Fullname"].ToString()) ? aes.Dec(DT.Rows[0]["Fullname"].ToString()) : "");
                 HttpContext.Session.SetString("fr", dt_User.Rows[0]["Roles"].ToString());
 
                 if (dt_User.Rows[0]["Roles"].ToString().Contains("Admin SPP"))
@@ -857,6 +877,7 @@ namespace BO_SPP.Controllers
                 ViewBag.error = "Invalid Credential";
                 return View("Signin");
             }
+            encrypted_email = aes.Enc(email);
 
             string current_captcha = HttpContext.Session.GetString("captcha");
             if (captcha != current_captcha)
@@ -866,16 +887,10 @@ namespace BO_SPP.Controllers
             }
             else
             {
-                string ProvidedPassword = password;
-                DataTable DT = mssql.GetDataTable("SELECT * FROM tblM_User WHERE Email = '" + email + "' AND ISNULL(isActive, 0) = 1");
+                //string ProvidedPassword = password;
+                DataTable DT = mssql.GetDataTable("SELECT * FROM tblM_User WHERE Email = '" + encrypted_email + "' AND ISNULL(isActive, 0) = 1");
                 if (DT.Rows.Count == 1)
                 {
-                    //if (!PassHash.VerifyHashedPassword(DT.Rows[0]["PasswordHash"].ToString(), ProvidedPassword))
-                    //{
-                    //    ViewBag.error = "Invalid Credential";
-                    //    return View("Signin");
-                    //}
-
                     string AD_Authentication = LDAP.VerifyAccount(username, password, domain);
                     //bool NonADAuth = PassHash.VerifyHashedPassword(DT.Rows[0]["PasswordHash"].ToString(), ProvidedPassword);
                     if (AD_Authentication != "1")
@@ -885,7 +900,7 @@ namespace BO_SPP.Controllers
                     }
                     else
                     {
-                        DataRow drPelapor = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM vw_UserInRole WHERE Email = '" + email + "' AND [Role] = 'Pelapor'");
+                        DataRow drPelapor = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM vw_UserInRole WHERE Email = '" + encrypted_email + "' AND [Role] = 'Pelapor'");
                         if (int.Parse(drPelapor["Count"].ToString()) > 0)
                         {
                             ViewBag.error = "Invalid Credential - not valid internal register";
@@ -901,8 +916,8 @@ namespace BO_SPP.Controllers
                         DataTable dt_User = mssql.GetDataTable("sp_Get_User_By_UserID", param);
 
                         HttpContext.Session.SetString("UserID", StringCipher.Encrypt(DT.Rows[0]["UserID"].ToString()));
-                        HttpContext.Session.SetString("Email", StringCipher.Encrypt(email));
-                        HttpContext.Session.SetString("fn", DT.Rows[0]["Fullname"].ToString());
+                        HttpContext.Session.SetString("Email", StringCipher.Encrypt(encrypted_email));
+                        HttpContext.Session.SetString("fn", !string.IsNullOrEmpty(DT.Rows[0]["Fullname"].ToString()) ? aes.Dec(DT.Rows[0]["Fullname"].ToString()) : "");
                         HttpContext.Session.SetString("fr", dt_User.Rows[0]["Roles"].ToString());
 
                         if (dt_User.Rows[0]["Roles"].ToString().Contains("Admin SPP"))
@@ -920,7 +935,7 @@ namespace BO_SPP.Controllers
                             HttpContext.Session.SetString("img", imgPath);
                         }
 
-                        Helper.RecordAuditTrail(email, "BO SPP", "Login", "", "LOGIN", "Success");
+                        Helper.RecordAuditTrail(encrypted_email, "BO SPP", "Login", "", "LOGIN", "Success");
 
                         if (!string.IsNullOrEmpty(HttpContext.Session.GetString("IDPengaduan")))
                             return RedirectToAction("PengaduanForm", "Pengaduan", new { action = "view", ID = HttpContext.Session.GetString("IDPengaduan") });
@@ -983,6 +998,17 @@ namespace BO_SPP.Controllers
                 param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
                 param.Add(new SqlParameter("@Tipe", "Download PDF"));
                 DataTable dt = mssql.GetDataTable("sp_Download_User", param);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Fullname"] = !string.IsNullOrEmpty(dr["Fullname"].ToString()) ? aes.Dec(dr["Fullname"].ToString()) : "";
+                    dr["Mobile"] = !string.IsNullOrEmpty(dr["Mobile"].ToString()) ? aes.Dec(dr["Mobile"].ToString()) : "";
+                    dr["Email"] = !string.IsNullOrEmpty(dr["Email"].ToString()) ? aes.Dec(dr["Email"].ToString()) : "";
+                    dr["NIP"] = !string.IsNullOrEmpty(dr["NIP"].ToString()) ? aes.Dec(dr["NIP"].ToString()) : "";
+                    dr["Jabatan"] = !string.IsNullOrEmpty(dr["Jabatan"].ToString()) ? aes.Dec(dr["Jabatan"].ToString()) : "";
+                    dr["UpdatedBy"] = !string.IsNullOrEmpty(dr["UpdatedBy"].ToString()) ? aes.Dec(dr["UpdatedBy"].ToString()) : "";
+                    dt.AcceptChanges();
+                }
+
 
                 ExportToPdf(dt);
                 return null;
@@ -994,10 +1020,10 @@ namespace BO_SPP.Controllers
 
         }
 
-        private void ExportToPdf(DataTable products)
+        private void ExportToPdf(DataTable datas)
         {
 
-            if (products.Rows.Count > 0)
+            if (datas.Rows.Count > 0)
             {
                 int pdfRowIndex = 1;
                 string filename = DateTime.Now.ToString("yyyyMMdd") + "_DaftarUser";
@@ -1045,7 +1071,7 @@ namespace BO_SPP.Controllers
 
                 table.HeaderRows = 1;
 
-                foreach (DataRow data in products.Rows)
+                foreach (DataRow data in datas.Rows)
                 {
                     table.AddCell(new Phrase(data["Fullname"].ToString(), font2));
                     table.AddCell(new Phrase(data["Mobile"].ToString(), font2));
@@ -1099,7 +1125,7 @@ namespace BO_SPP.Controllers
                 if (dtUser.Rows.Count != 1)
                     throw new Exception("Kode OTP tidak valid atau sudah kadaluarsa, Anda dapat mengirim ulang kode OTP");
 
-                mssql.ExecuteNonQuery("UPDATE tblM_User SET Mobile = '" + dtUser.Rows[0]["Mobile"] + "', Mobile_Verification = 1, MobileTemp = NULL WHERE UserID = '" + UserID + "'");
+                mssql.ExecuteNonQuery("UPDATE tblM_User SET Mobile = '" + aes.Enc(dtUser.Rows[0]["Mobile"].ToString()) + "', Mobile_Verification = 1, MobileTemp = NULL WHERE UserID = '" + UserID + "'");
                 mssql.ExecuteNonQuery("DELETE FROM tblT_OTP WHERE UserID = '" + UserID + "' AND AND OTP = '" + OTP + "'");
 
                 return Json(new { Error = false, Message = "" });
@@ -1221,12 +1247,13 @@ namespace BO_SPP.Controllers
                     throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 email = sani.Sanitize(email).Trim();
+                string enc_email = aes.Enc(email);
 
                 string ID = StringCipher.Decrypt(sani.Sanitize(DelegatorID).Split("|")[0]);
                 if (sani.Sanitize(DelegatorID).Split("|")[1] != HttpContext.Session.GetString("SessionID"))
                     throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
-                DataRow drMemberDelegator = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_UserInDelegator A JOIN tblM_User B ON A.UserID = B.UserID AND A.DelegatorID = '" + ID + "' AND B.Email = '" + email + "'");
+                DataRow drMemberDelegator = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_UserInDelegator A JOIN tblM_User B ON A.UserID = B.UserID AND A.DelegatorID = '" + ID + "' AND B.Email = '" + enc_email + "'");
                 if (int.Parse(drMemberDelegator["Count"].ToString()) > 0)
                     throw new Exception("Already Registered Pelapor");
 
@@ -1265,24 +1292,32 @@ namespace BO_SPP.Controllers
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
                     throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
-                DataRow drIsExist = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblM_User WHERE Email = '" + sani.Sanitize(Model.Email) + "' AND ISNULL(isDeleted, 0) = 0");
+                string Email = sani.Sanitize(Model.enc_Email);
+                string Fullname = sani.Sanitize(Model.enc_Fullname);
+                string Mobile = sani.Sanitize(Model.enc_Mobile);
+                string Address = sani.Sanitize(Model.enc_Address);
+                string NIP = sani.Sanitize(Model.enc_NIP);
+                string Jabatan = sani.Sanitize(Model.enc_Jabatan);
+                string Divisi = sani.Sanitize(Model.enc_Divisi);
+
+                DataRow drIsExist = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblM_User WHERE Email = '" + Email + "' AND ISNULL(isDeleted, 0) = 0");
                 if (int.Parse(drIsExist["Count"].ToString()) == 0)
                 {
                     #region Save User
                     string FotoFilename = "";
-                    string HashPassword = PassHash.HashPassword(sani.Sanitize(Model.Email));
+                    string HashPassword = PassHash.HashPassword(Email);
                     List<SqlParameter> param = new List<SqlParameter>();
                     param.Add(new SqlParameter("@Action", "add"));
                     param.Add(new SqlParameter("@UserID", _UserID));
                     param.Add(new SqlParameter("@PasswordHash", HashPassword));
-                    param.Add(new SqlParameter("@Fullname", sani.Sanitize(Model.Fullname)));
-                    param.Add(new SqlParameter("@Email", sani.Sanitize(Model.Email)));
-                    param.Add(new SqlParameter("@Mobile", sani.Sanitize(Model.Mobile)));
-                    param.Add(new SqlParameter("@Address", sani.Sanitize(Model.Address)));
+                    param.Add(new SqlParameter("@Fullname", Fullname));
+                    param.Add(new SqlParameter("@Email", Email));
+                    param.Add(new SqlParameter("@Mobile", Mobile));
+                    param.Add(new SqlParameter("@Address", Address));
                     param.Add(new SqlParameter("@Gender", ""));
                     param.Add(new SqlParameter("@NIP", ""));
-                    param.Add(new SqlParameter("@Jabatan", sani.Sanitize(Model.Jabatan)));
-                    param.Add(new SqlParameter("@Divisi", sani.Sanitize(Model.Divisi)));
+                    param.Add(new SqlParameter("@Jabatan", Jabatan));
+                    param.Add(new SqlParameter("@Divisi", Divisi));
                     param.Add(new SqlParameter("@ID_Roles", ""));
                     param.Add(new SqlParameter("@Img", FotoFilename));
                     param.Add(new SqlParameter("@isActive", 1));
@@ -1296,13 +1331,13 @@ namespace BO_SPP.Controllers
                     {
                         #region Notifikasi_Akun_Baru                    
                         string Roles = "Delegator";
-                        Helper.SendMail(sani.Sanitize(Model.Email), "Back Office SPP PTSMI - Selamat Bergabung", MailComposer.compose_mail_body_new_user_admin(sani.Sanitize(Model.Fullname), sani.Sanitize(Model.Email), Roles));
+                        Helper.SendMail(aes.Dec(Email), "Back Office SPP PTSMI - Selamat Bergabung", MailComposer.compose_mail_body_new_user_admin(aes.Dec(Fullname), aes.Dec(Email), Roles));
                         #endregion Notifikasi_Akun_Baru  
                     }
                 }
                 else
                 {
-                    DataTable dtUser = mssql.GetDataTable("SELECT TOP 1 UserID FROM tblM_User WHERE Email = '" + sani.Sanitize(Model.Email) + "' AND ISNULL(isDeleted, 0) = 0");
+                    DataTable dtUser = mssql.GetDataTable("SELECT TOP 1 UserID FROM tblM_User WHERE Email = '" + Email + "' AND ISNULL(isDeleted, 0) = 0");
                     if (dtUser.Rows.Count > 0)
                     {
                         _UserID = dtUser.Rows[0]["UserID"].ToString();
@@ -1334,10 +1369,10 @@ namespace BO_SPP.Controllers
                         DataTable dt_Email = mssql.GetDataTable("SELECT Email, Fullname FROM tblM_User WHERE UserID = '" + _UserID + "'");
                         foreach (DataRow dr in dt_Email.Rows)
                         {
-                            string Email = dr["Email"].ToString();
-                            string Fullname = dr["Fullname"].ToString();
+                            string s_Email = aes.Dec(dr["Email"].ToString());
+                            string s_Fullname = aes.Dec(dr["Fullname"].ToString());
                             string DelegatorName = dtDel.Rows[0]["DelegatorName"].ToString();
-                            RowsAffected = Helper.SendMail(Email, Subject, MailComposer.compose_mail_body_member_delegator_baru(Email, Fullname, DelegatorName));
+                            RowsAffected = Helper.SendMail(s_Email, Subject, MailComposer.compose_mail_body_member_delegator_baru(s_Email, s_Fullname, DelegatorName));
                         }
                     }
                     catch (Exception) { RowsAffected = 0; }

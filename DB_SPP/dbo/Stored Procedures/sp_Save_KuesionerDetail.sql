@@ -17,7 +17,7 @@ CREATE PROCEDURE [dbo].[sp_Save_KuesionerDetail]
 	@InputType		varchar(50),
 	@Label			varchar(MAX),
 	@Required		BIT,
-	@CreatedBy nvarchar(200)
+	@CreatedBy nvarchar(MAX)
 	 
 AS
 BEGIN

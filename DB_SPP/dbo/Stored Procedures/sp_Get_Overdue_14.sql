@@ -14,7 +14,7 @@
 -- Description:	<Description,,>
 -- =============================================
 CREATE PROCEDURE [dbo].[sp_Get_Overdue_14]
-	@Email VARCHAR(200) = ''
+	@Email VARCHAR(MAX) = ''
 AS
 BEGIN
 	

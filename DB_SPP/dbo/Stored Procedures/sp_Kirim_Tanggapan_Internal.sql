@@ -17,18 +17,18 @@ CREATE PROCEDURE [dbo].[sp_Kirim_Tanggapan_Internal]
 	@JenisPengaduan varchar(50),
     @IDPengaduan varchar(36),
     @TipePengirim varchar(50),
-    @Email varchar(200),
+    @Email VARCHAR(MAX),
     @Tanggapan varchar(MAX),
 	@FileLampiran VARCHAR(200) = NULL,
 	@FileLampiran_Ekstension VARCHAR(50) = NULL,
-    @CreatedBy varchar(200)
+    @CreatedBy varchar(MAX)
 AS
 BEGIN
 
-	DECLARE @Nama VARCHAR(200);	
+	DECLARE @Nama VARCHAR(MAX);	
 	SET @Nama = (SELECT Fullname FROM tblM_User WHERE Email = @Email);	
 
-	INSERT INTO [dbo].[tblT_Tanggapan]
+	INSERT INTO [tblT_Tanggapan]
            ([ID],[JenisPengaduan]
 		  ,[IDPengaduan]
 		  ,[TipePengirim]

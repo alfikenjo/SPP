@@ -15,15 +15,15 @@
 CREATE PROCEDURE [dbo].[spUpdateMyProfileInternal]
 	-- Add the parameters for the stored procedure here
 	@UserID varchar(36),
-	@Fullname varchar(100) = '',
-	@Address varchar(max) = '',
+	@Fullname varchar(MAX) = '',
+	@Address varchar(MAX) = '',
 	@Gender nvarchar(2) = '',	
-	@NIP varchar(100) = '',
-	@Jabatan varchar(200) = '',
-	@Divisi varchar(200) = '',
+	@NIP varchar(MAX) = '',
+	@Jabatan varchar(MAX) = '',
+	@Divisi varchar(MAX) = '',
 	@Img nvarchar(100) = '',
 	@Ekstension nvarchar(100) = '',
-	@CreatedBy varchar(50)
+	@CreatedBy varchar(MAX)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -44,6 +44,6 @@ BEGIN
 			UpdatedBy = NULLIF(@CreatedBy, '')
 	WHERE	UserID = @UserID
 
-	DECLARE @Email_Audit VARCHAR(200) = (SELECT Email FROM tblM_User WHERE UserID = @UserID)
-	EXEC sp_RecordAuditTrail @CreatedBy, 'BO My Profile', 'Profile', NULL, 'UPDATE', @Email_Audit
+	DECLARE @Email_Audit VARCHAR(MAX) = (SELECT Email FROM tblM_User WHERE UserID = @UserID)
+	EXEC sp_RecordAuditTrail @CreatedBy, 'BO My Profile', 'Profile', NULL, 'UPDATE', @CreatedBy
 END

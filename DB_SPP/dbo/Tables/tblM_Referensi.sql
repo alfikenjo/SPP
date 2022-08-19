@@ -5,9 +5,9 @@
     [Description] VARCHAR (MAX) NULL,
     [isActive]    INT           DEFAULT ((1)) NOT NULL,
     [Created_On]  DATETIME      DEFAULT (getdate()) NULL,
-    [Created_By]  VARCHAR (30)  NULL,
+    [Created_By]  VARCHAR (MAX)  NULL,
     [Updated_On]  DATETIME      DEFAULT (getdate()) NULL,
-    [Updated_By]  VARCHAR (30)  NULL,
+    [Updated_By]  VARCHAR (MAX)  NULL,
     PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 

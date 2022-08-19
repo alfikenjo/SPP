@@ -71,7 +71,7 @@ namespace BO_SPP.Controllers
             ViewData["CurrentControllerName"] = "";
             ViewData["CurrentActionName"] = "Dashboard";
             ViewData["Title"] = "Dashboard";
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
             ViewBag.Role = HttpContext.Session.GetString("fr");
             return View();
         }

@@ -252,12 +252,12 @@ $('#FormInput').validate({
     },
     submitHandler: function () {
         var DataForm = new FormData();
-        DataForm.append('Fullname', $('#txtFullname').val());
-        DataForm.append('Email', $('#txtEmail').val());
-        DataForm.append('Mobile', $('#txtMobile').val());
-        DataForm.append('Address', $('#txtAddress').val());
-        DataForm.append('Jabatan', $('#txt_Jabatan').val());
-        DataForm.append('Divisi', $('#txt_Divisi').val());
+        DataForm.append('enc_Fullname', $('#txtFullname').val());
+        DataForm.append('enc_Email', $('#txtEmail').val());
+        DataForm.append('enc_Mobile', $('#txtMobile').val());
+        DataForm.append('enc_Address', $('#txtAddress').val());
+        DataForm.append('enc_Jabatan', $('#txt_Jabatan').val());
+        DataForm.append('enc_Divisi', $('#txt_Divisi').val());
 
         var ID = sessionStorage.getItem("DelegatorID");
         DataForm.append('DelegatorID', ID);

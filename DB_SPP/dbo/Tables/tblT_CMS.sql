@@ -25,9 +25,9 @@
     [Value9]      VARCHAR (MAX)    NULL,
     [Status]      VARCHAR (50)     NULL,
     [CreatedOn]   DATETIME         DEFAULT (getdate()) NOT NULL,
-    [CreatedBy]   VARCHAR (200)    NULL,
+    [CreatedBy]   VARCHAR (MAX)    NULL,
     [UpdatedOn]   DATETIME         DEFAULT (getdate()) NULL,
-    [UpdatedBy]   VARCHAR (200)    NULL,
+    [UpdatedBy]   VARCHAR (MAX)    NULL,
     PRIMARY KEY CLUSTERED ([ID] ASC)
 );
 

@@ -8,11 +8,11 @@
 -- Description:	<Description,,>
 -- =============================================
 CREATE PROCEDURE [dbo].[sp_Get_Dumas_by_Email_Pelapor]
-    @Email varchar(200),
+    @Email VARCHAR(MAX),
 	@Status varchar(200) = null
 AS
 BEGIN
-	--DECLARE @Email varchar(200) = 'larva.opat@gmail.com',
+	--DECLARE @Email VARCHAR(MAX) = 'larva.opat@gmail.com',
 	--@Status varchar(200) = null
 
 	--SELECT COUNT(*) FROM vw_UserInRole WHERE Email = @Email AND [Role] = 'Delegator'

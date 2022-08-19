@@ -1,16 +1,16 @@
 ﻿
 CREATE PROCEDURE [dbo].[sp_Get_Laporan_2]
-	@Email VARCHAR(200) = '',
+	@Email VARCHAR(MAX) = '',
 	@Start VARCHAR(10),
 	@End VARCHAR(10)
 AS
 BEGIN
 
-	--DECLARE @Email VARCHAR(200) = 'spp.ptsmi@gmail.com',
+	--DECLARE @Email VARCHAR(MAX) = 'spp.ptsmi@gmail.com',
 	--		@Start VARCHAR(10) = '2022-01-01',
 	--		@End VARCHAR(10) = '2022-07-20'
 
-	DECLARE @TABLE AS TABLE (Delegator VARCHAR(200), Masuk INT, Proses INT, Selesai INT)	
+	DECLARE @TABLE AS TABLE (Delegator VARCHAR(MAX), Masuk INT, Proses INT, Selesai INT)	
 
 	IF((SELECT COUNT(*) FROM vw_userInRole WHERE Email = @Email AND Role IN ('Admin SPP')) > 0)
 	BEGIN

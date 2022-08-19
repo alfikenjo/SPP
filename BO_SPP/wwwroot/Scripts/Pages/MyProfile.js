@@ -6,7 +6,7 @@ function FillForm() {
 
     $.ajax({
         url: VP + 'Account/GetMyProfile',
-        type: 'POST',        
+        type: 'POST',
         success: function (Result) {
             if (Result.Error == false) {
                 var data = Result.Message[0];
@@ -16,21 +16,23 @@ function FillForm() {
                 document.getElementById('txtMobile').value = data.Mobile;
                 document.getElementById('txtAddress').value = data.Address;
                 if (data.Gender)
-                document.getElementById('ddlGender').value = data.Gender;
+                    document.getElementById('ddlGender').value = data.Gender;
                 document.getElementById('txt_NIP').value = data.NIP;
                 document.getElementById('txt_Jabatan').value = data.Jabatan;
                 document.getElementById('txt_Divisi').value = data.Divisi;
 
                 if (data.Roles != '') {
                     var IDRoles = data.Roles;
-                    var a = IDRoles.split(";");
-                    var badge = '';
-                    for (i = 0; i < a.length; i++) {
-                        if (a[i].trim().length > 2) {
-                            badge += "<span class='mt-2 badge border border-primary text-primary mt-2 mr-2'>" + a[i].trim() + "</span>";                            
+                    if (IDRoles) {
+                        var a = IDRoles.split(";");
+                        var badge = '';
+                        for (i = 0; i < a.length; i++) {
+                            if (a[i].trim().length > 2) {
+                                badge += "<span class='mt-2 badge border border-primary text-primary mt-2 mr-2'>" + a[i].trim() + "</span>";
+                            }
                         }
+                        document.getElementById('div_Role').innerHTML += badge;
                     }
-                    document.getElementById('div_Role').innerHTML += badge;
                 }
 
                 if (data.Delegators != '' && data.Delegators != null) {
@@ -124,12 +126,12 @@ $('#FormInput').validate({
     },
     submitHandler: function () {
         var DataForm = new FormData();
-        DataForm.append('Fullname', $('#txtFullname').val());
-        DataForm.append('Address', $('#txtAddress').val());
+        DataForm.append('enc_Fullname', $('#txtFullname').val());
+        DataForm.append('enc_Address', $('#txtAddress').val());
         DataForm.append('Gender', $('#ddlGender').val());
-        DataForm.append('NIP', $('#txt_NIP').val());
-        DataForm.append('Jabatan', $('#txt_Jabatan').val());
-        DataForm.append('Divisi', $('#txt_Divisi').val());
+        DataForm.append('enc_NIP', $('#txt_NIP').val());
+        DataForm.append('enc_Jabatan', $('#txt_Jabatan').val());
+        DataForm.append('enc_Divisi', $('#txt_Divisi').val());
         DataForm.append("Foto", $('#fuempPicture')[0].files[0]);
 
         $.ajax({
@@ -156,7 +158,7 @@ $('#FormChangePassword').validate({
     rules: {
         CurrentPassword: { required: true, AntiXSS: true, AntiHTML: true },
         NewPassword: { required: true, AntiXSS: true, AntiHTML: true },
-        NewPasswordVerifiy: { required: true, AntiXSS: true, AntiHTML: true },        
+        NewPasswordVerifiy: { required: true, AntiXSS: true, AntiHTML: true },
     },
     errorElement: 'span',
     errorPlacement: function (error, element) {
@@ -214,12 +216,12 @@ $('#FormUpdateEmail').validate({
     },
     submitHandler: function () {
         var DataForm = new FormData();
-        DataForm.append('Mobile', $('#txtMobile').val());        
+        DataForm.append('enc_Mobile', $('#txtMobile').val());
 
         var EmailNotification;
-        if (document.getElementById('chk_EmailNotification').checked) 
+        if (document.getElementById('chk_EmailNotification').checked)
             EmailNotification = 1;
-        else 
+        else
             EmailNotification = 0;
         DataForm.append('EmailNotification', EmailNotification);
 
@@ -321,7 +323,6 @@ function ShowUpdateAkunForm() {
     document.getElementById('FormUpdateEmail').style.display = 'block';
     document.getElementById('FormSubmitOTP').style.display = 'none';
 }
-
 
 var Mobile = document.querySelector("#txtMobile");
 window.intlTelInput(Mobile, {

@@ -3,7 +3,7 @@
 	[ID]          UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL PRIMARY KEY,
     [Name]        VARCHAR (100)    NULL,
     [CreatedOn]   DATETIME         DEFAULT (getdate()) NULL,
-    [CreatedBy]   VARCHAR (200)    NULL,
+    [CreatedBy]   VARCHAR (MAX)    NULL,
     [UpdatedOn]   DATETIME         DEFAULT (getdate()) NULL,
-    [UpdatedBy]   VARCHAR (200)    NULL,
+    [UpdatedBy]   VARCHAR (MAX)    NULL,
 )

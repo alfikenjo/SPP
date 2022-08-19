@@ -15,11 +15,11 @@ CREATE PROCEDURE [dbo].[sp_Kirim_Tanggapan_Pelapor]
 	@JenisPengaduan varchar(50),
     @IDPengaduan varchar(36),
     @TipePengirim varchar(50),
-    @Email varchar(200),
+    @Email VARCHAR(MAX),
     @Tanggapan varchar(MAX),
 	@FileLampiran VARCHAR(200) = NULL,
 	@FileLampiran_Ekstension VARCHAR(50) = NULL,
-    @CreatedBy varchar(200)
+    @CreatedBy varchar(MAX)
 AS
 BEGIN
 

@@ -15,7 +15,7 @@ CREATE PROCEDURE [dbo].[sp_Save_tblM_Referensi]
      @Type nvarchar(MAX),
 	 @Value nvarchar(MAX),
 	 @Description nvarchar(MAX),
-	 @CreatedBy nvarchar(200)
+	 @CreatedBy nvarchar(MAX)
 	 
 AS
 BEGIN

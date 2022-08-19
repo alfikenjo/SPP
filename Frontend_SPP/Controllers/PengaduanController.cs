@@ -66,18 +66,18 @@ namespace Frontend_SPP.Controllers
 
             ViewData["CurrentControllerName"] = "";
             ViewData["CurrentActionName"] = "Form Pengaduan";
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
 
             DataTable dtPelapor = mssql.GetDataTable("SELECT * FROM tblM_User WHERE Email = '" + StringCipher.Decrypt(HttpContext.Session.GetString("Email")) + "'");
             if (dtPelapor.Rows.Count == 1)
             {
                 DataRow drPelapor = dtPelapor.Rows[0];
-                ViewBag.Fullname = drPelapor["Fullname"].ToString();
-                ViewBag.Email = drPelapor["Email"].ToString();
+                ViewBag.Fullname = !string.IsNullOrEmpty(drPelapor["Fullname"].ToString()) ? aes.Dec(drPelapor["Fullname"].ToString()) : "";
+                ViewBag.Email = aes.Dec(drPelapor["Email"].ToString());
                 ViewBag.Mobile = "";
 
                 if (!string.IsNullOrEmpty(drPelapor["Mobile"].ToString()) && int.Parse(drPelapor["Mobile_Verification"].ToString()) == 1)
-                    ViewBag.Mobile = drPelapor["Mobile"].ToString();
+                    ViewBag.Mobile = aes.Dec(drPelapor["Mobile"].ToString());
 
                 if (!string.IsNullOrEmpty(ID))
                 {
@@ -91,18 +91,6 @@ namespace Frontend_SPP.Controllers
                 }
 
             }
-
-            string FileEkstensionFilter = "";
-            DataTable dt_FileEkstensionFilter = mssql.GetDataTable("SELECT Name FROM FileEkstensionFilterDummy ORDER BY Name");
-            foreach (DataRow dr in dt_FileEkstensionFilter.Rows)
-            {
-                string Eks = dr["Name"].ToString().Replace(".", "").Trim();
-                FileEkstensionFilter += Eks + "/";
-            }
-            if (FileEkstensionFilter.Length > 0)
-                FileEkstensionFilter = FileEkstensionFilter.Substring(0, FileEkstensionFilter.Length - 1);
-            ViewBag.FileEkstensionFilter = FileEkstensionFilter;
-
 
             return View();
         }

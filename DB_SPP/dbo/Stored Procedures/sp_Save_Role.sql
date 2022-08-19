@@ -14,7 +14,7 @@ CREATE PROCEDURE [dbo].[sp_Save_Role]
      @Name nvarchar(100) = '',
      @Description nvarchar(max) = '',
      @Status int = 1,
-	 @CreatedBy nvarchar(200) = ''
+	 @CreatedBy nvarchar(MAX) = ''
 	 
 AS
 BEGIN

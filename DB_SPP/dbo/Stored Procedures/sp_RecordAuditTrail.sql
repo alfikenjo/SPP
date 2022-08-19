@@ -11,7 +11,7 @@
 -- Description:	<Description,,>
 -- =============================================
 CREATE PROCEDURE [dbo].[sp_RecordAuditTrail]
-	@Username VARCHAR(50) = '',
+	@Username VARCHAR(MAX) = '',
 	@Menu VARCHAR(MAX) = '',
 	@Halaman VARCHAR(MAX) = '',
 	@Item VARCHAR(MAX) = '',

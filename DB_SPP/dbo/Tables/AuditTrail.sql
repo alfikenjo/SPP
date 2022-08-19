@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[AuditTrail] (
     [ID]          UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
-    [Username]    VARCHAR (50)     NULL,
+    [Username]    VARCHAR (MAX)     NULL,
     [Menu]        VARCHAR (MAX)    NULL,
     [Halaman]     VARCHAR (MAX)    NULL,
     [Item]        VARCHAR (MAX)    NULL,

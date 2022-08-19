@@ -29,7 +29,7 @@ CREATE PROCEDURE [dbo].[sp_Save_User]
 	@Img nvarchar(100) = '',
 	@Ekstension nvarchar(100) = '',
 	@isActive int,
-	@CreatedBy varchar(200)
+	@CreatedBy varchar(MAX)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -117,7 +117,7 @@ BEGIN
 		--DELETE FROM tblM_User WHERE UserID = @UserID;
 		UPDATE tblM_User SET isActive = 0, Mobile = NULL, MobileTemp = NULL, Mobile_Verification = 0, IsDeleted = 1, DeletedOn = GETDATE(), DeletedBy = @CreatedBy WHERE UserID = @UserID
 
-		DECLARE @Email_Audit VARCHAR(200) = (SELECT Email FROM tblM_User WHERE UserID = @UserID)
+		DECLARE @Email_Audit VARCHAR(MAX) = (SELECT Email FROM tblM_User WHERE UserID = @UserID)
 		EXEC sp_RecordAuditTrail @CreatedBy, 'User Management', 'User', NULL, 'DELETE', @Email_Audit
 	END
 

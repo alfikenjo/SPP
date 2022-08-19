@@ -31,9 +31,9 @@ namespace BO_SPP.Controllers
             ViewData["CurrentControllerName"] = "Laporan";
             ViewData["CurrentActionName"] = "";
             ViewData["Title"] = "Laporan Pengaduan";
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
 
-            ViewBag.Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewBag.Email = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
             ViewBag.Role = HttpContext.Session.GetString("fr");
 
             List<SqlParameter> param = new List<SqlParameter>();
@@ -79,9 +79,9 @@ namespace BO_SPP.Controllers
             ViewData["CurrentControllerName"] = "Laporan";
             ViewData["CurrentActionName"] = "";
             ViewData["Title"] = "Laporan Overdue";
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
 
-            ViewBag.Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewBag.Email = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
             ViewBag.Role = HttpContext.Session.GetString("fr");
 
             return View();
@@ -95,7 +95,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string From = Convert.ToDateTime(sani.Sanitize(Start)).ToString("yyyy-MM-dd");
                 string To = Convert.ToDateTime(sani.Sanitize(End)).ToString("yyyy-MM-dd");
@@ -123,7 +123,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string From = Convert.ToDateTime(sani.Sanitize(Start)).ToString("yyyy-MM-dd");
                 string To = Convert.ToDateTime(sani.Sanitize(End)).ToString("yyyy-MM-dd");
@@ -202,10 +202,10 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
-                param.Add(new SqlParameter("@Email", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));                
+                param.Add(new SqlParameter("@Email", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
                 DataTable dt = mssql.GetDataTable("sp_Get_Overdue_90", param);
                 List<OverdueReport> MainData = new List<OverdueReport>();
                 MainData = mssql.ConvertDataTable<OverdueReport>(dt);
@@ -229,7 +229,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@Email", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));

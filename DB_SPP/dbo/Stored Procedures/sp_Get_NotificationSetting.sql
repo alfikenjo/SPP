@@ -23,7 +23,9 @@ BEGIN
 			Messaging,
 			ReminderServices,
 
-			'Updated by: ' + ISNULL(UpdatedBy, CreatedBy) + ' @' + dbo.Format24DateTime(ISNULL(UpdatedOn, CreatedOn))  [UpdatedOn]
+			--'Updated by: ' + ISNULL(UpdatedBy, CreatedBy) + ' @' + dbo.Format24DateTime(ISNULL(UpdatedOn, CreatedOn))  [UpdatedOn]
+			ISNULL(UpdatedBy, CreatedBy) [UpdatedBy],
+			dbo.Format24DateTime(ISNULL(UpdatedOn, CreatedOn))  [UpdatedOn]
 
 	FROM	NotificationSetting
 END

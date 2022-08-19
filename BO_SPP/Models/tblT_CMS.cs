@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using BO_SPP.Common;
 
 namespace BO_SPP.Models
 {
@@ -77,7 +78,7 @@ namespace BO_SPP.Models
         public string Value9_EN                 { get; set; }
 
         public string Status                    { get; set; }
-        public string UpdatedBy                 { get; set; }
+        private string updatedby; public string UpdatedBy { get { return updatedby; } set { updatedby = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
 
         public string s_UpdatedOn               { get; set; }
                                                 

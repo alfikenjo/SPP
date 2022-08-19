@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using Frontend_SPP.Common;
 
 namespace Frontend_SPP.Models
 {
     public class AuditTrail
     {
         public Guid? ID { get; set; }
-        public string Username { get; set; }
+        private string username; public string Username { get { return username; } set { username = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
         public string Menu { get; set; }
         public string Halaman { get; set; }
         public string Item { get; set; }

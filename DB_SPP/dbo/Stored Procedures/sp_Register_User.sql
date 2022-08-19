@@ -10,12 +10,12 @@ CREATE PROCEDURE [dbo].[sp_Register_User]
 	-- Add the parameters for the stored procedure here
 	@UserID varchar(36),
 	@New_User_Verification_ID varchar(36),
-	@Fullname varchar(200) = '',
-	@Email varchar(100) = '',
-	@Mobile varchar(50) = '',
+	@Fullname varchar(MAX) = '',
+	@Email varchar(MAX) = '',
+	@Mobile varchar(MAX) = '',
 	@PasswordHash varchar(max) = '',
 	@isActive int,
-	@CreatedBy varchar(50)
+	@CreatedBy varchar(MAX)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from

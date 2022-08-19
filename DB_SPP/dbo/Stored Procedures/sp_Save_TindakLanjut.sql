@@ -17,7 +17,7 @@ CREATE PROCEDURE [dbo].[sp_Save_TindakLanjut]
 	@Keterangan_Konfirmasi varchar(max) = '',
     @Keterangan_Konfirmasi_Filename varchar(max) = '',
     @Keterangan_Konfirmasi_Ekstension varchar(20) = '',     
-    @CreatedBy varchar(200)
+    @CreatedBy varchar(MAX)
 AS
 BEGIN
 	

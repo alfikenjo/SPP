@@ -11,10 +11,10 @@ function FillForm() {
             if (Result.Error == false) {
                 var data = Result.Message[0];
                 document.getElementById('UserID').value = data.UserID;
-                if(data.Fullname)
+                if (data.Fullname)
                     document.getElementById('txtFullname').value = data.Fullname.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 document.getElementById('txtEmail').value = data.Email.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                if(data.Mobile)
+                if (data.Mobile)
                     document.getElementById('txtMobile').value = data.Mobile.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 document.getElementById('txtAddress').value = data.Address;
                 var gender = "";
@@ -23,15 +23,17 @@ function FillForm() {
                 document.getElementById('ddlGender').value = gender;
 
                 if (data.Roles != null) {
-                    var IDRoles = data.Roles;
-                    var a = IDRoles.split(";"), i;
-                    var badge = '';
-                    for (i = 0; i < a.length; i++) {
-                        if (a[i].trim().length > 2) {
-                            badge += "<span class='mt-2 badge border border-primary text-primary mt-2 mr-2'>" + a[i].trim() + "</span>";
+                    if (IDRoles) {
+                        var IDRoles = data.Roles;
+                        var a = IDRoles.split(";"), i;
+                        var badge = '';
+                        for (i = 0; i < a.length; i++) {
+                            if (a[i].trim().length > 2) {
+                                badge += "<span class='mt-2 badge border border-primary text-primary mt-2 mr-2'>" + a[i].trim() + "</span>";
+                            }
                         }
+                        document.getElementById('div_Role').innerHTML += badge;
                     }
-                    document.getElementById('div_Role').innerHTML += badge;
                 }
 
                 if (data.Mobile != '' && data.Mobile_Verification == 0)
@@ -119,10 +121,10 @@ $('#FormInput').validate({
     },
     submitHandler: function () {
         var DataForm = new FormData();
-        DataForm.append('Fullname', $('#txtFullname').val());
-        DataForm.append('Email', $('#txtEmail').val());
-        DataForm.append('Mobile', $('#txtMobile').val());
-        DataForm.append('Address', $('#txtAddress').val());
+        DataForm.append('enc_Fullname', $('#txtFullname').val());
+        DataForm.append('enc_Email', $('#txtEmail').val());
+        DataForm.append('enc_Mobile', $('#txtMobile').val());
+        DataForm.append('enc_Address', $('#txtAddress').val());
         DataForm.append('Gender', $('#ddlGender').val());
         DataForm.append("Foto", $('#fuempPicture')[0].files[0]);
 
@@ -183,9 +185,9 @@ $('#FormChangePassword').validate({
                 if (Result.Error == false) {
                     var culture = document.getElementById('culture').value;
                     if (culture == 'en')
-                        CustomNotif('success|Saved|Your password has been changed successfully, you can login with the new password|window.location="/Home?culture='+ culture +'#t-login"');
+                        CustomNotif('success|Saved|Your password has been changed successfully, you can login with the new password|window.location="/Home?culture=' + culture + '#t-login"');
                     else
-                        CustomNotif('success|Saved|Perubahan berhasil disimpan, Anda dapat login kembali menggunakan password terbaru|window.location="/Home?culture=' + culture +'#t-login"');
+                        CustomNotif('success|Saved|Perubahan berhasil disimpan, Anda dapat login kembali menggunakan password terbaru|window.location="/Home?culture=' + culture + '#t-login"');
                 } else {
                     CustomNotif("error|Oops|" + Result.Message + "");
                 }
@@ -215,8 +217,7 @@ $('#FormUpdateEmail').validate({
     },
     submitHandler: function () {
         var DataForm = new FormData();
-        //DataForm.append('Email', $('#txtEmail').val());
-        DataForm.append('Mobile', $('#txtMobile').val());
+        DataForm.append('enc_Mobile', $('#txtMobile').val());
 
         $.ajax({
             url: VP + 'Account/UpdateEmail',
@@ -300,7 +301,7 @@ function ResendOTP() {
             url: VP + 'Account/ResendOTPProfile',
             type: 'POST',
             data: {
-                Mobile: _Mobile
+                enc_Mobile: _Mobile
             },
             success: function (Result) {
                 if (Result.Error == false) {

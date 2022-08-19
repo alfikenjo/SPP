@@ -12,7 +12,7 @@
 CREATE PROCEDURE [dbo].[sp_Download_User]
 	@isActive VARCHAR(2) = 2,
 	@Roles VARCHAR(36) = '',
-	@CreatedBy VARCHAR(30),
+	@CreatedBy VARCHAR(MAX),
 	@Tipe VARCHAR(50)
 AS
 BEGIN
@@ -20,7 +20,7 @@ BEGIN
 	--DECLARE @isActive VARCHAR(2),
 	--		@Roles VARCHAR(MAX),
 	--		@Tipe VARCHAR(50) = 'Download PDF',
-	--		@CreatedBy VARCHAR(30)
+	--		@CreatedBy VARCHAR(MAX)
 	--SET		@isActive = 2;
 	--SET		@Roles = '';
 	
@@ -33,7 +33,7 @@ BEGIN
 	DECLARE @QUERY VARCHAR(MAX);
 
 	SET @QUERY = 'SELECT	A.UserID, A.Fullname, 
-						dbo.Format_StringNumber(A.Mobile) [Mobile], 
+						A.Mobile, 
 						A.Email, ISNULL(A.NIP, ''''), ISNULL(A.Jabatan, ''''),
 						A.isActive,
 						ISNULL((SELECT DISTINCT B.Name + ''; '' AS ''data()'' FROM tblT_UserInRole X LEFT JOIN tblM_Role B ON X.RoleID = B.ID WHERE A.UserID = X.UserID FOR XML PATH('''')), '''') [Roles],

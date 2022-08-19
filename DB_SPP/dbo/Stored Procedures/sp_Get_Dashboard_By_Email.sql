@@ -11,11 +11,11 @@
 -- Description:	<Description,,>
 -- =============================================
 CREATE PROCEDURE [dbo].[sp_Get_Dashboard_By_Email]
-	@Email VARCHAR(200) = ''
+	@Email VARCHAR(MAX) = ''
 AS
 BEGIN
 
-	--DECLARE @Email VARCHAR(200) = 'alfi.kenjo@gmail.com'
+	--DECLARE @Email VARCHAR(MAX) = 'alfi.kenjo@gmail.com'
 
 	DECLARE @TABLE AS TABLE (Terkirim INT, Diproses INT, Selesai INT, Ditolak INT)
 

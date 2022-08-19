@@ -7,7 +7,7 @@
 CREATE VIEW [dbo].[vw_User_Verification_Status]
 AS
 
-SELECT	A.ID, B.UserID, B.Username, B.Fullname, A.Email, LEFT(A.Status, 8) [V_Status],
+SELECT	A.ID, B.UserID, B.Fullname, A.Email, LEFT(A.Status, 8) [V_Status],
 		CASE 
 			WHEN (DATEDIFF(hour, A.UpdatedOn, GETDATE())) > 24 THEN 'Expired'			
 			ELSE 'Active'

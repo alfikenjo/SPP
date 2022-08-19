@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using BO_SPP.Common;
 
 namespace BO_SPP.Models
 {
@@ -20,7 +21,7 @@ namespace BO_SPP.Models
         public string CreatedOn                 { get; set; }
         public string CreatedBy                 { get; set; }
         public string UpdatedOn                 { get; set; }
-        public string UpdatedBy                 { get; set; }
+        private string updatedby; public string UpdatedBy { get { return updatedby; } set { updatedby = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
         public string s_UpdatedOn               { get; set; }
 
         public string ID_ID                     { get; set; }

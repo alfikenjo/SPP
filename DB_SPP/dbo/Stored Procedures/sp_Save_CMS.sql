@@ -45,7 +45,7 @@ BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-	DECLARE @Entity VARCHAR(200) = 'Sys Administrator > CMS > '+ @Tipe;
+	DECLARE @Entity VARCHAR(200) = 'Sys Administrator > CMS';
 
 	IF(@Action = 'add')
 	BEGIN
@@ -112,8 +112,10 @@ BEGIN
 			@CreatedBy          
 		 )
 
-		 
-		 EXEC sp_RecordAuditTrail @CreatedBy, @Entity, @Lang, NULL, 'INSERT', @ID
+		 IF(@Lang = 'ID')
+		 BEGIN
+			EXEC sp_RecordAuditTrail @CreatedBy, @Entity, @Tipe, NULL, 'INSERT', @ID
+		 END
 	END
 	ELSE IF(@Action = 'edit')
 	BEGIN
@@ -147,6 +149,8 @@ BEGIN
 					UpdatedOn = GETDATE(),
 					UpdatedBy = @CreatedBy
 			WHERE	ID = @ID AND Lang = 'ID';
+
+			EXEC sp_RecordAuditTrail @CreatedBy, @Entity, @Tipe, NULL, 'UPDATE', @ID
 		END
 		ELSE IF(@Lang = 'EN')
 		BEGIN
@@ -178,9 +182,7 @@ BEGIN
 					UpdatedOn = GETDATE(),
 					UpdatedBy = @CreatedBy
 			WHERE	ID_IN = @ID AND Lang = 'EN';
-		END
-
-		EXEC sp_RecordAuditTrail @CreatedBy, @Entity, @Lang, NULL, 'UPDATE', @ID
+		END		
 	END
 	ELSE IF(@Action = 'hapus')
 	BEGIN
@@ -188,7 +190,7 @@ BEGIN
 		BEGIN
 			DELETE FROM tblT_CMS WHERE ID_IN = @ID;
 			DELETE FROM tblT_CMS WHERE ID = @ID;
-			EXEC sp_RecordAuditTrail @CreatedBy, @Entity, @Lang, NULL, 'DELETE', @ID
+			EXEC sp_RecordAuditTrail @CreatedBy, @Entity, @Tipe, NULL, 'DELETE', @ID
 		END
 	END
 

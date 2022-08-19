@@ -14,14 +14,14 @@
 CREATE PROCEDURE [dbo].[spUpdateMyProfile]
 	-- Add the parameters for the stored procedure here
 	@UserID varchar(36),
-	@Fullname varchar(100) = '',
-	@Mobile varchar(50) = '',
+	@Fullname varchar(MAX) = '',
+	@Mobile varchar(MAX) = '',
 	@Address varchar(max) = '',
 	@Gender nvarchar(2) = '',	
-	@NIP varchar(100) = '',
-	@Jabatan varchar(200) = '',
+	@NIP varchar(MAX) = '',
+	@Jabatan varchar(MAX) = '',
 	@Img nvarchar(100) = '',
-	@CreatedBy varchar(50)
+	@CreatedBy varchar(MAX)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from

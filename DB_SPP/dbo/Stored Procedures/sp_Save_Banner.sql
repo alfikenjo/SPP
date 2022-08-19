@@ -25,7 +25,7 @@ CREATE PROCEDURE [dbo].[sp_Save_Banner]
 	@Link			varchar(MAX) = '',
 
 	@Status varchar(50),
-	@CreatedBy nvarchar(200) = ''
+	@CreatedBy nvarchar(MAX) = ''
 	 
 AS
 BEGIN
@@ -68,7 +68,7 @@ BEGIN
 			@CreatedBy
 		 )
 
-		 EXEC sp_RecordAuditTrail @CreatedBy, 'Sys Administrator > CMS > Banner', @Lang, NULL, 'INSERT', @Title
+		 EXEC sp_RecordAuditTrail @CreatedBy, 'Sys Administrator > CMS', 'Banner', NULL, 'INSERT', @Title
 	END
 	ELSE IF(@Action = 'edit')
 	BEGIN
@@ -87,6 +87,8 @@ BEGIN
 					UpdatedOn = GETDATE(),
 					UpdatedBy = @CreatedBy
 			WHERE	ID = @ID AND Lang = 'ID';
+
+			EXEC sp_RecordAuditTrail @CreatedBy, 'Sys Administrator > CMS', 'Banner', NULL, 'UPDATE', @Title
 		END
 		ELSE IF(@Lang = 'EN')
 		BEGIN
@@ -105,7 +107,7 @@ BEGIN
 			WHERE	ID_IN = @ID AND Lang = 'EN';
 		END
 
-		EXEC sp_RecordAuditTrail @CreatedBy, 'Sys Administrator > CMS > Banner', @Lang, NULL, 'UPDATE', @Title
+		
 	END
 	ELSE IF(@Action = 'hapus')
 	BEGIN

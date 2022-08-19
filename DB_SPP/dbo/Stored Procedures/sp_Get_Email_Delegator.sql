@@ -29,10 +29,4 @@ BEGIN
 			AND ISNULL(A.EmailNotification, 0) = 1
 			
 	
-		--(SELECT DelegatorID FROM tblT_Dumas WHERE ID = @IDPengaduan)
-		--(SELECT COUNT(*) FROM tblT_UserInDelegator WHERE UserID = '81548F93-E8C5-4BB2-B81C-0FDF727AA806' AND DelegatorID = (SELECT DelegatorID FROM tblT_Dumas WHERE ID = @IDPengaduan))
-		--(SELECT UserID FROM tblT_UserInDelegator WHERE DelegatorID = (SELECT DelegatorID FROM tblT_Dumas WHERE ID = @IDPengaduan))
 END
-
-
---UPDATE tblT_Dumas SET DelegatorID = (SELECT TOP 1 ID FROM tblM_Delegator) WHERE ID = 'E4E19D98-2782-488F-A119-5DE403A3C340'

@@ -7,7 +7,7 @@ BEGIN
 
 	SET NOCOUNT ON;
 
-	SELECT	DISTINCT A.Username, A.Fullname, A.Email
+	SELECT	DISTINCT A.Fullname, A.Email
 	FROM	tblM_User A			
 			JOIN vw_UserInRole D ON A.UserID = D.UserID AND D.Role = 'Admin SPP'
 	WHERE	A.isActive = 1 --AND ISNULL(A.Mail_Verification, 0) = 1

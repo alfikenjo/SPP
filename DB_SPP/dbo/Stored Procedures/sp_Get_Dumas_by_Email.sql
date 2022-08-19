@@ -10,12 +10,12 @@
 -- Description:	<Description,,>
 -- =============================================
 CREATE PROCEDURE [dbo].[sp_Get_Dumas_by_Email]
-    @Email varchar(200),
+    @Email VARCHAR(MAX),
 	@Status varchar(200) = null,
 	@Jenis_Pelanggaran varchar(max) = null
 AS
 BEGIN
-	--DECLARE @Email varchar(200) = 'spp.ptsmi@gmail.com',
+	--DECLARE @Email VARCHAR(MAX) = 'spp.ptsmi@gmail.com',
 	--@Status varchar(200) = null,
 	--@Jenis_Pelanggaran varchar(max) = null
 
@@ -31,7 +31,7 @@ BEGIN
 				ISNULL(A.Jenis_Pelanggaran, '') [Jenis_Pelanggaran],
 				dbo.Format24DateTime(A.CreatedOn) [_CreatedOn],
 				dbo.Format24DateTime(A.WaktuKejadian) [_WaktuKejadian],
-				(SELECT TOP 1 Nama FROM tblT_Dumas_Detail WHERE ID_Header = A.ID) [NamaTerlapor],
+				--(SELECT TOP 1 Nama FROM tblT_Dumas_Detail WHERE ID_Header = A.ID) [NamaTerlapor],
 				ISNULL(B.Name, '') [DelegatorName],
 				(SELECT COUNT(*) FROM tblT_Tanggapan WHERE IDPengaduan = A.ID AND TipePengirim = 'Admin SPP' AND IsRead = 0) [Unread_Tanggapan_Admin_SPP],
 				(SELECT COUNT(*) FROM tblT_Tanggapan WHERE IDPengaduan = A.ID AND TipePengirim = 'Pelapor' AND IsRead = 0) [Unread_Tanggapan_Pelapor],
@@ -55,7 +55,7 @@ BEGIN
 				ISNULL(A.Jenis_Pelanggaran, '') [Jenis_Pelanggaran],
 				dbo.Format24DateTime(A.CreatedOn) [_CreatedOn],
 				dbo.Format24DateTime(A.WaktuKejadian) [_WaktuKejadian],
-				(SELECT TOP 1 Nama FROM tblT_Dumas_Detail WHERE ID_Header = A.ID) [NamaTerlapor],
+				--(SELECT TOP 1 Nama FROM tblT_Dumas_Detail WHERE ID_Header = A.ID) [NamaTerlapor],
 				ISNULL((SELECT Name FROM tblM_Delegator WHERE ID = (SELECT DelegatorID FROM tblT_Dumas WHERE ID = A.ID)), '') [DelegatorName],
 				(SELECT COUNT(*) FROM tblT_Tanggapan WHERE IDPengaduan = A.ID AND TipePengirim = 'Admin SPP' AND IsRead = 0) [Unread_Tanggapan_Admin_SPP],
 				(SELECT COUNT(*) FROM tblT_Tanggapan WHERE IDPengaduan = A.ID AND TipePengirim = 'Pelapor' AND IsRead = 0) [Unread_Tanggapan_Pelapor],
@@ -80,7 +80,7 @@ BEGIN
 				ISNULL(A.Jenis_Pelanggaran, '') [Jenis_Pelanggaran],
 				dbo.Format24DateTime(A.CreatedOn) [_CreatedOn],
 				dbo.Format24DateTime(A.WaktuKejadian) [_WaktuKejadian],
-				(SELECT TOP 1 Nama FROM tblT_Dumas_Detail WHERE ID_Header = A.ID) [NamaTerlapor],
+				--(SELECT TOP 1 Nama FROM tblT_Dumas_Detail WHERE ID_Header = A.ID) [NamaTerlapor],
 				ISNULL((SELECT Name FROM tblM_Delegator WHERE ID = (SELECT DelegatorID FROM tblT_Dumas WHERE ID = A.ID)), '') [DelegatorName],
 				(SELECT COUNT(*) FROM tblT_Tanggapan WHERE IDPengaduan = A.ID AND TipePengirim = 'Admin SPP' AND IsRead = 0) [Unread_Tanggapan_Admin_SPP],
 				(SELECT COUNT(*) FROM tblT_Tanggapan WHERE IDPengaduan = A.ID AND TipePengirim = 'Pelapor' AND IsRead = 0) [Unread_Tanggapan_Pelapor],

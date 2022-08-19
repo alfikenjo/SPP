@@ -15,16 +15,16 @@ CREATE PROCEDURE [dbo].[sp_Save_Dumas_Detail]
 	@ID varchar(36),
 	@ID_Header varchar(36),
 
-	@Email varchar(200) = '',
-	@Handphone varchar(200) = '',
+	@Email VARCHAR(MAX) = '',
+	@Handphone varchar(MAX) = '',
 
-    @Nama varchar(200) = '',
-    @NomorHandphone varchar(200) = '',
-    @Departemen varchar(200) = '',
-    @Jabatan varchar(200) = '',
+    @Nama varchar(MAX) = '',
+    @NomorHandphone varchar(MAX) = '',
+    @Departemen varchar(MAX) = '',
+    @Jabatan varchar(MAX) = '',
     @FileIdentitas varchar(255) = '',
     @FileIdentitas_Ekstension varchar(50) = '',
-    @CreatedBy varchar(200)
+    @CreatedBy varchar(MAX)
 AS
 BEGIN	
 

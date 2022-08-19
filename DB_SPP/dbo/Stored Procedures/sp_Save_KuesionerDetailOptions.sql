@@ -16,7 +16,7 @@ CREATE PROCEDURE [dbo].[sp_Save_KuesionerDetailOptions]
 	@IDHeader	    varchar(36),
 	@Num			INT,
 	@Options		varchar(MAX),
-	@CreatedBy nvarchar(200)
+	@CreatedBy nvarchar(MAX)
 	 
 AS
 BEGIN

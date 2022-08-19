@@ -13,7 +13,7 @@ CREATE PROCEDURE [dbo].[sp_Save_FileEkstensionFilter]
 	 @Action nvarchar(10),
 	 @ID varchar(36),
      @Name nvarchar(50) = '',
-	 @CreatedBy nvarchar(200) = ''
+	 @CreatedBy nvarchar(MAX) = ''
 	 
 AS
 BEGIN

@@ -9,14 +9,14 @@ CREATE PROCEDURE [dbo].[sp_Save_MemberDelegator]
 	 @ID varchar(36),
      @UserID varchar(36) = '',
      @DelegatorID varchar(36) = '',
-	 @CreatedBy nvarchar(200) = ''
+	 @CreatedBy nvarchar(MAX) = ''
 	 
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-	DECLARE @Email_Audit VARCHAR(200) = (SELECT Email FROM tblM_User WHERE UserID = @UserID)
+	DECLARE @Email_Audit VARCHAR(MAX) = (SELECT Email FROM tblM_User WHERE UserID = @UserID)
 	DECLARE @Audit VARCHAR(MAX) = (SELECT Name FROM tblM_Delegator WHERE ID = @DelegatorID)
 
 	IF(@Action = 'add')

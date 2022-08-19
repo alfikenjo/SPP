@@ -49,27 +49,6 @@ namespace BO_SPP.Controllers
             return View();
         }
 
-        public IActionResult AddMemberDelegator()
-        {
-            string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
-            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
-            if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                return RedirectToAction("Index", "Dashboard");
-
-            string DelegatorID = HttpContext.Session.GetString("DelegatorID");
-            string DelegatorName = string.Empty;
-            DataTable dt = mssql.GetDataTable("SELECT Name FROM tblM_Delegator WHERE ID = '" + DelegatorID + "'");
-            if (dt.Rows.Count == 1)
-                DelegatorName = dt.Rows[0]["Name"].ToString();
-
-            ViewBag.NamaDelegator = DelegatorName;
-
-            ViewData["CurrentControllerName"] = "Manajemen Delegator";
-            ViewData["CurrentActionName"] = "Add Member Delegator";
-            ViewData["Title"] = "Add Member Delegator";
-            return View();
-        }
-
         [HttpPost]
         public IActionResult Get_Delegator()
         {
@@ -78,7 +57,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 DataTable dt = mssql.GetDataTable("sp_Get_Delegator");
                 List<tblM_Delegator> MainData = new List<tblM_Delegator>();
@@ -104,7 +83,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 DataTable dt = mssql.GetDataTable("sp_Get_Delegator");
                 List<tblM_Delegator> MainData = new List<tblM_Delegator>();
@@ -125,7 +104,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 ID = sani.Sanitize(ID);
 
@@ -133,7 +112,7 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = ID.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@ID", _ID));
@@ -160,7 +139,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string Action = Model.Action;
                 string SanitizedID = sani.Sanitize(Model.ID);
@@ -169,7 +148,7 @@ namespace BO_SPP.Controllers
                 {
                     ID = StringCipher.Decrypt(SanitizedID.Split("|")[0]);
                     if (SanitizedID.Split("|")[1] != HttpContext.Session.GetString("SessionID"))
-                        throw new Exception("Invalid Authorization|window.location='/'");
+                        throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
                 }
 
                 if (Action == "hapus")
@@ -225,7 +204,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 if (string.IsNullOrEmpty(DelegatorID))
                     throw new Exception("Invalid request|window.location='../Delegator/DaftarDelegator'");
@@ -235,7 +214,7 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = DelegatorID.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@DelegatorID", _ID));
@@ -268,7 +247,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string Action = sani.Sanitize(Model.Action);
                 string ActionID = sani.Sanitize(Model.ID);
@@ -287,7 +266,7 @@ namespace BO_SPP.Controllers
                     UserID = StringCipher.Decrypt(Model.UserID.Split("|")[0]);
                     string SessionIDDesc1 = Model.UserID.Split("|")[1];
                     if (SessionIDDesc1 != HttpContext.Session.GetString("SessionID"))
-                        throw new Exception("Invalid Authorization|window.location='/'");
+                        throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                     DataRow drisExistAdminSPP = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM vw_UserInRole WHERE UserID = '" + UserID + "' AND [Role] = 'Admin SPP'");
                     if (int.Parse(drisExistAdminSPP["Count"].ToString()) > 0)
@@ -296,14 +275,14 @@ namespace BO_SPP.Controllers
                     DelegatorID = StringCipher.Decrypt(Model.DelegatorID.Split("|")[0]);
                     string SessionIDDesc2 = Model.DelegatorID.Split("|")[1];
                     if (SessionIDDesc2 != HttpContext.Session.GetString("SessionID"))
-                        throw new Exception("Invalid Authorization|window.location='/'");
+                        throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
                 }
                 else if (Action == "hapus")
                 {
                     string SanitizedID = sani.Sanitize(Model.ID);
                     ID = StringCipher.Decrypt(SanitizedID.Split("|")[0]);
                     if (SanitizedID.Split("|")[1] != HttpContext.Session.GetString("SessionID"))
-                        throw new Exception("Invalid Authorization|window.location='/'");
+                        throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                     DataRow drCountMember = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_UserInDelegator A JOIN tblM_User B ON A.UserID = B.UserID AND B.isActive = 1 AND B.IsDeleted = 0 AND A.ID <> '" + ID + "' WHERE A.DelegatorID = (SELECT DelegatorID FROM tblT_UserInDelegator WHERE ID = '" + ID + "')");
                     if (int.Parse(drCountMember["Count"].ToString()) < 1)
@@ -332,8 +311,8 @@ namespace BO_SPP.Controllers
                         DataTable dt_Email = mssql.GetDataTable("SELECT Email, Fullname FROM tblM_User WHERE UserID = '" + UserID + "'");
                         foreach (DataRow dr in dt_Email.Rows)
                         {
-                            string Email = dr["Email"].ToString();
-                            string Fullname = dr["Fullname"].ToString();
+                            string Email = aes.Dec(dr["Email"].ToString());
+                            string Fullname = !string.IsNullOrEmpty(dr["Fullname"].ToString()) ? aes.Dec(dr["Fullname"].ToString()) : "";
                             string DelegatorName = dtResult.Rows[0]["DelegatorName"].ToString();
                             RowsAffected = Helper.SendMail(Email, Subject, MailComposer.compose_mail_body_member_delegator_baru(Email, Fullname, DelegatorName));
                         }
@@ -360,7 +339,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 if (string.IsNullOrEmpty(DelegatorID))
                     throw new Exception("Invalid request|window.location='../Delegator/DaftarDelegator'");
@@ -370,7 +349,7 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = DelegatorID.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@DelegatorID", _ID));

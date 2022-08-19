@@ -640,13 +640,13 @@ function SaveTerlapor() {
     DataForm.append('ID', $('#ID').val());
     DataForm.append('ID_Header', $('#ID_Header').val());
 
-    DataForm.append('Email', $('#txt_Email').val());
-    DataForm.append('Handphone', $('#txt_Handphone').val());
+    DataForm.append('enc_Email', $('#txt_Email').val());
+    DataForm.append('enc_Handphone', $('#txt_Handphone').val());
 
-    DataForm.append('Nama', $('#txt_Nama_Terlapor').val());
-    DataForm.append('NomorHandphone', $('#txt_Handphone_Terlapor').val());
-    DataForm.append('Departemen', $('#txt_Departemen_Terlapor').val());
-    DataForm.append('Jabatan', $('#txt_Jabatan_Terlapor').val());
+    DataForm.append('enc_Nama', $('#txt_Nama_Terlapor').val());
+    DataForm.append('enc_NomorHandphone', $('#txt_Handphone_Terlapor').val());
+    DataForm.append('enc_Departemen', $('#txt_Departemen_Terlapor').val());
+    DataForm.append('enc_Jabatan', $('#txt_Jabatan_Terlapor').val());
     DataForm.append("UploadFileIdentitas", $('#fu_FileIdentitas')[0].files[0]);
 
     $.ajax({
@@ -697,14 +697,14 @@ $('#FormInput').validate({
         var DataForm = new FormData();
 
         DataForm.append('ID', $('#ID_Header').val());
-        DataForm.append('Email', $('#txt_Email').val());
-        DataForm.append('Handphone', $('#txt_Handphone').val());
         DataForm.append('Sumber', $('#Sumber').val());
-
-        DataForm.append('Jenis_Pelanggaran', $('#Jenis_Pelanggaran_Input').val());
-        DataForm.append('TempatKejadian', $('#txt_TempatKejadian').val());
         DataForm.append('WaktuKejadian', $('#txt_WaktuKejadian').val());
-        DataForm.append('Kronologi', $('#txt_Kronologi').val());
+
+        DataForm.append('enc_Email', $('#txt_Email').val());
+        DataForm.append('enc_Handphone', $('#txt_Handphone').val());
+        DataForm.append('enc_Jenis_Pelanggaran', $('#Jenis_Pelanggaran_Input').val());
+        DataForm.append('enc_TempatKejadian', $('#txt_TempatKejadian').val());
+        DataForm.append('enc_Kronologi', $('#txt_Kronologi').val());
 
         var files = $("#fu_FileEvidence").get(0).files;
 
@@ -942,7 +942,7 @@ $('#FormTanggapan').validate({
         var DataForm = new FormData();
 
         DataForm.append('IDPengaduan', $('#ID_Header').val());
-        DataForm.append('Tanggapan', $('#txt_Tanggapan').val());
+        DataForm.append('enc_Tanggapan', $('#txt_Tanggapan').val());
         DataForm.append("UploadFileLampiran", $('#fu_FileLampiran')[0].files[0]);
         DataForm.append("TipePengirim", "Admin SPP");
 
@@ -997,7 +997,7 @@ $('#FormTanggapan_Internal').validate({
             Role = 'Internal - Delegator'
 
         DataForm.append('IDPengaduan', $('#ID_Header').val());
-        DataForm.append('Tanggapan', $('#txt_Tanggapan_Internal').val());
+        DataForm.append('enc_Tanggapan', $('#txt_Tanggapan_Internal').val());
         DataForm.append("UploadFileLampiran", $('#fu_FileLampiran_Internal')[0].files[0]);
         DataForm.append("TipePengirim", Role);
 
@@ -1048,7 +1048,7 @@ function FillTanggapan() {
                     "<h6 class='float-left mb-1' style='font-size: 14px;'>" + NamaPengirim + "</h6>" + isRead + "" +
                     "<small class='float-right mt-1'>" + value._Createdon + "</small>" +
                     "<div class='d-inline-block w-100'>" +
-                    "<p class='text-sm text-justify'>" + value.Tanggapan.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</p>";
+                    "<p class='text-sm text-justify'>" + value.Tanggapan.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/(?:\r\n|\r|\n)/g, '<br>') + "</p>";
 
                 if (value.FileLampiran != null) {
                     var FileLampiran = value.FileLampiran;
@@ -1155,7 +1155,7 @@ function FillTanggapanInternal() {
                     "<h6 class='float-left mb-1' style='font-size: 14px;'>" + NamaPengirim + "</h6>" + isRead + "" +
                     "<small class='float-right mt-1'>" + value._Createdon + "</small>" +
                     "<div class='d-inline-block w-100'>" +
-                    "<p class='text-sm text-justify'>" + value.Tanggapan.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</p>";
+                    "<p class='text-sm text-justify'>" + value.Tanggapan.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/(?:\r\n|\r|\n)/g, '<br>') + "</p>";
 
                 if (value.FileLampiran != null) {
                     var FileLampiran = value.FileLampiran;
@@ -1250,8 +1250,8 @@ $('#formResponAdminSPP').validate({
         DataForm.append('ID', $('#ID_Header').val());
         DataForm.append('Status', $('#ddl_Status_Respon').val());
         DataForm.append('DelegatorID', $('#ddl_Delegator').val());
-        DataForm.append('Jenis_Pelanggaran', $('#Jenis_Pelanggaran').val());
-        DataForm.append('Keterangan_Penyaluran', $('#txt_Keterangan_Penyaluran').val());
+        DataForm.append('enc_Jenis_Pelanggaran', $('#Jenis_Pelanggaran').val());
+        DataForm.append('enc_Keterangan_Penyaluran', $('#txt_Keterangan_Penyaluran').val());
         DataForm.append("Upload", $('#fu_Keterangan_Penyaluran_Filename')[0].files[0]);
 
         $.ajax({
@@ -1301,8 +1301,8 @@ $('#formResponDelegator').validate({
 
         DataForm.append('ID', $('#ID_Header').val());
         DataForm.append('Status', $('#ddl_Status_Delegator').val());
-        DataForm.append('Keterangan_Pemeriksaan', $('#txt_Keterangan_Pemeriksaan').val());
-        DataForm.append('Keterangan_Konfirmasi', $('#txt_Keterangan_Konfirmasi').val());
+        DataForm.append('enc_Keterangan_Pemeriksaan', $('#txt_Keterangan_Pemeriksaan').val());
+        DataForm.append('enc_Keterangan_Konfirmasi', $('#txt_Keterangan_Konfirmasi').val());
         DataForm.append("UploadPemeriksaan", $('#fu_Keterangan_Pemeriksaan_Filename')[0].files[0]);
         DataForm.append("UploadKonfirmasi", $('#fu_Keterangan_Konfirmasi_Filename')[0].files[0]);
 
@@ -1381,7 +1381,7 @@ $('#formResponFinal').validate({
 
         DataForm.append('ID', $('#ID_Header').val());
         DataForm.append('Status', $('#ddl_Status_Final').val());
-        DataForm.append('Keterangan_Respon', $('#txt_Keterangan_Respon').val());
+        DataForm.append('enc_Keterangan_Respon', $('#txt_Keterangan_Respon').val());
         DataForm.append("Upload", $('#fu_Keterangan_Respon_Filename')[0].files[0]);
 
         $.ajax({

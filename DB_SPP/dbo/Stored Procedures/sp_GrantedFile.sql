@@ -16,7 +16,7 @@
 -- =============================================
 CREATE PROCEDURE [dbo].[sp_GrantedFile]
 	@Filename VARCHAR(MAX),
-	@Email VARCHAR(200)
+	@Email VARCHAR(MAX)
 AS
 BEGIN
 	

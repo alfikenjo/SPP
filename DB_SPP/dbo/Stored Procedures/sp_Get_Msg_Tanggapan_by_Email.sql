@@ -11,10 +11,10 @@
 -- Description:	<Description,,>
 -- =============================================
 CREATE PROCEDURE [dbo].[sp_Get_Msg_Tanggapan_by_Email]
-    @Email varchar(200)	
+    @Email VARCHAR(MAX)	
 AS
 BEGIN
-	--DECLARE @Email varchar(200)	= 'spp.ptsmi@gmail.com' --'mh.alfi.syahri@gmail.com' --
+	--DECLARE @Email VARCHAR(MAX)	= 'spp.ptsmi@gmail.com' --'mh.alfi.syahri@gmail.com' --
 	
 	DECLARE @TipePengirim VARCHAR(200) = ''
 

@@ -38,98 +38,98 @@ namespace BO_SPP.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [HttpGet]
-        [DisableRequestSizeLimit]
-        public IActionResult GetFile(string Filename, string Extension)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
-                    return RedirectToAction("Index", "Dashboard");
+        //[HttpGet]
+        //[DisableRequestSizeLimit]
+        //public IActionResult GetFile(string Filename, string Extension)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
+        //            return RedirectToAction("Index", "Dashboard");
 
-                if (!Helper.GrantedFile(Filename, StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
-                    throw new Exception("Request is denied, you are not authorized to access this page");
+        //        if (!Helper.GrantedFile(Filename, StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
+        //            throw new Exception("Request is denied, you are not authorized to access this page");
 
-                byte[] bytes;
-                using (var conn = new FtpClient(ftpAddress, ftpUsername, ftpPassword))
-                {
-                    conn.Connect();
-                    // open an read-only stream to the file
-                    using (var istream = conn.OpenRead(FolderPath + Filename))
-                    {
-                        try
-                        {
-                            using (var memoryStream = new MemoryStream())
-                            {
-                                istream.CopyTo(memoryStream);
-                                bytes = memoryStream.ToArray();
-                            }
-                        }
-                        finally
-                        {
-                            istream.Close();
-                        }
-                    }
-                }
+        //        byte[] bytes;
+        //        using (var conn = new FtpClient(ftpAddress, ftpUsername, ftpPassword))
+        //        {
+        //            conn.Connect();
+        //            // open an read-only stream to the file
+        //            using (var istream = conn.OpenRead(FolderPath + Filename))
+        //            {
+        //                try
+        //                {
+        //                    using (var memoryStream = new MemoryStream())
+        //                    {
+        //                        istream.CopyTo(memoryStream);
+        //                        bytes = memoryStream.ToArray();
+        //                    }
+        //                }
+        //                finally
+        //                {
+        //                    istream.Close();
+        //                }
+        //            }
+        //        }
 
-                MemoryStream ms = new MemoryStream(bytes);
-                Response.Headers.Add("Content-Disposition", "attachment; filename=" + Filename);
-                return File(ms, "application/" + Extension.Replace(".", ""));
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Error = true, Message = ex.Message });
-            }
-
-
-
-        }
-
-        [HttpGet]
-        [DisableRequestSizeLimit]
-        public IActionResult ShowFile(string Filename, string Extension)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
-                    return RedirectToAction("Index", "Dashboard");
-
-                if (!Helper.GrantedFile(Filename, StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
-                    throw new Exception("Request is denied, you are not authorized to access this page");
-
-                byte[] bytes;
-                using (var conn = new FtpClient(ftpAddress, ftpUsername, ftpPassword))
-                {
-                    conn.Connect();
-                    // open an read-only stream to the file
-                    using (var istream = conn.OpenRead(FolderPath + Filename))
-                    {
-                        try
-                        {
-                            using (var memoryStream = new MemoryStream())
-                            {
-                                istream.CopyTo(memoryStream);
-                                bytes = memoryStream.ToArray();
-                            }
-                        }
-                        finally
-                        {
-                            istream.Close();
-                        }
-                    }
-                }
-
-                MemoryStream ms = new MemoryStream(bytes);
-                Response.Headers.Add("Content-Disposition", "inline; filename=" + Filename);
-                return File(ms, "application/" + Extension.Replace(".", ""));
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Error = true, Message = ex.Message });
-            }
+        //        MemoryStream ms = new MemoryStream(bytes);
+        //        Response.Headers.Add("Content-Disposition", "attachment; filename=" + Filename);
+        //        return File(ms, "application/" + Extension.Replace(".", ""));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { Error = true, Message = ex.Message });
+        //    }
 
 
-        }
+
+        //}
+
+        //[HttpGet]
+        //[DisableRequestSizeLimit]
+        //public IActionResult ShowFile(string Filename, string Extension)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
+        //            return RedirectToAction("Index", "Dashboard");
+
+        //        if (!Helper.GrantedFile(Filename, StringCipher.Decrypt(HttpContext.Session.GetString("Email"))))
+        //            throw new Exception("Request is denied, you are not authorized to access this page");
+
+        //        byte[] bytes;
+        //        using (var conn = new FtpClient(ftpAddress, ftpUsername, ftpPassword))
+        //        {
+        //            conn.Connect();
+        //            // open an read-only stream to the file
+        //            using (var istream = conn.OpenRead(FolderPath + Filename))
+        //            {
+        //                try
+        //                {
+        //                    using (var memoryStream = new MemoryStream())
+        //                    {
+        //                        istream.CopyTo(memoryStream);
+        //                        bytes = memoryStream.ToArray();
+        //                    }
+        //                }
+        //                finally
+        //                {
+        //                    istream.Close();
+        //                }
+        //            }
+        //        }
+
+        //        MemoryStream ms = new MemoryStream(bytes);
+        //        Response.Headers.Add("Content-Disposition", "inline; filename=" + Filename);
+        //        return File(ms, "application/" + Extension.Replace(".", ""));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { Error = true, Message = ex.Message });
+        //    }
+
+
+        //}
 
         [HttpGet]
         [DisableRequestSizeLimit]

@@ -24,11 +24,11 @@ $('#FormInput').validate({
     submitHandler: function () {
 
         var DataForm = new FormData();
-        DataForm.append('SMTPAddress', $('#SMTPAddress').val());
-        DataForm.append('SMTPPort', $('#SMTPPort').val());
-        DataForm.append('EmailAddress', $('#EmailAddress').val());
-        DataForm.append('Password', $('#Password').val());
-        DataForm.append('SenderName', $('#SenderName').val());
+        DataForm.append('enc_SMTPAddress', $('#SMTPAddress').val());
+        DataForm.append('enc_SMTPPort', $('#SMTPPort').val());
+        DataForm.append('enc_EmailAddress', $('#EmailAddress').val());
+        DataForm.append('enc_Password', $('#Password').val());
+        DataForm.append('enc_SenderName', $('#SenderName').val());
         DataForm.append('EnableSSL', document.getElementById('EnableSSL').checked);
         DataForm.append('UseDefaultCredentials', document.getElementById('UseDefaultCredentials').checked);
         DataForm.append('UseAsync', document.getElementById('UseAsync').checked);
@@ -87,7 +87,7 @@ function FillForm() {
                     document.getElementById('Messaging').checked = data.Messaging;
                     document.getElementById('ReminderServices').checked = data.ReminderServices;
 
-                    document.getElementById('UpdatedOn').innerText = data.UpdatedOn;
+                    document.getElementById('UpdatedOn').innerText = data.UpdatedBy + ' @' + data.UpdatedOn;
                 }
                 
 

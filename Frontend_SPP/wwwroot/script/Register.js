@@ -60,9 +60,9 @@ $('#FormRegister').validate({
     },
     submitHandler: function () {
         var DataForm = new FormData();
-        DataForm.append('Fullname', $('#Fullname').val());
-        DataForm.append('Email', $('#Email').val());
-        DataForm.append('Mobile', $('#Mobile').val());
+        DataForm.append('enc_Fullname', $('#Fullname').val());
+        DataForm.append('enc_Email', $('#Email').val());
+        DataForm.append('enc_Mobile', $('#Mobile').val());
         DataForm.append("Register_Password", $('#Register_Password').val());
         DataForm.append('Register_Password_Reentered', $('#Register_Password_Reentered').val());
         DataForm.append('captcha', $('#captcha').val());
@@ -110,7 +110,7 @@ $('#FormLogin').validate({
     },
     submitHandler: function () {
         var DataForm = new FormData();
-        DataForm.append('Email', $('#Login_Email').val());
+        DataForm.append('enc_Email', $('#Login_Email').val());
         DataForm.append("PasswordHash", $('#Login_Password').val());
         DataForm.append("captcha", $('#captchaLogin').val());
 
@@ -171,7 +171,7 @@ $('#FormForgotPassword').validate({
     },
     submitHandler: function () {
         var DataForm = new FormData();
-        DataForm.append('Email', $('#FP_Email').val());
+        DataForm.append('enc_Email', $('#FP_Email').val());
 
         $.ajax({
             url: VP + 'Account/SubmitForgotPasswordByEmail',
@@ -213,7 +213,7 @@ $('#FormForgotPasswordHP').validate({
     },
     submitHandler: function () {
         var DataForm = new FormData();
-        DataForm.append('Mobile', $('#FP_phone').val());
+        DataForm.append('enc_Mobile', $('#FP_phone').val());
 
         $.ajax({
             url: VP + 'Account/SubmitForgotPasswordByHP',

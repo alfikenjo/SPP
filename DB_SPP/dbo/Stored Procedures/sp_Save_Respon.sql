@@ -14,7 +14,7 @@ CREATE PROCEDURE [dbo].[sp_Save_Respon]
     @Keterangan_Respon varchar(max) = '',
     @Keterangan_Respon_Filename varchar(max) = '',
     @Keterangan_Respon_Ekstension varchar(20) = '',     
-    @CreatedBy varchar(200)
+    @CreatedBy varchar(MAX)
 AS
 BEGIN
 	

@@ -15,7 +15,7 @@ CREATE PROCEDURE [dbo].[sp_Save_Penyaluran]
     @Keterangan_Penyaluran varchar(max) = '',
     @Keterangan_Penyaluran_Filename varchar(max) = '',
     @Keterangan_Penyaluran_Ekstension varchar(20) = '',     
-    @CreatedBy varchar(200)
+    @CreatedBy varchar(MAX)
 AS
 BEGIN
 	

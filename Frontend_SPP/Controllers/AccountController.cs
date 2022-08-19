@@ -195,24 +195,30 @@ namespace Frontend_SPP.Controllers
 
                 #region Save User
 
+                string Fullname = sani.Sanitize(Model.enc_Fullname);
+                string Address = sani.Sanitize(Model.enc_Address);
+                string NIP = sani.Sanitize(Model.enc_NIP);
+                string Jabatan = sani.Sanitize(Model.enc_Jabatan);
+                string Divisi = sani.Sanitize(Model.enc_Divisi);
+
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@UserID", StringCipher.Decrypt(HttpContext.Session.GetString("UserID"))));
-                param.Add(new SqlParameter("@Fullname", sani.Sanitize(Model.Fullname)));
-                param.Add(new SqlParameter("@Mobile", sani.Sanitize(Model.Mobile)));
-                param.Add(new SqlParameter("@Address", sani.Sanitize(Model.Address)));
+                param.Add(new SqlParameter("@Fullname", Fullname));
+                param.Add(new SqlParameter("@Mobile", sani.Sanitize(Model.enc_Mobile)));
+                param.Add(new SqlParameter("@Address", Address));
                 param.Add(new SqlParameter("@Gender", sani.Sanitize(Model.Gender)));
-                param.Add(new SqlParameter("@NIP", sani.Sanitize(Model.NIP)));
-                param.Add(new SqlParameter("@Jabatan", sani.Sanitize(Model.Jabatan)));
+                param.Add(new SqlParameter("@NIP", NIP));
+                param.Add(new SqlParameter("@Jabatan", Jabatan));
                 param.Add(new SqlParameter("@Img", FotoFilename));
                 param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
 
                 mssql.ExecuteNonQuery("spUpdateMyProfile", param);
                 #endregion Save User
 
-                if (string.IsNullOrEmpty(sani.Sanitize(Model.Fullname)))
-                    HttpContext.Session.SetString("fn", StringCipher.Decrypt(HttpContext.Session.GetString("Email")));
+                if (string.IsNullOrEmpty(sani.Sanitize(Model.enc_Fullname)))
+                    HttpContext.Session.SetString("fn", StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email"))));
                 else
-                    HttpContext.Session.SetString("fn", sani.Sanitize(Model.Fullname));
+                    HttpContext.Session.SetString("fn", sani.Sanitize(aes.Dec(Model.enc_Fullname)));
 
                 return Json(new { Error = false, Message = "" });
             }
@@ -266,18 +272,18 @@ namespace Frontend_SPP.Controllers
                 string OldMobile = "";
                 DataTable dtOld = mssql.GetDataTable("SELECT Mobile FROM tblM_User WHERE UserID = '" + StringCipher.Decrypt(HttpContext.Session.GetString("UserID")) + "' AND Mobile_Verification = 1");
                 if (dtOld.Rows.Count == 1)
-                    OldMobile = dtOld.Rows[0]["Mobile"].ToString();
+                    OldMobile = !string.IsNullOrEmpty(dtOld.Rows[0]["Mobile"].ToString()) ? aes.Dec(dtOld.Rows[0]["Mobile"].ToString()) : "";
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@UserID", StringCipher.Decrypt(HttpContext.Session.GetString("UserID"))));
-                param.Add(new SqlParameter("@Mobile", sani.Sanitize(Model.Mobile)));
+                param.Add(new SqlParameter("@Mobile", sani.Sanitize(Model.enc_Mobile)));
                 param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
 
                 mssql.ExecuteNonQuery("spUpdateAccount", param);
 
-                string Mobile = sani.Sanitize(Model.Mobile);
+                string Mobile = sani.Sanitize(Model.enc_Mobile);
                 string PhoneChanged = "";
-                if (Mobile.Length >= 8 && Mobile.Length <= 15 && Mobile != OldMobile)
+                if (aes.Dec(Mobile).Length >= 8 && aes.Dec(Mobile).Length <= 15 && aes.Dec(Mobile) != OldMobile)
                 {
                     int OTPTimes = 0;
                     if (!string.IsNullOrEmpty(HttpContext.Session.GetString("OTPTimes")))
@@ -290,7 +296,7 @@ namespace Frontend_SPP.Controllers
                     string OTP = generator.Next(0, 1000000).ToString("D6");
 
                     mssql.ExecuteNonQuery("DELETE FROM tblT_OTP WHERE UserID = '" + UserID + "'");
-                    mssql.ExecuteNonQuery("INSERT INTO tblT_OTP (ID, UserID, Mobile, OTP, Status) VALUES ('" + New_OTP_ID + "', '" + UserID + "', '" + Mobile + "', '" + OTP + "', 'Not verified')");
+                    mssql.ExecuteNonQuery("INSERT INTO tblT_OTP (ID, UserID, Mobile, OTP, Status) VALUES ('" + New_OTP_ID + "', '" + UserID + "', '" + aes.Dec(Mobile) + "', '" + OTP + "', 'Not verified')");
 
                     //SEND OTP VIA SMS GATEWAY
                     var culture = string.IsNullOrEmpty(HttpContext.Session.GetString("culture")) ? "id" : HttpContext.Session.GetString("culture").ToLower();
@@ -298,7 +304,7 @@ namespace Frontend_SPP.Controllers
                     if (culture == "en")
                         SMS_Body = "Your OTP : " + OTP + "\n\nContact the WBS Helpdesk if you don't think you're asking for this OTP.";
 
-                    string SMS_Respon = Helper.SendSMSSingle(SMS_Body, Mobile);
+                    string SMS_Respon = Helper.SendSMSSingle(SMS_Body, aes.Dec(Mobile));
                     if (SMS_Respon == "Success")
                     {
                         mssql.ExecuteNonQuery("UPDATE tblT_OTP SET SMS_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_OTP_ID + "'");
@@ -401,42 +407,16 @@ namespace Frontend_SPP.Controllers
                 return Json(new { Error = true, Message = ex.Message });
             }
         }
-        #endregion MyProfile
-
-        //[HttpPost]
-        //public JsonResult GetUserFullname(string Prefix)
-        //{
-        //    List<SqlParameter> param = new List<SqlParameter>();
-        //    param.Add(new SqlParameter("@UserID", StringCipher.Decrypt(HttpContext.Session.GetString("UserID"))));
-        //    param.Add(new SqlParameter("@Prefix", Prefix));
-        //    DataTable dt = mssql.GetDataTable("sp_GetUserFullname", param);
-
-        //    List<tblM_User> MainData = new List<tblM_User>();
-        //    MainData = mssql.ConvertDataTable<tblM_User>(dt);
-        //    return Json(new { Error = false, Message = MainData });
-        //}
-
-        //[HttpPost]
-        //public JsonResult GetUserInformation(string Fullname)
-        //{
-        //    List<SqlParameter> param = new List<SqlParameter>();
-        //    param.Add(new SqlParameter("@UserID", StringCipher.Decrypt(HttpContext.Session.GetString("UserID"))));
-        //    param.Add(new SqlParameter("@Fullname", Fullname));
-        //    DataTable dt = mssql.GetDataTable("sp_GetUserInformation", param);
-
-        //    List<tblM_User> MainData = new List<tblM_User>();
-        //    MainData = mssql.ConvertDataTable<tblM_User>(dt);
-        //    return Json(new { Error = false, Message = MainData });
-        //}
+        #endregion MyProfile        
 
         [HttpPost]
         public IActionResult Register(tblM_User Model)
         {
             try
             {
-                string Fullname = sani.Sanitize(Model.Fullname);
-                string Email = sani.Sanitize(Model.Email);
-                string Mobile = sani.Sanitize(Model.Mobile);
+                string Fullname = sani.Sanitize(Model.enc_Fullname);
+                string Email = sani.Sanitize(Model.enc_Email);
+                string Mobile = sani.Sanitize(Model.enc_Mobile);
                 string Register_Password = sani.Sanitize(Model.Register_Password);
                 string Register_Password_Reentered = sani.Sanitize(Model.Register_Password_Reentered);
                 string captcha = sani.Sanitize(Model.captcha);
@@ -496,17 +476,17 @@ namespace Frontend_SPP.Controllers
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@UserID", Model.UserID));
                 param.Add(new SqlParameter("@New_User_Verification_ID", New_User_Verification_ID));
-                param.Add(new SqlParameter("@Fullname", sani.Sanitize(Fullname)));
-                param.Add(new SqlParameter("@Email", sani.Sanitize(Email)));
-                param.Add(new SqlParameter("@Mobile", sani.Sanitize(Mobile)));
+                param.Add(new SqlParameter("@Fullname", Fullname));
+                param.Add(new SqlParameter("@Email", Email));
+                param.Add(new SqlParameter("@Mobile", Mobile));
                 param.Add(new SqlParameter("@PasswordHash", HashPassword));
                 param.Add(new SqlParameter("@isActive", Model.isActive));
-                param.Add(new SqlParameter("@CreatedBy", sani.Sanitize(Email)));
+                param.Add(new SqlParameter("@CreatedBy", Email));
 
                 mssql.ExecuteNonQuery("sp_Register_User", param);
 
                 string Subject = "Aktivasi akun SPP - PTSMI";
-                Helper.SendMail(Email, Subject, MailComposer.compose_mail_body_register(Email, New_User_Verification_ID));
+                Helper.SendMail(aes.Dec(Email), Subject, MailComposer.compose_mail_body_register(aes.Dec(Email), New_User_Verification_ID));
                 mssql.ExecuteNonQuery("UPDATE tblT_New_User_Verification SET Verification_Mail_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_User_Verification_ID + "'");
 
                 return Json(new { Error = false, Message = "" });
@@ -574,7 +554,7 @@ namespace Frontend_SPP.Controllers
             try
             {
 
-                string Email = sani.Sanitize(Model.Email);
+                string Email = sani.Sanitize(Model.enc_Email);
                 string Password = sani.Sanitize(Model.PasswordHash);
 
                 if (HttpContext.Session.GetInt32("failedAttemp") != null)
@@ -638,7 +618,7 @@ namespace Frontend_SPP.Controllers
                     HttpContext.Session.SetString("UserID", StringCipher.Encrypt(DT.Rows[0]["UserID"].ToString()));
                     HttpContext.Session.SetString("Username", StringCipher.Encrypt(Email));
                     HttpContext.Session.SetString("Email", StringCipher.Encrypt(Email));
-                    HttpContext.Session.SetString("fn", !string.IsNullOrEmpty(DT.Rows[0]["Fullname"].ToString()) ? DT.Rows[0]["Fullname"].ToString() : Email);
+                    HttpContext.Session.SetString("fn", !string.IsNullOrEmpty(DT.Rows[0]["Fullname"].ToString()) ? aes.Dec(DT.Rows[0]["Fullname"].ToString()) : aes.Dec(Email));
                     HttpContext.Session.SetString("fr", dt_User.Rows[0]["Roles"].ToString());
                     HttpContext.Session.SetString("SessionID", StringCipher.Encrypt(SessionID));
 
@@ -650,7 +630,7 @@ namespace Frontend_SPP.Controllers
                         HttpContext.Session.SetString("img", imgPath);
                     }
 
-                    ViewData["Fullname"] = DT.Rows[0]["Fullname"].ToString();
+                    ViewData["Fullname"] = !string.IsNullOrEmpty(DT.Rows[0]["Fullname"].ToString()) ? aes.Dec(DT.Rows[0]["Fullname"].ToString()) : aes.Dec(Email);
                     ViewData["Roles"] = dt_User.Rows[0]["Roles"].ToString();
 
                     Helper.RecordAuditTrail(Email, "Web Portal SPP", "Login", "", "LOGIN", "");
@@ -689,7 +669,7 @@ namespace Frontend_SPP.Controllers
         {
             try
             {
-                string Email = sani.Sanitize(Model.Email);
+                string Email = sani.Sanitize(Model.enc_Email);
                 var culture = string.IsNullOrEmpty(HttpContext.Session.GetString("culture")) ? "id" : HttpContext.Session.GetString("culture").ToLower();
                 DataTable dtUser = mssql.GetDataTable("SELECT UserID, Email, Fullname FROM tblM_User WHERE Email = '" + Email + "' AND ISNULL(isActive, 0) = 1 AND ISNULL(Mail_Verification, 0) = 1");
                 if (dtUser.Rows.Count != 1)
@@ -707,7 +687,7 @@ namespace Frontend_SPP.Controllers
                 mssql.ExecuteNonQuery("INSERT INTO tblT_User_Password_Forgotten (ID, UserID, Email, Status) VALUES ('" + New_User_Password_Forgotten_ID + "', '" + UserID + "', '" + Email + "', 'Not verified')");
 
                 string Subject = "Verifikasi Lupa Password SPP - PTSMI";
-                Helper.SendMail(Email, Subject, MailComposer.compose_mail_body_password_reset(New_User_Password_Forgotten_ID));
+                Helper.SendMail(aes.Dec(Email), Subject, MailComposer.compose_mail_body_password_reset(New_User_Password_Forgotten_ID));
                 mssql.ExecuteNonQuery("UPDATE tblT_User_Password_Forgotten SET Mail_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_User_Password_Forgotten_ID + "'");
 
                 return Json(new { Error = false, Message = "" });
@@ -728,7 +708,7 @@ namespace Frontend_SPP.Controllers
                 if (!string.IsNullOrEmpty(HttpContext.Session.GetString("OTPTimes")))
                     OTPTimes = int.Parse(HttpContext.Session.GetString("OTPTimes"));
 
-                string Mobile = sani.Sanitize(Model.Mobile);
+                string Mobile = sani.Sanitize(Model.enc_Mobile);
                 var culture = string.IsNullOrEmpty(HttpContext.Session.GetString("culture")) ? "id" : HttpContext.Session.GetString("culture").ToLower();
                 DataTable dtUser = mssql.GetDataTable("SELECT UserID, Email, Fullname FROM tblM_User WHERE Mobile = '" + Mobile + "' AND ISNULL(isActive, 0) = 1 AND ISNULL(Mobile_Verification, 0) = 1");
                 if (dtUser.Rows.Count == 0)
@@ -795,7 +775,7 @@ namespace Frontend_SPP.Controllers
                     SMS_Body = "Your OTP : " + OTP + "\n\nContact the WBS Helpdesk if you don't think you're asking for this OTP.";
 
 
-                string SMS_Respon = Helper.SendSMSSingle(SMS_Body, Mobile);
+                string SMS_Respon = Helper.SendSMSSingle(SMS_Body, aes.Dec(Mobile));
                 if (SMS_Respon == "Success")
                 {
                     mssql.ExecuteNonQuery("UPDATE tblT_User_Password_Forgotten SET Mail_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_User_Password_Forgotten_ID + "'");
@@ -929,7 +909,7 @@ namespace Frontend_SPP.Controllers
                         else
                             throw new Exception("Maaf,  silahkan menunggu selama " + ReqOTP + " detik kedepan (hingga " + ReqLockedUntil + ") untuk dapat menggunakan OTP");
 
-                   
+
                 }
 
                 if (HttpContext.Session.GetString("OTPLock") != null)
@@ -940,10 +920,10 @@ namespace Frontend_SPP.Controllers
                     DateTime current = DateTime.Now;
                     DateTime locked = Convert.ToDateTime(HttpContext.Session.GetString("OTPLock").ToString()).AddMinutes(submitOTP);
                     string LockedUntil = locked.ToString("HH:mm:ss");
-                   
-                  if (current < locked)
+
+                    if (current < locked)
                         if (culture == "en")
-                            throw new Exception("Sorry, you have used OTP for 3 (three) times, please wait for the next "+submitOTP+" minutes (until " + LockedUntil + ") to using OTP");
+                            throw new Exception("Sorry, you have used OTP for 3 (three) times, please wait for the next " + submitOTP + " minutes (until " + LockedUntil + ") to using OTP");
                         else
                             throw new Exception("Maaf, Anda sudah menggunakan OTP sebanyak 3 (tiga) kali, silahkan menunggu selama " + submitOTP + " menit kedepan (hingga " + LockedUntil + ") untuk dapat menggunakan OTP");
                 }
@@ -963,7 +943,7 @@ namespace Frontend_SPP.Controllers
                 if (culture == "en")
                     SMS_Body = "Your OTP : " + OTP + "\n\nContact the WBS Helpdesk if you don't think you're asking for this OTP.";
 
-                string SMS_Respon = Helper.SendSMSSingle(SMS_Body, Mobile);
+                string SMS_Respon = Helper.SendSMSSingle(SMS_Body, aes.Dec(Mobile));
                 if (SMS_Respon == "Success")
                 {
 
@@ -1011,7 +991,7 @@ namespace Frontend_SPP.Controllers
                         throw new Exception("Kode OTP tidak valid atau sudah kadaluarsa, Anda dapat mengirim ulang kode OTP");
                 }
 
-                mssql.ExecuteNonQuery("UPDATE tblM_User SET Mobile = '" + dtUser.Rows[0]["Mobile"] + "', Mobile_Verification = 1, MobileTemp = NULL WHERE UserID = '" + UserID + "'");
+                mssql.ExecuteNonQuery("UPDATE tblM_User SET Mobile = '" + aes.Enc(dtUser.Rows[0]["Mobile"].ToString()) + "', Mobile_Verification = 1, MobileTemp = NULL WHERE UserID = '" + UserID + "'");
                 mssql.ExecuteNonQuery("DELETE FROM tblT_OTP WHERE UserID = '" + UserID + "' AND AND OTP = '" + OTP + "'");
 
                 return Json(new { Error = false, Message = "" });
@@ -1035,9 +1015,9 @@ namespace Frontend_SPP.Controllers
 
                 var culture = string.IsNullOrEmpty(HttpContext.Session.GetString("culture")) ? "id" : HttpContext.Session.GetString("culture").ToLower();
 
-                string Mobile = sani.Sanitize(Model.Mobile);
+                string Mobile = sani.Sanitize(Model.enc_Mobile);
                 string PhoneChanged = "";
-                if (Mobile.Length >= 8 && Mobile.Length <= 15)
+                if (aes.Dec(Mobile).Length >= 8 && aes.Dec(Mobile).Length <= 15)
                 {
                     if (HttpContext.Session.GetString("ReqTimes") != null)
                     {
@@ -1079,14 +1059,14 @@ namespace Frontend_SPP.Controllers
                     string OTP = generator.Next(0, 1000000).ToString("D6");
 
                     mssql.ExecuteNonQuery("DELETE FROM tblT_OTP WHERE UserID = '" + UserID + "'");
-                    mssql.ExecuteNonQuery("INSERT INTO tblT_OTP (ID, UserID, Mobile, OTP, Status) VALUES ('" + New_OTP_ID + "', '" + UserID + "', '" + Mobile + "', '" + OTP + "', 'Not verified')");
+                    mssql.ExecuteNonQuery("INSERT INTO tblT_OTP (ID, UserID, Mobile, OTP, Status) VALUES ('" + New_OTP_ID + "', '" + UserID + "', '" + aes.Dec(Mobile) + "', '" + OTP + "', 'Not verified')");
 
                     //SEND OTP VIA SMS GATEWAY
                     string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP bila Anda tidak merasa meminta OTP ini.";
                     if (culture == "en")
                         SMS_Body = "Your OTP : " + OTP + "\n\nContact the WBS Helpdesk if you don't think you're asking for this OTP.";
 
-                    string SMS_Respon = Helper.SendSMSSingle(SMS_Body, Mobile);
+                    string SMS_Respon = Helper.SendSMSSingle(SMS_Body, aes.Dec(Mobile));
                     if (SMS_Respon == "Success")
                     {
                         mssql.ExecuteNonQuery("UPDATE tblT_OTP SET SMS_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_OTP_ID + "'");

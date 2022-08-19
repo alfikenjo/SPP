@@ -219,11 +219,11 @@ namespace BO_SPP.Common
                 if (dtNotification.Rows.Count == 1)
                 {
                     DataRow dr = dtNotification.Rows[0];
-                    _SMTPAddress = dr["SMTPAddress"].ToString();
-                    _SMTPPort = dr["SMTPPort"].ToString();
-                    _SenderName = dr["SenderName"].ToString();
-                    _EmailAddress = dr["EmailAddress"].ToString();
-                    _Password = dr["Password"].ToString();
+                    _SMTPAddress = aes.Dec(dr["SMTPAddress"].ToString());
+                    _SMTPPort = aes.Dec(dr["SMTPPort"].ToString());
+                    _SenderName = aes.Dec(dr["SenderName"].ToString());
+                    _EmailAddress = aes.Dec(dr["EmailAddress"].ToString());
+                    _Password = aes.Dec(dr["Password"].ToString());
                     _EnableSsl = bool.Parse(dr["EnableSSL"].ToString());
                     _UseDefaultCredentials = bool.Parse(dr["UseDefaultCredentials"].ToString());
                 }
@@ -799,7 +799,7 @@ namespace BO_SPP.Common
                         File.Delete(files[i]);
                 }
             }
-            catch (Exception ex)
+            catch 
             {
 
             }

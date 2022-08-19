@@ -31,9 +31,9 @@ namespace BO_SPP.Controllers
             ViewData["CurrentActionName"] = "Banner";
             ViewData["Title"] = "CMS Banner";
 
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
 
-            ViewBag.Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewBag.Email = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
             ViewBag.Role = HttpContext.Session.GetString("fr");
 
             return View();
@@ -47,7 +47,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 DataTable dt = mssql.GetDataTable("EXEC sp_Get_Banner");
                 List<tblT_Banner> MainData = new List<tblT_Banner>();
@@ -76,13 +76,13 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string _ID = StringCipher.Decrypt(sani.Sanitize(ID).Split("|")[0]);
                 string SessionIDDesc = sani.Sanitize(ID).Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@ID", _ID));
@@ -124,7 +124,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string ID = sani.Sanitize(Model.ID);
                 string _ID = Guid.NewGuid().ToString();
@@ -135,7 +135,7 @@ namespace BO_SPP.Controllers
                     string SessionIDDesc = ID.Split("|")[1];
 
                     if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                        throw new Exception("Invalid Authorization|window.location='/'");
+                        throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
                 }
 
                 if (Model.Upload_ID == null && sani.Sanitize(Model.Action) == "add")
@@ -288,9 +288,9 @@ namespace BO_SPP.Controllers
             ViewData["CurrentActionName"] = "Tentang SPP";
             ViewData["Title"] = "CMS Tentang SPP";
 
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
 
-            ViewBag.Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewBag.Email = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
             ViewBag.Role = HttpContext.Session.GetString("fr");
 
             return View();
@@ -307,9 +307,9 @@ namespace BO_SPP.Controllers
             ViewData["CurrentActionName"] = "Tiga Pilar SPP";
             ViewData["Title"] = "CMS Tiga Pilar SPP";
 
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
 
-            ViewBag.Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewBag.Email = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
             ViewBag.Role = HttpContext.Session.GetString("fr");
 
             return View();
@@ -326,9 +326,9 @@ namespace BO_SPP.Controllers
             ViewData["CurrentActionName"] = "Jenis Pelanggaran";
             ViewData["Title"] = "CMS Jenis Pelanggaran";
 
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
 
-            ViewBag.Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewBag.Email = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
             ViewBag.Role = HttpContext.Session.GetString("fr");
 
             return View();
@@ -345,9 +345,9 @@ namespace BO_SPP.Controllers
             ViewData["CurrentActionName"] = "Media Penyampaian";
             ViewData["Title"] = "CMS Media Penyampaian";
 
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
 
-            ViewBag.Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewBag.Email = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
             ViewBag.Role = HttpContext.Session.GetString("fr");
 
             return View();
@@ -364,9 +364,9 @@ namespace BO_SPP.Controllers
             ViewData["CurrentActionName"] = "FAQ";
             ViewData["Title"] = "CMS FAQ";
 
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
 
-            ViewBag.Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewBag.Email = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
             ViewBag.Role = HttpContext.Session.GetString("fr");
 
             return View();
@@ -383,9 +383,9 @@ namespace BO_SPP.Controllers
             ViewData["CurrentActionName"] = "Contact Us";
             ViewData["Title"] = "CMS Contact Us";
 
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
 
-            ViewBag.Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewBag.Email = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
             ViewBag.Role = HttpContext.Session.GetString("fr");
 
             return View();
@@ -402,9 +402,9 @@ namespace BO_SPP.Controllers
             ViewData["CurrentActionName"] = "Syarat dan Ketentuan";
             ViewData["Title"] = "CMS Syarat dan Ketentuan";
 
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
 
-            ViewBag.Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewBag.Email = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
             ViewBag.Role = HttpContext.Session.GetString("fr");
 
             return View();
@@ -418,7 +418,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@Tipe", sani.Sanitize(Tipe)));
@@ -466,7 +466,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string ID = sani.Sanitize(Model.ID);
                 string _ID = Guid.NewGuid().ToString();
@@ -492,7 +492,7 @@ namespace BO_SPP.Controllers
                     string SessionIDDesc = ID.Split("|")[1];
 
                     if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                        throw new Exception("Invalid Authorization|window.location='/'");
+                        throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
                 }
 
                 string Tipe = sani.Sanitize(Model.Tipe);
@@ -731,7 +731,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@Tipe", sani.Sanitize(Tipe)));
@@ -778,13 +778,13 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string _ID = StringCipher.Decrypt(sani.Sanitize(ID).Split("|")[0]);
                 string SessionIDDesc = sani.Sanitize(ID).Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@ID", _ID));

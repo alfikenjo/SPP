@@ -28,7 +28,7 @@ BEGIN
 	DECLARE @QUERY VARCHAR(MAX);
 
 	SET @QUERY = 'SELECT	A.UserID, ISNULL(A.Fullname, '''') [Fullname], 
-						dbo.Format_StringNumber(A.Mobile) [Mobile], 
+						A.Mobile, 
 						A.Email, A.NIP, A.Jabatan, A.Divisi,
 						A.isActive,
 						(SELECT DISTINCT B.Name + ''; '' AS ''data()'' FROM tblT_UserInRole X LEFT JOIN tblM_Role B ON X.RoleID = B.ID WHERE A.UserID = X.UserID FOR XML PATH('''')) [Roles],

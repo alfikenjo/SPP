@@ -53,7 +53,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 DataTable dt = mssql.GetDataTable("sp_Get_FileEkstensionFilter");
                 List<FileEkstensionFilter> MainData = new List<FileEkstensionFilter>();
@@ -78,7 +78,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 ID = sani.Sanitize(ID);
 
@@ -86,7 +86,7 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = ID.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@ID", _ID));
@@ -113,7 +113,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string Action = sani.Sanitize(Model.Action);
                 string SanitizedID = sani.Sanitize(Model.ID);
@@ -125,7 +125,7 @@ namespace BO_SPP.Controllers
                 {
                     ID = StringCipher.Decrypt(SanitizedID.Split("|")[0]);
                     if (SanitizedID.Split("|")[1] != HttpContext.Session.GetString("SessionID"))
-                        throw new Exception("Invalid Authorization|window.location='/'");
+                        throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
                 }
 
                 string FileEkstensionFilter = string.Empty;
@@ -178,9 +178,9 @@ namespace BO_SPP.Controllers
             ViewData["CurrentActionName"] = "Notification";
             ViewData["Title"] = "Notification Center";
 
-            ViewData["Email"] = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewData["Email"] = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
 
-            ViewBag.Email = StringCipher.Decrypt(HttpContext.Session.GetString("Email"));
+            ViewBag.Email = StringCipher.Decrypt(aes.Dec(HttpContext.Session.GetString("Email")));
             ViewBag.Role = HttpContext.Session.GetString("fr");
 
             return View();
@@ -194,7 +194,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 DataTable dtNotificationSetting = mssql.GetDataTable("EXEC sp_Get_NotificationSetting");
                 List<NotificationSetting> NotificationSetting = new List<NotificationSetting>();
@@ -216,16 +216,16 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 #region Save           
 
                 List<SqlParameter> param = new List<SqlParameter>();
-                param.Add(new SqlParameter("@SMTPAddress", sani.Sanitize(Model.SMTPAddress)));
-                param.Add(new SqlParameter("@SMTPPort", sani.Sanitize(Model.SMTPPort)));
-                param.Add(new SqlParameter("@EmailAddress", sani.Sanitize(Model.EmailAddress)));
-                param.Add(new SqlParameter("@Password", sani.Sanitize(Model.Password)));
-                param.Add(new SqlParameter("@SenderName", sani.Sanitize(Model.SenderName)));
+                param.Add(new SqlParameter("@SMTPAddress", sani.Sanitize(Model.enc_SMTPAddress)));
+                param.Add(new SqlParameter("@SMTPPort", sani.Sanitize(Model.enc_SMTPPort)));
+                param.Add(new SqlParameter("@EmailAddress", sani.Sanitize(Model.enc_EmailAddress)));
+                param.Add(new SqlParameter("@Password", sani.Sanitize(Model.enc_Password)));
+                param.Add(new SqlParameter("@SenderName", sani.Sanitize(Model.enc_SenderName)));
                 param.Add(new SqlParameter("@EnableSSL", Model.EnableSSL));
                 param.Add(new SqlParameter("@UseDefaultCredentials", Model.UseDefaultCredentials));
                 param.Add(new SqlParameter("@UseAsync", Model.UseAsync));
@@ -271,7 +271,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 DataTable dt = mssql.GetDataTable("EXEC sp_Get_EmailSetting");
                 List<EmailSetting> MainData = new List<EmailSetting>();
@@ -296,7 +296,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 ID = sani.Sanitize(ID);
 
@@ -304,7 +304,7 @@ namespace BO_SPP.Controllers
                 string SessionIDDesc = ID.Split("|")[1];
 
                 if (SessionIDDesc != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@ID", _ID));
@@ -331,7 +331,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 string Action = sani.Sanitize(Model.Action);
                 string SanitizedID = sani.Sanitize(Model.ID);
@@ -339,7 +339,7 @@ namespace BO_SPP.Controllers
 
                 ID = StringCipher.Decrypt(SanitizedID.Split("|")[0]);
                 if (SanitizedID.Split("|")[1] != HttpContext.Session.GetString("SessionID"))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 #region Save
 
@@ -371,7 +371,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 #region Save
 
@@ -402,7 +402,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 int isValid = 0;
                 DataRow dr = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM FileEkstensionFilter WHERE Name = '" + sani.Sanitize(Eks) + "'");
@@ -443,7 +443,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 DataTable dtConfiguration = mssql.GetDataTable("EXEC sp_Get_config");
                 List<Configuration> Configuration = new List<Configuration>();
@@ -465,7 +465,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 #region Save           
 

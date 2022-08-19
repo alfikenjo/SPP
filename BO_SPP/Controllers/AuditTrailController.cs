@@ -37,7 +37,7 @@ namespace BO_SPP.Controllers
                 string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
                 if (!Helper.AuthorizedByUsername(HttpContext.Session.GetString("SessionID"), HttpContext.Session.GetString("UserID"), controllerName, actionName, null))
-                    throw new Exception("Invalid Authorization|window.location='/'");
+                    throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
                 DataTable dt = mssql.GetDataTable("SELECT dbo.Format24DateTime([Datetime]) [Datetime], Username, Menu, Halaman, Item, Action, [Description] FROM AuditTrail ORDER BY [Datetime] DESC");
                 List<AuditTrail> MainData = new List<AuditTrail>();
@@ -73,6 +73,11 @@ namespace BO_SPP.Controllers
         private ClosedXML.Excel.XLWorkbook GenerateExcelAuditTrail()
         {
             DataTable dt = mssql.GetDataTable("SELECT dbo.Format24DateTime([Datetime]) [Datetime], Username, Menu, Halaman, Item, Action, [Description] FROM AuditTrail ORDER BY [Datetime] DESC");
+            foreach (DataRow dr in dt.Rows)
+            {
+                dr["Username"] = !string.IsNullOrEmpty(dr["Username"].ToString()) ? aes.Dec(dr["Username"].ToString()) : "";
+                dt.AcceptChanges();
+            }
 
             var wb = new ClosedXML.Excel.XLWorkbook();
             var KP = dt;
@@ -97,6 +102,11 @@ namespace BO_SPP.Controllers
                     return RedirectToAction("Index", "Dashboard");
 
                 DataTable dt = mssql.GetDataTable("SELECT dbo.Format24DateTime([Datetime]) [Datetime], Username, Menu, Halaman, Item, Action, [Description] FROM AuditTrail ORDER BY [Datetime] DESC");
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr["Username"] = !string.IsNullOrEmpty(dr["Username"].ToString()) ? aes.Dec(dr["Username"].ToString()) : "";
+                    dt.AcceptChanges();
+                }
 
                 ExportToPdf(dt);
                 return null;

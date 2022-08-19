@@ -15,8 +15,8 @@ CREATE PROCEDURE [dbo].[spUpdateAccount]
 	-- Add the parameters for the stored procedure here
 	@UserID varchar(36),
 	--@Email varchar(255) = '',
-	@Mobile varchar(50) = '',
-	@CreatedBy varchar(50)
+	@Mobile varchar(MAX) = '',
+	@CreatedBy varchar(MAX)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -30,6 +30,6 @@ BEGIN
 			UpdatedBy = NULLIF(@CreatedBy, '')
 	WHERE	UserID = @UserID
 
-	DECLARE @Email_Audit VARCHAR(200) = (SELECT Email FROM tblM_User WHERE UserID = @UserID)
+	DECLARE @Email_Audit VARCHAR(MAX) = (SELECT Email FROM tblM_User WHERE UserID = @UserID)
 	EXEC sp_RecordAuditTrail @CreatedBy, 'My Profile', 'Account', NULL, 'UPDATE', @Email_Audit
 END
