@@ -274,11 +274,15 @@ $('#FormSubmitOTP').validate({
             contentType: false,
             processData: false,
             success: function (Result) {
+                $('#OTP').val('');
                 if (Result.Error == false) {
                     var ID = Result.Message;
                     CustomNotif('success|OTP|Nomor Handphone Anda sudah berhasil diverifikasi|ShowUpdateAkunForm();');
                 } else {
-                    CustomNotif("error|Oops|" + Result.Message + "");
+                    if (Result.Message == 'Maaf, Anda telah gagal menggunakan OTP sebanyak 3 (tiga) kali, verifikasi OTP dibatalkan, silahkan mencoba kembali')
+                        CustomNotif("error|Oops|" + Result.Message + "|ShowUpdateAkunForm();");
+                    else
+                        CustomNotif("error|Oops|" + Result.Message + "");
                 }
             },
             error: function (xhr, status, error) {
@@ -295,7 +299,7 @@ function ResendOTP() {
             url: VP + 'Account/ResendOTPProfile',
             type: 'POST',
             data: {
-                Mobile: _Mobile
+                enc_Mobile: _Mobile
             },
             success: function (Result) {
                 if (Result.Error == false) {

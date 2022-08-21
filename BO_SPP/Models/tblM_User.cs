@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using BO_SPP.Common;
+using System;
 
 namespace BO_SPP.Models
 {
@@ -9,7 +10,7 @@ namespace BO_SPP.Models
 
         private string fullname; public string Fullname { get { return fullname; } set { fullname = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
         private string email; public string Email { get { return email; } set { email = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
-        private string mobile; public string Mobile { get { return mobile; } set { mobile = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
+        private string mobile; public string Mobile { get { return !string.IsNullOrEmpty(mobile) ? mobile.Replace("-", "").TrimStart(new Char[] { '0' }) : mobile; } set { mobile = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
         private string address; public string Address { get { return address; } set { address = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
         private string nip; public string NIP { get { return nip; } set { nip = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
         private string jabatan; public string Jabatan { get { return jabatan; } set { jabatan = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
@@ -18,7 +19,8 @@ namespace BO_SPP.Models
 
         public string enc_Fullname { get { return fullname; } set { fullname = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
         public string enc_Email { get { return email; } set { email = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
-        public string enc_Mobile { get { return mobile; } set { mobile = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
+        //public string enc_Mobile { get { return mobile; } set { mobile = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
+        public string enc_Mobile { get { return !string.IsNullOrEmpty(mobile) ? mobile.Replace("-", "").TrimStart(new Char[] { '0' }) : mobile; } set { mobile = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
         public string enc_Address { get { return address; } set { address = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
         public string enc_NIP { get { return nip; } set { nip = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
         public string enc_Jabatan { get { return jabatan; } set { jabatan = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }

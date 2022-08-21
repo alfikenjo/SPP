@@ -688,6 +688,10 @@ namespace BO_SPP.Controllers
                 if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
                     throw new Exception("Invalid Authorization|window.location='../Account/Signin'");
 
+                int OTPTimes = 0;
+                if (!string.IsNullOrEmpty(HttpContext.Session.GetString("OTPTimes")))
+                    OTPTimes = int.Parse(HttpContext.Session.GetString("OTPTimes"));
+
                 DataRow dr_Login = mssql.GetDataRow("SELECT COUNT(*) [Jumlah] FROM tblT_User_Login WHERE UserID = '" + StringCipher.Decrypt(HttpContext.Session.GetString("UserID")) + "' AND ID = '" + StringCipher.Decrypt(HttpContext.Session.GetString("SessionID")) + "' AND isActive = 1");
                 if (int.Parse(dr_Login["Jumlah"].ToString()) == 0)
                     return RedirectToAction("Signin", "Account");
@@ -699,6 +703,35 @@ namespace BO_SPP.Controllers
                 if (dtOld.Rows.Count == 1)
                     OldMobile = !string.IsNullOrEmpty(dtOld.Rows[0]["Mobile"].ToString()) ? aes.Dec(dtOld.Rows[0]["Mobile"].ToString()) : "";
 
+                string Mobile = sani.Sanitize(Model.enc_Mobile);
+                if (aes.Dec(Mobile).Length >= 8 && aes.Dec(Mobile).Length <= 15 && aes.Dec(Mobile) != OldMobile)
+                {                   
+                    if (HttpContext.Session.GetString("ReqTimes") != null)
+                    {
+                        DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
+                        int ReqOTP = Convert.ToInt32(DTreq.Rows[0]["Request_OTP"].ToString());
+                        int submitOTP = Convert.ToInt32(DTreq.Rows[0]["Submit_OTP"].ToString());
+                        DateTime current = DateTime.Now;
+                        DateTime Reqlocked = Convert.ToDateTime(HttpContext.Session.GetString("ReqTimes").ToString()).AddSeconds(ReqOTP);
+                        string ReqLockedUntil = Reqlocked.ToString("HH:mm:ss");
+                        if (current < Reqlocked)
+                            throw new Exception("Maaf,  silahkan menunggu selama " + ReqOTP + " detik kedepan (hingga " + ReqLockedUntil + ") untuk dapat menggunakan OTP");
+                    }
+
+                    if (HttpContext.Session.GetString("OTPLock") != null)
+                    {
+                        DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
+                        int ReqOTP = Convert.ToInt32(DTreq.Rows[0]["Request_OTP"].ToString());
+                        int submitOTP = Convert.ToInt32(DTreq.Rows[0]["Submit_OTP"].ToString());
+                        DateTime current = DateTime.Now;
+                        DateTime locked = Convert.ToDateTime(HttpContext.Session.GetString("OTPLock").ToString()).AddMinutes(submitOTP);
+                        string LockedUntil = locked.ToString("HH:mm:ss");
+
+                        if (current < locked)
+                            throw new Exception("Maaf, Anda sudah menggunakan OTP sebanyak 3 (tiga) kali, silahkan menunggu selama " + submitOTP + " menit kedepan (hingga " + LockedUntil + ") untuk dapat menggunakan OTP");
+                    }
+                }
+
                 List<SqlParameter> param = new List<SqlParameter>();
                 param.Add(new SqlParameter("@UserID", StringCipher.Decrypt(HttpContext.Session.GetString("UserID"))));
                 param.Add(new SqlParameter("@Mobile", sani.Sanitize(Model.enc_Mobile)));
@@ -707,11 +740,10 @@ namespace BO_SPP.Controllers
 
                 mssql.ExecuteNonQuery("spUpdateAccountInternal", param);
 
-                string Mobile = sani.Sanitize(Model.enc_Mobile);
+                
                 string PhoneChanged = "";
                 if (aes.Dec(Mobile).Length >= 8 && aes.Dec(Mobile).Length <= 15 && aes.Dec(Mobile) != OldMobile)
-                {
-
+                {                                            
                     string UserID = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));
                     string New_OTP_ID = Guid.NewGuid().ToString();
 
@@ -726,7 +758,21 @@ namespace BO_SPP.Controllers
 
                     string SMS_Respon = Helper.SendSMSSingle(SMS_Body, aes.Dec(Mobile));
                     if (SMS_Respon == "Success")
+                    {
+                        HttpContext.Session.Remove("SubmitOTPAttempt");
                         mssql.ExecuteNonQuery("UPDATE tblT_OTP SET SMS_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_OTP_ID + "'");
+                        OTPTimes = OTPTimes + 1;
+                        HttpContext.Session.SetString("OTPTimes", OTPTimes.ToString());
+                        HttpContext.Session.SetString("ReqTimes", DateTime.Now.ToString());
+                        if (OTPTimes == 3)
+                        {
+                            HttpContext.Session.Remove("OTPTimes");
+                            HttpContext.Session.Remove("ReqTimes");
+                            HttpContext.Session.SetString("OTPLock", DateTime.Now.ToString());
+                        }
+                        else
+                            HttpContext.Session.Remove("OTPLock");
+                    }
                     else
                         throw new Exception(SMS_Respon);
 
@@ -1118,12 +1164,45 @@ namespace BO_SPP.Controllers
         {
             try
             {
+                int SubmitOTPAttempt = 0;
+                if (!string.IsNullOrEmpty(HttpContext.Session.GetString("SubmitOTPAttempt")))
+                    SubmitOTPAttempt = int.Parse(HttpContext.Session.GetString("SubmitOTPAttempt"));               
+
                 string OTP = sani.Sanitize(Model.OTP);
                 string UserID = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));
 
+                if (HttpContext.Session.GetString("SubmitTimes") != null)
+                {
+                    DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
+                    int ReqOTP = Convert.ToInt32(DTreq.Rows[0]["Request_OTP"].ToString());
+                    int submitOTP = Convert.ToInt32(DTreq.Rows[0]["Submit_OTP"].ToString());
+                    DateTime current = DateTime.Now;
+                    DateTime Reqlocked = Convert.ToDateTime(HttpContext.Session.GetString("SubmitTimes").ToString()).AddSeconds(ReqOTP);
+                    string ReqLockedUntil = Reqlocked.ToString("HH:mm:ss");
+                    if (current < Reqlocked)
+                        throw new Exception("Maaf, silahkan menunggu selama " + ReqOTP + " detik kedepan (hingga " + ReqLockedUntil + ") untuk mencoba kembali input OTP");
+                }
+
                 DataTable dtUser = mssql.GetDataTable("SELECT * FROM tblT_OTP WHERE UserID = '" + UserID + "' AND OTP = '" + OTP + "'");
                 if (dtUser.Rows.Count != 1)
-                    throw new Exception("Kode OTP tidak valid atau sudah kadaluarsa, Anda dapat mengirim ulang kode OTP");
+                {
+                    SubmitOTPAttempt = SubmitOTPAttempt + 1;
+                    HttpContext.Session.SetString("SubmitOTPAttempt", SubmitOTPAttempt.ToString());
+                    HttpContext.Session.SetString("SubmitTimes", DateTime.Now.ToString());
+                    if (SubmitOTPAttempt == 3)
+                    {
+                        HttpContext.Session.Remove("SubmitOTPAttempt");
+                        HttpContext.Session.Remove("SubmitTimes");
+                        throw new Exception("Maaf, Anda telah gagal menggunakan OTP sebanyak 3 (tiga) kali, verifikasi OTP dibatalkan, silahkan mencoba kembali");
+                    }
+
+                    throw new Exception("Kode OTP tidak valid atau sudah kadaluarsa, Anda memiliki " + (3 - SubmitOTPAttempt) + " kesempatan lagi atau Anda dapat mengirim ulang kode OTP");
+                }
+                else
+                {
+                    HttpContext.Session.Remove("SubmitTimes");
+                    HttpContext.Session.Remove("SubmitOTPAttempt");                    
+                }
 
                 mssql.ExecuteNonQuery("UPDATE tblM_User SET Mobile = '" + aes.Enc(dtUser.Rows[0]["Mobile"].ToString()) + "', Mobile_Verification = 1, MobileTemp = NULL WHERE UserID = '" + UserID + "'");
                 mssql.ExecuteNonQuery("DELETE FROM tblT_OTP WHERE UserID = '" + UserID + "' AND AND OTP = '" + OTP + "'");
@@ -1142,10 +1221,41 @@ namespace BO_SPP.Controllers
         {
             try
             {
-                string Mobile = sani.Sanitize(Model.Mobile);
+                HttpContext.Session.Remove("SubmitOTPAttempt");
+
+                int OTPTimes = 0;
+                if (!string.IsNullOrEmpty(HttpContext.Session.GetString("OTPTimes")))
+                    OTPTimes = int.Parse(HttpContext.Session.GetString("OTPTimes"));
+
+                string Mobile = sani.Sanitize(aes.Dec(Model.enc_Mobile));
                 string PhoneChanged = "";
                 if (Mobile.Length >= 8 && Mobile.Length <= 15)
                 {
+                    if (HttpContext.Session.GetString("ReqTimes") != null)
+                    {
+                        DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
+                        int ReqOTP = Convert.ToInt32(DTreq.Rows[0]["Request_OTP"].ToString());
+                        int submitOTP = Convert.ToInt32(DTreq.Rows[0]["Submit_OTP"].ToString());
+                        DateTime current = DateTime.Now;
+                        DateTime Reqlocked = Convert.ToDateTime(HttpContext.Session.GetString("ReqTimes").ToString()).AddSeconds(ReqOTP);
+                        string ReqLockedUntil = Reqlocked.ToString("HH:mm:ss");
+                        if (current < Reqlocked)
+                            throw new Exception("Maaf,  silahkan menunggu selama " + ReqOTP + " detik kedepan (hingga " + ReqLockedUntil + ") untuk dapat menggunakan OTP");
+                    }
+
+                    if (HttpContext.Session.GetString("OTPLock") != null)
+                    {
+                        DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
+                        int ReqOTP = Convert.ToInt32(DTreq.Rows[0]["Request_OTP"].ToString());
+                        int submitOTP = Convert.ToInt32(DTreq.Rows[0]["Submit_OTP"].ToString());
+                        DateTime current = DateTime.Now;
+                        DateTime locked = Convert.ToDateTime(HttpContext.Session.GetString("OTPLock").ToString()).AddMinutes(submitOTP);
+                        string LockedUntil = locked.ToString("HH:mm:ss");
+
+                        if (current < locked)
+                            throw new Exception("Maaf, Anda sudah menggunakan OTP sebanyak 3 (tiga) kali, silahkan menunggu selama " + submitOTP + " menit kedepan (hingga " + LockedUntil + ") untuk dapat menggunakan OTP");
+                    }
+
                     string UserID = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));
                     string New_OTP_ID = Guid.NewGuid().ToString();
 
@@ -1160,7 +1270,20 @@ namespace BO_SPP.Controllers
 
                     string SMS_Respon = Helper.SendSMSSingle(SMS_Body, Mobile);
                     if (SMS_Respon == "Success")
+                    {
                         mssql.ExecuteNonQuery("UPDATE tblT_OTP SET SMS_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_OTP_ID + "'");
+                        OTPTimes = OTPTimes + 1;
+                        HttpContext.Session.SetString("OTPTimes", OTPTimes.ToString());
+                        HttpContext.Session.SetString("ReqTimes", DateTime.Now.ToString());
+                        if (OTPTimes == 3)
+                        {
+                            HttpContext.Session.Remove("OTPTimes");
+                            HttpContext.Session.Remove("ReqTimes");
+                            HttpContext.Session.SetString("OTPLock", DateTime.Now.ToString());
+                        }
+                        else
+                            HttpContext.Session.Remove("OTPLock");
+                    }
                     else
                         throw new Exception(SMS_Respon);
 
