@@ -432,12 +432,12 @@ namespace BO_SPP.Controllers
                 param.Add(new SqlParameter("@Action", sani.Sanitize(Model.Action)));
                 param.Add(new SqlParameter("@ID", ID));
                 param.Add(new SqlParameter("@ID_Header", ID_Header));
-                param.Add(new SqlParameter("@Email", sani.Sanitize(Model.Email)));
-                param.Add(new SqlParameter("@Handphone", sani.Sanitize(Model.Handphone)));
-                param.Add(new SqlParameter("@Nama", sani.Sanitize(Model.Nama)));
-                param.Add(new SqlParameter("@NomorHandphone", sani.Sanitize(Model.NomorHandphone)));
-                param.Add(new SqlParameter("@Departemen", sani.Sanitize(Model.Departemen)));
-                param.Add(new SqlParameter("@Jabatan", sani.Sanitize(Model.Jabatan)));
+                param.Add(new SqlParameter("@Email", sani.Sanitize(Model.enc_Email)));
+                param.Add(new SqlParameter("@Handphone", sani.Sanitize(Model.enc_Handphone)));
+                param.Add(new SqlParameter("@Nama", sani.Sanitize(Model.enc_Nama)));
+                param.Add(new SqlParameter("@NomorHandphone", sani.Sanitize(Model.enc_NomorHandphone)));
+                param.Add(new SqlParameter("@Departemen", sani.Sanitize(Model.enc_Departemen)));
+                param.Add(new SqlParameter("@Jabatan", sani.Sanitize(Model.enc_Jabatan)));
                 param.Add(new SqlParameter("@FileIdentitas", FileIdentitas));
                 param.Add(new SqlParameter("@FileIdentitas_Ekstension", FileIdentitas_Ekstension));
                 param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));

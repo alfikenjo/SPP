@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewData["Title"] = "Encryption Page";
+    Layout = "~/Views/Shared/_Layout_Login.cshtml";
+}
+
+<div class="wrapper">
+    <section class="login-content">
+        <div class="container h-100">
+            <div class="row align-items-center justify-content-center h-100">
+                <div class="col-12">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 mb-lg-6 col-sm-12 mb-4 mt-lg-0 mt-4">
+                            <img id="logoimg" class="img-fluid w-100" alt="">
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            <h2 class="mb-2 text-center">ENCRYPTION</h2>
+                            <p class="text-center">BACK OFFICE SPP<br /><small>Halaman khusus pengguna Internal SPP PTSMI yang terdaftar</small></p>
+
+                            <form id="FormEnc" method="post" asp-controller="Account" asp-action="enc">
+                                <div class="row">
+
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Plain Text</label>
+                                            <input type="text" id="PlainText" name="PlainText" value="@ViewBag.PlainText" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Encrypted Text</label>
+                                            <input type="text" id="Encrypted_Text" name="Encrypted_Text" value="@ViewBag.Encrypted_Text" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" form="FormEnc" class="btn btn-primary">Encrypt</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

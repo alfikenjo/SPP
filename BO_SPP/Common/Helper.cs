@@ -203,7 +203,7 @@ namespace BO_SPP.Common
         {
             try
             {
-                DataRow drEmailNotification = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblM_User WHERE Email = '" + Email + "' AND ISNULL(EmailNotification, 0) = 1");
+                DataRow drEmailNotification = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblM_User WHERE Email = '" + aes.Enc(Email) + "' AND ISNULL(EmailNotification, 0) = 1");
                 if (int.Parse(drEmailNotification["Count"].ToString()) == 0)
                     throw new Exception("Notification is not aktif");
 

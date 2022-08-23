@@ -263,12 +263,12 @@ namespace Frontend_SPP.Controllers
                 param.Add(new SqlParameter("@ID", _ID));
                 param.Add(new SqlParameter("@Sumber", "Portal SPP"));
                 param.Add(new SqlParameter("@Nomor", Nomor));
-                param.Add(new SqlParameter("@Email", sani.Sanitize(Model.Email)));
-                param.Add(new SqlParameter("@Handphone", sani.Sanitize(Model.Handphone)));
-                param.Add(new SqlParameter("@Jenis_Pelanggaran", sani.Sanitize(Model.Jenis_Pelanggaran)));
-                param.Add(new SqlParameter("@TempatKejadian", sani.Sanitize(Model.TempatKejadian)));
+                param.Add(new SqlParameter("@Email", sani.Sanitize(Model.enc_Email)));
+                param.Add(new SqlParameter("@Handphone", sani.Sanitize(Model.enc_Handphone)));
+                param.Add(new SqlParameter("@Jenis_Pelanggaran", sani.Sanitize(Model.enc_Jenis_Pelanggaran)));
+                param.Add(new SqlParameter("@TempatKejadian", sani.Sanitize(Model.enc_TempatKejadian)));
                 param.Add(new SqlParameter("@WaktuKejadian", WaktuKejadian));
-                param.Add(new SqlParameter("@Kronologi", sani.Sanitize(Model.Kronologi)));
+                param.Add(new SqlParameter("@Kronologi", sani.Sanitize(Model.enc_Kronologi)));
                 param.Add(new SqlParameter("@Status", Status));
                 param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
 
@@ -281,15 +281,15 @@ namespace Frontend_SPP.Controllers
                 DataTable dt_Email_Admin_Pusat = mssql.GetDataTable("sp_Get_Email_Admin_Pusat");
                 foreach (DataRow dr in dt_Email_Admin_Pusat.Rows)
                 {
-                    string EmailAdminPusat = dr["Email"].ToString();
-                    string Fullname = dr["Fullname"].ToString();
-                    Helper.SendMail(EmailAdminPusat, Subject, MailComposer.compose_mail_body_kirim_dumas(_ID, Fullname, Nomor, sani.Sanitize(Model.Email), TanggalKirim));
+                    string EmailAdminPusat = aes.Dec(dr["Email"].ToString());
+                    string Fullname = !string.IsNullOrEmpty(dr["Fullname"].ToString()) ? aes.Dec(dr["Fullname"].ToString()) : "";
+                    Helper.SendMail(EmailAdminPusat, Subject, MailComposer.compose_mail_body_kirim_dumas(_ID, Fullname, Nomor, aes.Dec(sani.Sanitize(Model.enc_Email)), TanggalKirim));
                 }
                 #endregion Notifikasi_ke_Admin_Pusat
 
                 #region Notifikasi_ke_Pelapor
                 DataRow drUser = mssql.GetDataRow("SELECT Email FROM tblM_User WHERE Email = '" + StringCipher.Decrypt(HttpContext.Session.GetString("Email")) + "'");
-                string EmailUser = drUser["Email"].ToString();
+                string EmailUser = aes.Dec(drUser["Email"].ToString());
                 Helper.SendMail(EmailUser, Subject, MailComposer.compose_mail_body_kirim_dumas_pengadu(EmailUser, Nomor, TanggalKirim));
                 #endregion Notifikasi_ke_Pelapor
 
@@ -388,12 +388,12 @@ namespace Frontend_SPP.Controllers
                 param.Add(new SqlParameter("@Action", sani.Sanitize(Model.Action)));
                 param.Add(new SqlParameter("@ID", ID));
                 param.Add(new SqlParameter("@ID_Header", ID_Header));
-                param.Add(new SqlParameter("@Email", sani.Sanitize(Model.Email)));
-                param.Add(new SqlParameter("@Handphone", sani.Sanitize(Model.Handphone)));
-                param.Add(new SqlParameter("@Nama", sani.Sanitize(Model.Nama)));
-                param.Add(new SqlParameter("@NomorHandphone", sani.Sanitize(Model.NomorHandphone)));
-                param.Add(new SqlParameter("@Departemen", sani.Sanitize(Model.Departemen)));
-                param.Add(new SqlParameter("@Jabatan", sani.Sanitize(Model.Jabatan)));
+                param.Add(new SqlParameter("@Email", sani.Sanitize(Model.enc_Email)));
+                param.Add(new SqlParameter("@Handphone", sani.Sanitize(Model.enc_Handphone)));
+                param.Add(new SqlParameter("@Nama", sani.Sanitize(Model.enc_Nama)));
+                param.Add(new SqlParameter("@NomorHandphone", sani.Sanitize(Model.enc_NomorHandphone)));
+                param.Add(new SqlParameter("@Departemen", sani.Sanitize(Model.enc_Departemen)));
+                param.Add(new SqlParameter("@Jabatan", sani.Sanitize(Model.enc_Jabatan)));
                 param.Add(new SqlParameter("@FileIdentitas", FileIdentitas));
                 param.Add(new SqlParameter("@FileIdentitas_Ekstension", FileIdentitas_Ekstension));
                 param.Add(new SqlParameter("@CreatedBy", StringCipher.Decrypt(HttpContext.Session.GetString("Email"))));
@@ -688,8 +688,8 @@ namespace Frontend_SPP.Controllers
                 DataTable dt_Email_Admin_Pusat = mssql.GetDataTable("sp_Get_Email_Admin_Pusat");
                 foreach (DataRow dr in dt_Email_Admin_Pusat.Rows)
                 {
-                    string EmailAdminPusat = dr["Email"].ToString();
-                    string Fullname = dr["Fullname"].ToString();
+                    string EmailAdminPusat = aes.Dec(dr["Email"].ToString());
+                    string Fullname = !string.IsNullOrEmpty(dr["Fullname"].ToString()) ? aes.Dec(dr["Fullname"].ToString()) : "";
                     Helper.SendMail(EmailAdminPusat, "SPP PTSMI - Respon Tanggapan Pengaduan", MailComposer.compose_mail_body_tanggapan_ke_petugas(ID_Pengaduan, Fullname, Nomor));
                 }
                 #endregion Notifikasi_ke_Admin_Pusat  

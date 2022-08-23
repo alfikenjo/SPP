@@ -44,7 +44,7 @@ namespace Frontend_SPP.Controllers
         public IActionResult RenewPassword(string ID)
         {
             ViewBag.isValid = false;
-            DataTable DT = mssql.GetDataTable("SELECT A.ID, B.UserID, B.Username, B.Fullname, LEFT(A.Status, 8) [V_Status] FROM tblT_User_Password_Forgotten A JOIN tblM_User B ON A.UserID = B.UserID WHERE A.ID = '" + ID + "'");
+            DataTable DT = mssql.GetDataTable("SELECT A.ID, B.UserID, B.Fullname, LEFT(A.Status, 8) [V_Status] FROM tblT_User_Password_Forgotten A JOIN tblM_User B ON A.UserID = B.UserID WHERE A.ID = '" + ID + "'");
             if (DT.Rows.Count == 1)
                 ViewBag.isValid = true;
 
@@ -847,7 +847,7 @@ namespace Frontend_SPP.Controllers
                 if (Renew_Password != Renew_Password_Reentered)
                     throw new Exception("Re-entered Password did not match");
 
-                DataTable DT = mssql.GetDataTable("SELECT A.ID, B.UserID, B.Username, B.Fullname, LEFT(A.Status, 8) [V_Status] FROM tblT_User_Password_Forgotten A JOIN tblM_User B ON A.UserID = B.UserID WHERE A.ID = '" + ID + "'");
+                DataTable DT = mssql.GetDataTable("SELECT A.ID, B.UserID, B.Fullname, LEFT(A.Status, 8) [V_Status] FROM tblT_User_Password_Forgotten A JOIN tblM_User B ON A.UserID = B.UserID WHERE A.ID = '" + ID + "'");
                 if (DT.Rows.Count != 1)
                 {
                     if (culture == "en")
@@ -886,7 +886,7 @@ namespace Frontend_SPP.Controllers
 
                 string New_User_Password_Forgotten_ID = Guid.NewGuid().ToString();
 
-                DataTable DT = mssql.GetDataTable("SELECT A.ID, B.UserID, B.Username, B.Fullname, LEFT(A.Status, 8) [V_Status], B.Mobile FROM tblT_User_Password_Forgotten A JOIN tblM_User B ON A.UserID = B.UserID WHERE A.ID = '" + Old_User_Password_Forgotten_ID + "' AND A.Status = 'Not Verified'");
+                DataTable DT = mssql.GetDataTable("SELECT A.ID, B.UserID, B.Fullname, LEFT(A.Status, 8) [V_Status], B.Mobile FROM tblT_User_Password_Forgotten A JOIN tblM_User B ON A.UserID = B.UserID WHERE A.ID = '" + Old_User_Password_Forgotten_ID + "' AND A.Status = 'Not Verified'");
                 if (DT.Rows.Count != 1)
                 {
                     if (culture == "en")

@@ -14,7 +14,10 @@ CREATE PROCEDURE [dbo].[sp_Get_Msg_Tanggapan_by_Email]
     @Email VARCHAR(MAX)	
 AS
 BEGIN
-	--DECLARE @Email VARCHAR(MAX)	= 'spp.ptsmi@gmail.com' --'mh.alfi.syahri@gmail.com' --
+	--DECLARE @Email VARCHAR(MAX)	= '4+C+CfqQnO8REDtklNoJqGIAVswFLVXoSALwh/BW+qk='
+	--SELECT * FROM vw_UserInRole WHERE Email = @Email
+	--SELECT ID FROM tblT_Dumas WHERE CreatedBy = @Email AND Nomor IS NOT NULL
+	--SELECT * FROM tblT_Tanggapan WHERE IDPengaduan = '9EA43B95-7979-4C89-AAC6-2AA95DD0983E'
 	
 	DECLARE @TipePengirim VARCHAR(200) = ''
 
@@ -33,15 +36,15 @@ BEGIN
 	DECLARE @TABLE_RESULT AS TABLE (Msg_Title VARCHAR(200), Nomor VARCHAR(200), s_CreatedOn VARCHAR(200), Msg_Link VARCHAR(MAX), TipePengirim VARCHAR(200))
 
 	IF(@TipePengirim = 'Admin SPP')
-	BEGIN
+	BEGIN		
 		INSERT INTO @TABLE 
 		SELECT	'Tanggapan Pengaduan' [Msg_Title], 
 				(SELECT Nomor FROM tblT_Dumas WHERE ID = A.IDPengaduan) [Nomor],
 				dbo.Format24DateTime(A.Createdon) [s_CreatedOn], 
 				'/Pengaduan/PengaduanForm?ID=' + CONVERT(VARCHAR(36), A.IDPengaduan) [Msg_Link] ,
 				A.TipePengirim
-		FROM	tblT_Tanggapan  A
-		WHERE	A.IDPengaduan IN (SELECT ID FROM tblT_Dumas WHERE CreatedBy = @Email AND Nomor IS NOT NULL) 
+		FROM	tblT_Tanggapan A
+		WHERE	A.IDPengaduan IN (SELECT ID FROM tblT_Dumas WHERE Email = @Email AND Nomor IS NOT NULL) 
 				AND A.IsRead = 0
 				AND A.TipePengirim = @TipePengirim			
 		ORDER BY A.CreatedOn DESC

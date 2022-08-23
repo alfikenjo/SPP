@@ -23,7 +23,7 @@ namespace BO_SPP.Controllers
     public class AccountController : Controller
     {
         private HtmlSanitizer sani = new HtmlSanitizer();
-
+        
         public IActionResult Signin(string ID)
         {
             ViewData["Fullname"] = null;
@@ -34,7 +34,7 @@ namespace BO_SPP.Controllers
             if (!string.IsNullOrEmpty(ID))
                 HttpContext.Session.SetString("IDPengaduan", ID);
 
-            //aes.EncryptDatabase();
+            //aes.EncryptDatabase();           
 
             return View();
         }
@@ -705,7 +705,7 @@ namespace BO_SPP.Controllers
 
                 string Mobile = sani.Sanitize(Model.enc_Mobile);
                 if (aes.Dec(Mobile).Length >= 8 && aes.Dec(Mobile).Length <= 15 && aes.Dec(Mobile) != OldMobile)
-                {                   
+                {
                     if (HttpContext.Session.GetString("ReqTimes") != null)
                     {
                         DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
@@ -740,10 +740,10 @@ namespace BO_SPP.Controllers
 
                 mssql.ExecuteNonQuery("spUpdateAccountInternal", param);
 
-                
+
                 string PhoneChanged = "";
                 if (aes.Dec(Mobile).Length >= 8 && aes.Dec(Mobile).Length <= 15 && aes.Dec(Mobile) != OldMobile)
-                {                                            
+                {
                     string UserID = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));
                     string New_OTP_ID = Guid.NewGuid().ToString();
 
@@ -1166,7 +1166,7 @@ namespace BO_SPP.Controllers
             {
                 int SubmitOTPAttempt = 0;
                 if (!string.IsNullOrEmpty(HttpContext.Session.GetString("SubmitOTPAttempt")))
-                    SubmitOTPAttempt = int.Parse(HttpContext.Session.GetString("SubmitOTPAttempt"));               
+                    SubmitOTPAttempt = int.Parse(HttpContext.Session.GetString("SubmitOTPAttempt"));
 
                 string OTP = sani.Sanitize(Model.OTP);
                 string UserID = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));
@@ -1201,7 +1201,7 @@ namespace BO_SPP.Controllers
                 else
                 {
                     HttpContext.Session.Remove("SubmitTimes");
-                    HttpContext.Session.Remove("SubmitOTPAttempt");                    
+                    HttpContext.Session.Remove("SubmitOTPAttempt");
                 }
 
                 mssql.ExecuteNonQuery("UPDATE tblM_User SET Mobile = '" + aes.Enc(dtUser.Rows[0]["Mobile"].ToString()) + "', Mobile_Verification = 1, MobileTemp = NULL WHERE UserID = '" + UserID + "'");
@@ -1510,6 +1510,34 @@ namespace BO_SPP.Controllers
             {
                 return Json(new { Error = true, Message = ex.Message });
             }
+        }
+
+        public IActionResult Enc()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [SupportedOSPlatform("windows")]
+        public IActionResult enc(string PlainText)
+        {
+            ViewBag.PlainText = PlainText;
+            ViewBag.Encrypted_Text = aes.Enc(PlainText);
+            return View("Enc");
+        }
+
+        public IActionResult Dec()
+        {           
+            return View();
+        }
+
+        [HttpPost]
+        [SupportedOSPlatform("windows")]
+        public IActionResult dec(string dec_Text)
+        {
+            ViewBag.dec_Text = dec_Text;
+            ViewBag.Dec_PlainText = aes.Dec(dec_Text);
+            return View("Dec");
         }
 
     }
