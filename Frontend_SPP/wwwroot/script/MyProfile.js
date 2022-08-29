@@ -276,6 +276,7 @@ $('#FormSubmitOTP').validate({
             contentType: false,
             processData: false,
             success: function (Result) {
+                $('#OTP').val('');
                 if (Result.Error == false) {
                     var culture = document.getElementById('culture').value;
                     if (culture == 'en')
@@ -283,7 +284,10 @@ $('#FormSubmitOTP').validate({
                     else
                         CustomNotif('success|OTP|Nomor Handphone Anda sudah berhasil diverifikasi|ShowUpdateAkunForm();');
                 } else {
-                    CustomNotif("error|Oops|" + Result.Message + "");
+                    if (Result.Message == 'Sorry, you have failed to use OTP 3 (three) times, OTP verification has been cancelled, please try again' || Result.Message == 'Maaf, Anda telah gagal menggunakan OTP sebanyak 3 (tiga) kali, verifikasi OTP dibatalkan, silahkan mencoba kembali')
+                        CustomNotif("error|Oops|" + Result.Message + "|ShowUpdateAkunForm();");
+                    else
+                        CustomNotif("error|Oops|" + Result.Message + "");
                 }
             },
             error: function (xhr, status, error) {

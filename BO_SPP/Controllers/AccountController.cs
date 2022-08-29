@@ -23,7 +23,7 @@ namespace BO_SPP.Controllers
     public class AccountController : Controller
     {
         private HtmlSanitizer sani = new HtmlSanitizer();
-        
+
         public IActionResult Signin(string ID)
         {
             ViewData["Fullname"] = null;
@@ -1171,28 +1171,14 @@ namespace BO_SPP.Controllers
                 string OTP = sani.Sanitize(Model.OTP);
                 string UserID = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));
 
-                if (HttpContext.Session.GetString("SubmitTimes") != null)
-                {
-                    DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
-                    int ReqOTP = Convert.ToInt32(DTreq.Rows[0]["Request_OTP"].ToString());
-                    int submitOTP = Convert.ToInt32(DTreq.Rows[0]["Submit_OTP"].ToString());
-                    DateTime current = DateTime.Now;
-                    DateTime Reqlocked = Convert.ToDateTime(HttpContext.Session.GetString("SubmitTimes").ToString()).AddSeconds(ReqOTP);
-                    string ReqLockedUntil = Reqlocked.ToString("HH:mm:ss");
-                    if (current < Reqlocked)
-                        throw new Exception("Maaf, silahkan menunggu selama " + ReqOTP + " detik kedepan (hingga " + ReqLockedUntil + ") untuk mencoba kembali input OTP");
-                }
-
                 DataTable dtUser = mssql.GetDataTable("SELECT * FROM tblT_OTP WHERE UserID = '" + UserID + "' AND OTP = '" + OTP + "'");
                 if (dtUser.Rows.Count != 1)
                 {
                     SubmitOTPAttempt = SubmitOTPAttempt + 1;
                     HttpContext.Session.SetString("SubmitOTPAttempt", SubmitOTPAttempt.ToString());
-                    HttpContext.Session.SetString("SubmitTimes", DateTime.Now.ToString());
                     if (SubmitOTPAttempt == 3)
                     {
                         HttpContext.Session.Remove("SubmitOTPAttempt");
-                        HttpContext.Session.Remove("SubmitTimes");
                         throw new Exception("Maaf, Anda telah gagal menggunakan OTP sebanyak 3 (tiga) kali, verifikasi OTP dibatalkan, silahkan mencoba kembali");
                     }
 
@@ -1200,7 +1186,6 @@ namespace BO_SPP.Controllers
                 }
                 else
                 {
-                    HttpContext.Session.Remove("SubmitTimes");
                     HttpContext.Session.Remove("SubmitOTPAttempt");
                 }
 
@@ -1527,7 +1512,7 @@ namespace BO_SPP.Controllers
         }
 
         public IActionResult Dec()
-        {           
+        {
             return View();
         }
 

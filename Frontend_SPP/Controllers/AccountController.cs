@@ -809,6 +809,10 @@ namespace Frontend_SPP.Controllers
         {
             try
             {
+                int SubmitOTPAttempt = 0;
+                if (!string.IsNullOrEmpty(HttpContext.Session.GetString("SubmitOTPAttempt")))
+                    SubmitOTPAttempt = int.Parse(HttpContext.Session.GetString("SubmitOTPAttempt"));
+
                 var culture = string.IsNullOrEmpty(HttpContext.Session.GetString("culture")) ? "id" : HttpContext.Session.GetString("culture").ToLower();
                 string OTP = sani.Sanitize(Model.OTP);
                 string New_User_Password_Forgotten_ID = sani.Sanitize(Model.New_User_Password_Forgotten_ID.ToString());
@@ -816,13 +820,29 @@ namespace Frontend_SPP.Controllers
                 DataTable dtUser = mssql.GetDataTable("SELECT * FROM tblT_User_Password_Forgotten WHERE ID = '" + New_User_Password_Forgotten_ID + "' AND Status = 'Not verified' AND Remarks = '" + OTP + "'");
                 if (dtUser.Rows.Count != 1)
                 {
-                    if (culture == "en")
-                        throw new Exception("The OTP is invalid or has expired, you can resend the OTP");
+                    SubmitOTPAttempt = SubmitOTPAttempt + 1;
+                    HttpContext.Session.SetString("SubmitOTPAttempt", SubmitOTPAttempt.ToString());
+                    if (SubmitOTPAttempt == 3)
+                    {
+                        HttpContext.Session.Remove("SubmitOTPAttempt");
+                        HttpContext.Session.SetString("OTPLock", DateTime.Now.ToString());
+                        mssql.ExecuteNonQuery("DELETE FROM tblT_User_Password_Forgotten WHERE ID = '" + New_User_Password_Forgotten_ID + "'");
+
+                        if (culture == "en")
+                            throw new Exception("Sorry, you have failed to use OTP 3 (three) times, OTP verification has been cancelled, please try again");
+                        else
+                            throw new Exception("Maaf, Anda telah gagal menggunakan OTP sebanyak 3 (tiga) kali, verifikasi OTP dibatalkan, silahkan mencoba kembali");
+                    }
                     else
-                        throw new Exception("Kode OTP tidak valid atau sudah kadaluarsa, Anda dapat mengirim ulang kode OTP");
+                    {
+                        if (culture == "en")
+                            throw new Exception("The OTP is invalid or has expired, you can resend the OTP");
+                        else
+                            throw new Exception("Kode OTP tidak valid atau sudah kadaluarsa, Anda dapat mengirim ulang kode OTP");
+                    }
                 }
 
-
+                HttpContext.Session.Remove("SubmitOTPAttempt");
                 mssql.ExecuteNonQuery("UPDATE tblT_User_Password_Forgotten SET Status = 'Verified on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_User_Password_Forgotten_ID + "' AND Status = 'Not verified' AND Remarks = '" + OTP + "'");
 
                 return Json(new { Error = false, Message = New_User_Password_Forgotten_ID });
@@ -909,7 +929,6 @@ namespace Frontend_SPP.Controllers
                         else
                             throw new Exception("Maaf,  silahkan menunggu selama " + ReqOTP + " detik kedepan (hingga " + ReqLockedUntil + ") untuk dapat menggunakan OTP");
 
-
                 }
 
                 if (HttpContext.Session.GetString("OTPLock") != null)
@@ -978,6 +997,10 @@ namespace Frontend_SPP.Controllers
         {
             try
             {
+                int SubmitOTPAttempt = 0;
+                if (!string.IsNullOrEmpty(HttpContext.Session.GetString("SubmitOTPAttempt")))
+                    SubmitOTPAttempt = int.Parse(HttpContext.Session.GetString("SubmitOTPAttempt"));
+
                 string OTP = sani.Sanitize(Model.OTP);
                 string UserID = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));
                 var culture = string.IsNullOrEmpty(HttpContext.Session.GetString("culture")) ? "id" : HttpContext.Session.GetString("culture").ToLower();
@@ -985,12 +1008,29 @@ namespace Frontend_SPP.Controllers
                 DataTable dtUser = mssql.GetDataTable("SELECT * FROM tblT_OTP WHERE UserID = '" + UserID + "' AND OTP = '" + OTP + "'");
                 if (dtUser.Rows.Count != 1)
                 {
-                    if (culture == "en")
-                        throw new Exception("The OTP is invalid or has expired, you can resend the OTP");
+                    SubmitOTPAttempt = SubmitOTPAttempt + 1;
+                    HttpContext.Session.SetString("SubmitOTPAttempt", SubmitOTPAttempt.ToString());
+                    if (SubmitOTPAttempt == 3)
+                    {
+                        HttpContext.Session.Remove("SubmitOTPAttempt");
+                        HttpContext.Session.SetString("OTPLock", DateTime.Now.ToString());
+                        mssql.ExecuteNonQuery("DELETE FROM tblT_OTP WHERE UserID = '" + UserID + "'");
+
+                        if (culture == "en")
+                            throw new Exception("Sorry, you have failed to use OTP 3 (three) times, OTP verification has been cancelled, please try again");
+                        else
+                            throw new Exception("Maaf, Anda telah gagal menggunakan OTP sebanyak 3 (tiga) kali, verifikasi OTP dibatalkan, silahkan mencoba kembali");
+                    }
                     else
-                        throw new Exception("Kode OTP tidak valid atau sudah kadaluarsa, Anda dapat mengirim ulang kode OTP");
+                    {
+                        if (culture == "en")
+                            throw new Exception("The OTP is invalid or has expired, you can resend the OTP");
+                        else
+                            throw new Exception("Kode OTP tidak valid atau sudah kadaluarsa, Anda dapat mengirim ulang kode OTP");
+                    }
                 }
 
+                HttpContext.Session.Remove("SubmitOTPAttempt");
                 mssql.ExecuteNonQuery("UPDATE tblM_User SET Mobile = '" + aes.Enc(dtUser.Rows[0]["Mobile"].ToString()) + "', Mobile_Verification = 1, MobileTemp = NULL WHERE UserID = '" + UserID + "'");
                 mssql.ExecuteNonQuery("DELETE FROM tblT_OTP WHERE UserID = '" + UserID + "' AND AND OTP = '" + OTP + "'");
 
