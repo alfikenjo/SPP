@@ -379,7 +379,7 @@ namespace Frontend_SPP.Controllers
         }
 
         [HttpGet]
-        [Obsolete]
+        [DisableRequestSizeLimit]
         public IActionResult ShowFile(string Filename, string Extension)
         {
             try
@@ -411,31 +411,10 @@ namespace Frontend_SPP.Controllers
                 if (Authenticated == 0)
                     throw new Exception("Request is denied, you are not authorized to access this page");
 
-                byte[] bytes;
-                using (var conn = new FtpClient(ftpAddress, ftpUsername, ftpPassword))
-                {
-                    conn.Connect();
-                    // open an read-only stream to the file
-                    using (var istream = conn.OpenRead(FolderPath + Filename))
-                    {
-                        try
-                        {
-                            using (var memoryStream = new MemoryStream())
-                            {
-                                istream.CopyTo(memoryStream);
-                                bytes = memoryStream.ToArray();
-                            }
-                        }
-                        finally
-                        {
-                            istream.Close();
-                        }
-                    }
-                }
-
-                MemoryStream ms = new MemoryStream(bytes);
-                Response.Headers.Add("Content-Disposition", "inline; filename=" + Filename);
-                return File(ms, "application/" + Extension.Replace(".", ""));
+                string mimeType = MimeMapping.GetMimeMapping(Filename + "." + Extension);
+                MemoryStream ms = new MemoryStream(Helper.FileDecryptionToByte(Filename));
+                Response.Headers.Add("Content-Disposition", "inline; filename=" + Filename + "." + Extension);
+                return File(ms, mimeType);
             }
             catch (Exception ex)
             {
@@ -444,11 +423,14 @@ namespace Frontend_SPP.Controllers
         }
 
         [HttpGet]
-        [Obsolete]
+        [DisableRequestSizeLimit]
         public IActionResult PublicFile(string Filename, string Extension)
         {
             try
             {
+                if (Extension.Length > 0)
+                    Extension = Extension.Trim().ToLower().Replace(".", "");
+
                 int Authenticated = 0;
 
                 DataRow drFileCMS = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblT_CMS WHERE Filename = '" + Filename + "' OR Filename1 = '" + Filename + "'");
@@ -457,31 +439,10 @@ namespace Frontend_SPP.Controllers
                 if (Authenticated == 0)
                     throw new Exception("Request is denied, you are not authorized to access this page");
 
-                byte[] bytes;
-                using (var conn = new FtpClient(ftpAddress, ftpUsername, ftpPassword))
-                {
-                    conn.Connect();
-                    // open an read-only stream to the file
-                    using (var istream = conn.OpenRead(FolderPath + Filename))
-                    {
-                        try
-                        {
-                            using (var memoryStream = new MemoryStream())
-                            {
-                                istream.CopyTo(memoryStream);
-                                bytes = memoryStream.ToArray();
-                            }
-                        }
-                        finally
-                        {
-                            istream.Close();
-                        }
-                    }
-                }
-
-                MemoryStream ms = new MemoryStream(bytes);
-                Response.Headers.Add("Content-Disposition", "inline; filename=" + Filename);
-                return File(ms, "application/" + Extension.Replace(".", ""));
+                string mimeType = MimeMapping.GetMimeMapping(Filename + "." + Extension);
+                MemoryStream ms = new MemoryStream(Helper.FileDecryptionToByte(Filename));
+                Response.Headers.Add("Content-Disposition", "inline; filename=" + Filename + "." + Extension);
+                return File(ms, mimeType);
             }
             catch (Exception ex)
             {
