@@ -3240,6 +3240,8 @@ html[xmlns] .slider-wrap {
 		display: inline-block;
 		vertical-align: bottom;
 		width: 100%;
+		background-repeat: no-repeat !important;
+		background-size: cover !important;
 	}
 
 	#header.header-size-sm + .include-header {
