@@ -331,7 +331,7 @@ namespace BO_SPP.Controllers
                         mssql.ExecuteNonQuery("sp_Register_User", paramRegister);
                     }
 
-                    if (Helper.SendMail(EmailUser, Subject, MailComposer.compose_mail_body_kirim_dumas_pengadu(EmailUser, Nomor, TanggalKirim, isRegistered, NewRandomPassword, New_User_Verification_ID)) == 1)
+                    if (Helper.SendMail(aes.Dec(EmailUser), Subject, MailComposer.compose_mail_body_kirim_dumas_pengadu(aes.Dec(EmailUser), Nomor, TanggalKirim, isRegistered, NewRandomPassword, New_User_Verification_ID)) == 1)
                     {
                         mssql.ExecuteNonQuery("UPDATE tblT_New_User_Verification SET Verification_Mail_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_User_Verification_ID + "'");
                     }
