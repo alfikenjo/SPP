@@ -269,6 +269,8 @@ namespace Frontend_SPP.Controllers
                 if (int.Parse(dr_Login["Jumlah"].ToString()) == 0)
                     return RedirectToAction("Index", "Home");
 
+                var culture = string.IsNullOrEmpty(HttpContext.Session.GetString("culture")) ? "id" : HttpContext.Session.GetString("culture").ToLower();
+
                 string OldMobile = "";
                 DataTable dtOld = mssql.GetDataTable("SELECT Mobile FROM tblM_User WHERE UserID = '" + StringCipher.Decrypt(HttpContext.Session.GetString("UserID")) + "' AND Mobile_Verification = 1");
                 if (dtOld.Rows.Count == 1)
@@ -289,6 +291,37 @@ namespace Frontend_SPP.Controllers
                     if (!string.IsNullOrEmpty(HttpContext.Session.GetString("OTPTimes")))
                         OTPTimes = int.Parse(HttpContext.Session.GetString("OTPTimes"));
 
+                    if (HttpContext.Session.GetString("ReqTimes") != null)
+                    {
+                        DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
+                        int ReqOTP = Convert.ToInt32(DTreq.Rows[0]["Request_OTP"].ToString());
+                        int submitOTP = Convert.ToInt32(DTreq.Rows[0]["Submit_OTP"].ToString());
+                        DateTime current = DateTime.Now;
+                        DateTime Reqlocked = Convert.ToDateTime(HttpContext.Session.GetString("ReqTimes").ToString()).AddSeconds(ReqOTP);
+                        string ReqLockedUntil = Reqlocked.ToString("HH:mm:ss");
+                        if (current < Reqlocked)
+                            if (culture == "en")
+                                throw new Exception("Sorry, please wait for the next " + ReqOTP + " second (until " + ReqLockedUntil + ") to change your Mobile Phone Number");
+                            else
+                                throw new Exception("Maaf,  silahkan menunggu selama " + ReqOTP + " detik kedepan (hingga " + ReqLockedUntil + ") untuk dapat melakukan perubahan nomor handphone");
+                    }
+
+                    if (HttpContext.Session.GetString("OTPLock") != null)
+                    {
+                        DataTable DTreq = mssql.GetDataTable("SELECT [Request_OTP],[Submit_OTP] FROM [TblM_Config]");
+                        int ReqOTP = Convert.ToInt32(DTreq.Rows[0]["Request_OTP"].ToString());
+                        int submitOTP = Convert.ToInt32(DTreq.Rows[0]["Submit_OTP"].ToString());
+                        DateTime current = DateTime.Now;
+                        DateTime locked = Convert.ToDateTime(HttpContext.Session.GetString("OTPLock").ToString()).AddMinutes(submitOTP);
+                        string LockedUntil = locked.ToString("HH:mm:ss");
+
+                        if (current < locked)
+                            if (culture == "en")
+                                throw new Exception("Sorry, you have used OTP for 3 (three) times, please wait for the next " + submitOTP + " minutes (until " + LockedUntil + ") to change your Mobile Phone Number");
+                            else
+                                throw new Exception("Maaf, Anda sudah menggunakan OTP sebanyak 3 (tiga) kali, silahkan menunggu selama " + submitOTP + " menit kedepan (hingga " + LockedUntil + ") untuk dapat melakukan perubahan nomor handphone");
+                    }
+
                     string UserID = StringCipher.Decrypt(HttpContext.Session.GetString("UserID"));
                     string New_OTP_ID = Guid.NewGuid().ToString();
 
@@ -299,7 +332,6 @@ namespace Frontend_SPP.Controllers
                     mssql.ExecuteNonQuery("INSERT INTO tblT_OTP (ID, UserID, Mobile, OTP, Status) VALUES ('" + New_OTP_ID + "', '" + UserID + "', '" + aes.Dec(Mobile) + "', '" + OTP + "', 'Not verified')");
 
                     //SEND OTP VIA SMS GATEWAY
-                    var culture = string.IsNullOrEmpty(HttpContext.Session.GetString("culture")) ? "id" : HttpContext.Session.GetString("culture").ToLower();
                     string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP bila Anda tidak merasa meminta OTP ini.";
                     if (culture == "en")
                         SMS_Body = "Your OTP : " + OTP + "\n\nContact the WBS Helpdesk if you don't think you're asking for this OTP.";
@@ -740,8 +772,6 @@ namespace Frontend_SPP.Controllers
                             throw new Exception("Sorry, please wait for the next " + ReqOTP + " second (until " + ReqLockedUntil + ") to using OTP");
                         else
                             throw new Exception("Maaf,  silahkan menunggu selama " + ReqOTP + " detik kedepan (hingga " + ReqLockedUntil + ") untuk dapat menggunakan OTP");
-
-
                 }
 
                 if (HttpContext.Session.GetString("OTPLock") != null)
@@ -1032,7 +1062,7 @@ namespace Frontend_SPP.Controllers
 
                 HttpContext.Session.Remove("SubmitOTPAttempt");
                 mssql.ExecuteNonQuery("UPDATE tblM_User SET Mobile = '" + aes.Enc(dtUser.Rows[0]["Mobile"].ToString()) + "', Mobile_Verification = 1, MobileTemp = NULL WHERE UserID = '" + UserID + "'");
-                mssql.ExecuteNonQuery("DELETE FROM tblT_OTP WHERE UserID = '" + UserID + "' AND AND OTP = '" + OTP + "'");
+                mssql.ExecuteNonQuery("DELETE FROM tblT_OTP WHERE UserID = '" + UserID + "' AND OTP = '" + OTP + "'");
 
                 return Json(new { Error = false, Message = "" });
 

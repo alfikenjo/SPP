@@ -1178,6 +1178,7 @@ namespace BO_SPP.Controllers
                     HttpContext.Session.SetString("SubmitOTPAttempt", SubmitOTPAttempt.ToString());
                     if (SubmitOTPAttempt == 3)
                     {
+                        mssql.ExecuteNonQuery("DELETE FROM tblT_OTP WHERE UserID = '" + UserID + "'");
                         HttpContext.Session.Remove("SubmitOTPAttempt");
                         throw new Exception("Maaf, Anda telah gagal menggunakan OTP sebanyak 3 (tiga) kali, verifikasi OTP dibatalkan, silahkan mencoba kembali");
                     }
@@ -1190,7 +1191,7 @@ namespace BO_SPP.Controllers
                 }
 
                 mssql.ExecuteNonQuery("UPDATE tblM_User SET Mobile = '" + aes.Enc(dtUser.Rows[0]["Mobile"].ToString()) + "', Mobile_Verification = 1, MobileTemp = NULL WHERE UserID = '" + UserID + "'");
-                mssql.ExecuteNonQuery("DELETE FROM tblT_OTP WHERE UserID = '" + UserID + "' AND AND OTP = '" + OTP + "'");
+                mssql.ExecuteNonQuery("DELETE FROM tblT_OTP WHERE UserID = '" + UserID + "' AND OTP = '" + OTP + "'");
 
                 return Json(new { Error = false, Message = "" });
 
