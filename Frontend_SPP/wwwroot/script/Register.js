@@ -485,23 +485,23 @@ function FillPeriode() {
                 end_year_chart_3.options[end_year_chart_3.options.length] = new Option(data.Message[i].Year, data.Message[i].Year);
             }
 
-            document.getElementById("start_year").value = data.Message[0].Year;
+            document.getElementById("start_year").value = data.Message[data.Message.length - 1].Year;
             document.getElementById("end_year").value = data.Message[data.Message.length - 1].Year;
 
-            document.getElementById("start_year_chart_2").value = data.Message[0].Year;
+            document.getElementById("start_year_chart_2").value = data.Message[data.Message.length - 1].Year;
             document.getElementById("end_year_chart_2").value = data.Message[data.Message.length - 1].Year;
 
-            document.getElementById("start_year_chart_3").value = data.Message[0].Year;
+            document.getElementById("start_year_chart_3").value = data.Message[data.Message.length - 1].Year;
             document.getElementById("end_year_chart_3").value = data.Message[data.Message.length - 1].Year;
 
-            document.getElementById("start_month").value = data.Message[0].StartMonth;
-            document.getElementById("end_month").value = data.Message[0].EndMonth;
+            document.getElementById("start_month").value = data.Message[data.Message.length - 1].StartMonth;
+            document.getElementById("end_month").value = data.Message[data.Message.length - 1].EndMonth;
 
-            document.getElementById("start_month_chart_2").value = data.Message[0].StartMonth;
-            document.getElementById("end_month_chart_2").value = data.Message[0].EndMonth;
+            document.getElementById("start_month_chart_2").value = data.Message[data.Message.length - 1].StartMonth;
+            document.getElementById("end_month_chart_2").value = data.Message[data.Message.length - 1].EndMonth;
 
-            document.getElementById("start_month_chart_3").value = data.Message[0].StartMonth;
-            document.getElementById("end_month_chart_3").value = data.Message[0].EndMonth;
+            document.getElementById("start_month_chart_3").value = data.Message[data.Message.length - 1].StartMonth;
+            document.getElementById("end_month_chart_3").value = data.Message[data.Message.length - 1].EndMonth;
         },
         complete: function (data) {
             LoadChart1();

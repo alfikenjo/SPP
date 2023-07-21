@@ -21,7 +21,7 @@ namespace Frontend_SPP.Models
         private string createdby; public string CreatedBy { get { return createdby; } set { createdby = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
         private string updatedby; public string UpdatedBy { get { return updatedby; } set { updatedby = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
         private string prosesby; public string ProsesBy { get { return prosesby; } set { prosesby = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
-        private string jenis_pelanggaran; public string Jenis_Pelanggaran { get { return jenis_pelanggaran; } set { jenis_pelanggaran = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
+        //private string jenis_pelanggaran; public string Jenis_Pelanggaran { get { return jenis_pelanggaran; } set { jenis_pelanggaran = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
         private string keterangan_penyaluran; public string Keterangan_Penyaluran { get { return keterangan_penyaluran; } set { keterangan_penyaluran = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
         private string keterangan_pemeriksaan; public string Keterangan_Pemeriksaan { get { return keterangan_pemeriksaan; } set { keterangan_pemeriksaan = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
         private string keterangan_konfirmasi; public string Keterangan_Konfirmasi { get { return keterangan_konfirmasi; } set { keterangan_konfirmasi = !string.IsNullOrEmpty(value) ? aes.Dec(value) : value; } }
@@ -37,12 +37,13 @@ namespace Frontend_SPP.Models
         public string enc_CreatedBy { get { return createdby; } set { createdby = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
         public string enc_UpdatedBy { get { return updatedby; } set { updatedby = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
         public string enc_ProsesBy { get { return prosesby; } set { prosesby = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
-        public string enc_Jenis_Pelanggaran { get { return jenis_pelanggaran; } set { jenis_pelanggaran = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
+        //public string enc_Jenis_Pelanggaran { get { return jenis_pelanggaran; } set { jenis_pelanggaran = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
         public string enc_Keterangan_Penyaluran { get { return keterangan_penyaluran; } set { keterangan_penyaluran = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
         public string enc_Keterangan_Pemeriksaan { get { return keterangan_pemeriksaan; } set { keterangan_pemeriksaan = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
         public string enc_Keterangan_Konfirmasi { get { return keterangan_konfirmasi; } set { keterangan_konfirmasi = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
         public string enc_Keterangan_Respon { get { return keterangan_respon; } set { keterangan_respon = !string.IsNullOrEmpty(value) ? aes.Enc(value) : value; } }
 
+        public string Jenis_Pelanggaran { get; set; }
         public string Nama { get; set; }
         public string Alamat { get; set; }
         public string Pekerjaan { get; set; }

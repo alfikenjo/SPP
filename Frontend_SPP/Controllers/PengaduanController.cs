@@ -265,7 +265,7 @@ namespace Frontend_SPP.Controllers
                 param.Add(new SqlParameter("@Nomor", Nomor));
                 param.Add(new SqlParameter("@Email", sani.Sanitize(Model.enc_Email)));
                 param.Add(new SqlParameter("@Handphone", sani.Sanitize(Model.enc_Handphone)));
-                param.Add(new SqlParameter("@Jenis_Pelanggaran", sani.Sanitize(Model.enc_Jenis_Pelanggaran)));
+                param.Add(new SqlParameter("@Jenis_Pelanggaran", sani.Sanitize(Model.Jenis_Pelanggaran)));
                 param.Add(new SqlParameter("@TempatKejadian", sani.Sanitize(Model.enc_TempatKejadian)));
                 param.Add(new SqlParameter("@WaktuKejadian", WaktuKejadian));
                 param.Add(new SqlParameter("@Kronologi", sani.Sanitize(Model.enc_Kronologi)));

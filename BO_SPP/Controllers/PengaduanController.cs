@@ -205,7 +205,7 @@ namespace BO_SPP.Controllers
                 string enc_CreatedBy = sani.Sanitize(Model.enc_CreatedBy);
                 string enc_UpdatedBy = sani.Sanitize(Model.enc_UpdatedBy);
                 string enc_ProsesBy = sani.Sanitize(Model.enc_ProsesBy);
-                string enc_Jenis_Pelanggaran = sani.Sanitize(Model.enc_Jenis_Pelanggaran);
+                string Jenis_Pelanggaran = sani.Sanitize(Model.Jenis_Pelanggaran);
                 string enc_Keterangan_Penyaluran = sani.Sanitize(Model.enc_Keterangan_Penyaluran);
                 string enc_Keterangan_Pemeriksaan = sani.Sanitize(Model.enc_Keterangan_Pemeriksaan);
                 string enc_Keterangan_Konfirmasi = sani.Sanitize(Model.enc_Keterangan_Konfirmasi);
@@ -272,7 +272,7 @@ namespace BO_SPP.Controllers
                 param.Add(new SqlParameter("@Nomor", Nomor));
                 param.Add(new SqlParameter("@Email", enc_Email));
                 param.Add(new SqlParameter("@Handphone", enc_Handphone));
-                param.Add(new SqlParameter("@Jenis_Pelanggaran", enc_Jenis_Pelanggaran));
+                param.Add(new SqlParameter("@Jenis_Pelanggaran", Jenis_Pelanggaran));
                 param.Add(new SqlParameter("@TempatKejadian", enc_TempatKejadian));
                 param.Add(new SqlParameter("@WaktuKejadian", WaktuKejadian));
                 param.Add(new SqlParameter("@Kronologi", enc_Kronologi));
@@ -843,7 +843,7 @@ namespace BO_SPP.Controllers
                 param.Add(new SqlParameter("@ID", _ID));
                 param.Add(new SqlParameter("@Status", sani.Sanitize(Model.Status)));
                 param.Add(new SqlParameter("@DelegatorID", sani.Sanitize(Model.DelegatorID)));
-                param.Add(new SqlParameter("@Jenis_Pelanggaran", sani.Sanitize(Model.enc_Jenis_Pelanggaran)));
+                param.Add(new SqlParameter("@Jenis_Pelanggaran", sani.Sanitize(Model.Jenis_Pelanggaran)));
                 param.Add(new SqlParameter("@Keterangan_Penyaluran", sani.Sanitize(Model.enc_Keterangan_Penyaluran)));
                 param.Add(new SqlParameter("@Keterangan_Penyaluran_Filename", Keterangan_Penyaluran_Filename));
                 param.Add(new SqlParameter("@Keterangan_Penyaluran_Ekstension", Keterangan_Penyaluran_Ekstension));

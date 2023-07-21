@@ -475,7 +475,7 @@ $('#FormInput').validate({
         DataForm.append('enc_TempatKejadian', $('#txt_TempatKejadian').val());
         DataForm.append('WaktuKejadian', $('#txt_WaktuKejadian').val());
         DataForm.append('enc_Kronologi', $('#txt_Kronologi').val());
-        DataForm.append('enc_Jenis_Pelanggaran', $('#Jenis_Pelanggaran').val());
+        DataForm.append('Jenis_Pelanggaran', $('#Jenis_Pelanggaran').val());
 
         var files = $("#fu_FileEvidence").get(0).files;
 

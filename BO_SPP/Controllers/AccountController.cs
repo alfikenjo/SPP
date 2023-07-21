@@ -1514,6 +1514,8 @@ namespace BO_SPP.Controllers
 
         public IActionResult Dec()
         {
+            //aes.EncryptDatabase();
+            //return RedirectToAction("Signin", "Account");
             return View();
         }
 

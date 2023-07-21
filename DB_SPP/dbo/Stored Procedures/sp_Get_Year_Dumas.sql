@@ -17,7 +17,7 @@ BEGIN
 
 	SET NOCOUNT ON;
 	DECLARE @StartYear INT = (SELECT TOP 1 YEAR(CreatedOn) FROM tblT_Dumas WHERE Nomor IS NOT NULL ORDER BY CreatedOn ASC)
-	DECLARE @EndYear INT = (SELECT TOP 1 YEAR(CreatedOn) FROM tblT_Dumas WHERE Nomor IS NOT NULL ORDER BY CreatedOn DESC)
+	DECLARE @EndYear INT =  (SELECT TOP 1 YEAR(CreatedOn) FROM tblT_Dumas WHERE Nomor IS NOT NULL ORDER BY CreatedOn DESC)
 
 	DECLARE @StartMonth INT = (SELECT TOP 1 Month(CreatedOn) FROM tblT_Dumas WHERE Nomor IS NOT NULL ORDER BY CreatedOn ASC)
 	DECLARE @EndMonth INT = (SELECT TOP 1 Month(CreatedOn) FROM tblT_Dumas WHERE Nomor IS NOT NULL ORDER BY CreatedOn DESC)
@@ -25,8 +25,11 @@ BEGIN
 	IF(@StartYear IS NULL) BEGIN SET @StartYear = YEAR(GETDATE()) END
 	IF(@EndYear IS NULL) BEGIN SET @EndYear = YEAR(GETDATE()) END
 
+	DECLARE @TABLE AS TABLE (Year INT, StartMonth INT, EndMonth INT)
+
 	IF(SELECT COUNT(*) FROM tblT_Dumas WHERE Nomor IS NOT NULL) > 0
 	BEGIN
+		INSERT INTO @TABLE
 		SELECT	DISTINCT YEAR(CreatedOn) [Year], @StartMonth [StartMonth], @EndMonth [EndMonth]
 		FROM	tblT_Dumas A		
 		WHERE	YEAR(CreatedOn) BETWEEN @StartYear AND @EndYear
@@ -34,7 +37,16 @@ BEGIN
 
 	ELSE 
 	BEGIN
+		INSERT INTO @TABLE
 		SELECT @StartYear [Year], MONTH(GETDATE()) [StartMonth], MONTH(GETDATE()) [EndMonth]
 	END
+
+	IF(SELECT COUNT(*) FROM @TABLE WHERE [Year] = YEAR(GETDATE())) = 0
+	BEGIN
+		INSERT INTO @TABLE ([Year], StartMonth, EndMonth)
+		SELECT YEAR(GETDATE()), 1, MONTH(GETDATE())
+	END
+
+	SELECT * FROM @TABLE
 
 END

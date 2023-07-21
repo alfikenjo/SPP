@@ -333,7 +333,8 @@ function FillForm(ID) {
                     document.getElementById('Jenis_Pelanggaran_Input').setAttribute("disabled", "disabled");
                 }
 
-                document.getElementById('Jenis_Pelanggaran').value = data.Jenis_Pelanggaran.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                if (data.Jenis_Pelanggaran)
+                    document.getElementById('Jenis_Pelanggaran').value = data.Jenis_Pelanggaran.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 document.getElementById('txt_Keterangan_Penyaluran').value = data.Keterangan_Penyaluran.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 document.getElementById('txt_Keterangan_Pemeriksaan').value = data.Keterangan_Pemeriksaan.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 document.getElementById('txt_Keterangan_Konfirmasi').value = data.Keterangan_Konfirmasi.replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -702,7 +703,7 @@ $('#FormInput').validate({
 
         DataForm.append('enc_Email', $('#txt_Email').val());
         DataForm.append('enc_Handphone', $('#txt_Handphone').val());
-        DataForm.append('enc_Jenis_Pelanggaran', $('#Jenis_Pelanggaran_Input').val());
+        DataForm.append('Jenis_Pelanggaran', $('#Jenis_Pelanggaran_Input').val());
         DataForm.append('enc_TempatKejadian', $('#txt_TempatKejadian').val());
         DataForm.append('enc_Kronologi', $('#txt_Kronologi').val());
 
@@ -1250,7 +1251,7 @@ $('#formResponAdminSPP').validate({
         DataForm.append('ID', $('#ID_Header').val());
         DataForm.append('Status', $('#ddl_Status_Respon').val());
         DataForm.append('DelegatorID', $('#ddl_Delegator').val());
-        DataForm.append('enc_Jenis_Pelanggaran', $('#Jenis_Pelanggaran').val());
+        DataForm.append('Jenis_Pelanggaran', $('#Jenis_Pelanggaran').val());
         DataForm.append('enc_Keterangan_Penyaluran', $('#txt_Keterangan_Penyaluran').val());
         DataForm.append("Upload", $('#fu_Keterangan_Penyaluran_Filename')[0].files[0]);
 
