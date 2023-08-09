@@ -631,6 +631,16 @@ namespace Frontend_SPP.Controllers
                 DataTable DT = mssql.GetDataTable("SELECT * FROM tblM_User WHERE Email = '" + Email + "' AND ISNULL(isActive, 0) = 1");
                 if (DT.Rows.Count == 1)
                 {
+                    DataRow drUserPelapor = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM vw_UserInRole WHERE Email = '" + Email + "' AND ISNULL(isActive, 0) = 1 AND Role = 'Pelapor'");
+                    int UserPelapor = int.Parse(drUserPelapor["Count"].ToString());
+                    if (UserPelapor != 1)
+                    {
+                        failedAttemp++;
+                        HttpContext.Session.SetInt32("failedAttemp", failedAttemp);
+                        msg = "Your Email not found or not registered";
+                        throw new Exception(msg);
+                    }
+
                     if (!PassHash.VerifyHashedPassword(DT.Rows[0]["PasswordHash"].ToString(), ProvidedPassword))
                     {
                         failedAttemp++;
