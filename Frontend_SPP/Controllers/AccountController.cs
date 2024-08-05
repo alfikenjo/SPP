@@ -729,8 +729,12 @@ namespace Frontend_SPP.Controllers
                 mssql.ExecuteNonQuery("INSERT INTO tblT_User_Password_Forgotten (ID, UserID, Email, Status) VALUES ('" + New_User_Password_Forgotten_ID + "', '" + UserID + "', '" + Email + "', 'Not verified')");
 
                 string Subject = "Verifikasi Lupa Password SPP - PTSMI";
-                Helper.SendMail(aes.Dec(Email), Subject, MailComposer.compose_mail_body_password_reset(New_User_Password_Forgotten_ID));
-                mssql.ExecuteNonQuery("UPDATE tblT_User_Password_Forgotten SET Mail_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_User_Password_Forgotten_ID + "'");
+                string SendMail = Helper.SendMailStr(aes.Dec(Email), Subject, MailComposer.compose_mail_body_password_reset(New_User_Password_Forgotten_ID));
+                if(SendMail == "success")
+                    mssql.ExecuteNonQuery("UPDATE tblT_User_Password_Forgotten SET Mail_Status = 'Sent on " + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.000") + "' WHERE ID = '" + New_User_Password_Forgotten_ID + "'");
+                else
+                    throw new Exception("Sorry, there was a problem with the email sending process. Please try again later.\r\nMsg: " + SendMail);
+
 
                 return Json(new { Error = false, Message = "" });
 

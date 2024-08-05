@@ -200,7 +200,7 @@ namespace Frontend_SPP.Common
 
             return Result;
         }
-
+        
         public static int SendMail(string Email, string Subject, string MailBody)
         {
             try
@@ -230,25 +230,85 @@ namespace Frontend_SPP.Common
                     _UseDefaultCredentials = bool.Parse(dr["UseDefaultCredentials"].ToString());
                 }
 
+                SmtpClient client = new SmtpClient(_SMTPAddress, int.Parse(_SMTPPort));
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress(_EmailAddress, _SenderName);
                 mail.To.Add(new MailAddress(Email));
                 mail.Subject = Subject;
                 mail.Body = MailBody;
                 mail.IsBodyHtml = true;
-                SmtpClient client = new SmtpClient(_SMTPAddress, int.Parse(_SMTPPort));
-                client.Credentials = new System.Net.NetworkCredential(_EmailAddress, _Password);
+
                 client.EnableSsl = _EnableSsl;
+                client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = _UseDefaultCredentials;
+                client.Credentials = new System.Net.NetworkCredential(_EmailAddress, _Password);
                 ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
                 client.Send(mail);
-                return 1;
+                return 1;             
             }
             catch (Exception)
             {
                 return 0;
             }
-        }        
+        }
+
+        public static string SendMailStr(string Email, string Subject, string MailBody)
+        {
+            try
+            {
+                DataRow drEmailNotification = mssql.GetDataRow("SELECT COUNT(*) [Count] FROM tblM_User WHERE Email = '" + aes.Enc(Email) + "' AND ISNULL(EmailNotification, 0) = 1");
+                if (int.Parse(drEmailNotification["Count"].ToString()) == 0)
+                    throw new Exception("Notification is not aktif");
+
+                string _SMTPAddress = SMTPAddress;
+                string _SMTPPort = SMTPPort;
+                string _SenderName = SenderName;
+                string _EmailAddress = EmailAddress;
+                string _Password = Password;
+                bool _EnableSsl = true;
+                bool _UseDefaultCredentials = true;
+
+                DataTable dtNotification = mssql.GetDataTable("SELECT * FROM NotificationSetting");
+                if (dtNotification.Rows.Count == 1)
+                {
+                    DataRow dr = dtNotification.Rows[0];
+                    _SMTPAddress = aes.Dec(dr["SMTPAddress"].ToString());
+                    _SMTPPort = aes.Dec(dr["SMTPPort"].ToString());
+                    _SenderName = aes.Dec(dr["SenderName"].ToString());
+                    _EmailAddress = aes.Dec(dr["EmailAddress"].ToString());
+                    _Password = aes.Dec(dr["Password"].ToString());
+                    _EnableSsl = bool.Parse(dr["EnableSSL"].ToString());
+                    _UseDefaultCredentials = bool.Parse(dr["UseDefaultCredentials"].ToString());
+                }
+
+                SmtpClient client = new SmtpClient(_SMTPAddress, int.Parse(_SMTPPort));
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(_EmailAddress, _SenderName);
+                mail.To.Add(new MailAddress(Email));
+                mail.Subject = Subject;
+                mail.Body = MailBody;
+                mail.IsBodyHtml = true;
+
+                client.EnableSsl = _EnableSsl;
+                client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = _UseDefaultCredentials;
+                client.Credentials = new System.Net.NetworkCredential(_EmailAddress, _Password);
+                ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                client.Send(mail);
+                return "success";
+            }
+            catch (SmtpException exc)
+            {
+                return exc.Message;
+            }
+            catch (Exception exc)
+            {
+                // Other exceptions
+                return exc.Message;
+            }
+        }
 
         public static void RecordAuditTrail(string Username, string Menu, string Halaman, string Item, string Action, string Description)
         {
