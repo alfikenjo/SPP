@@ -754,7 +754,7 @@ namespace BO_SPP.Controllers
                     mssql.ExecuteNonQuery("INSERT INTO tblT_OTP (ID, UserID, Mobile, OTP, Status) VALUES ('" + New_OTP_ID + "', '" + UserID + "', '" + aes.Dec(Mobile) + "', '" + OTP + "', 'Not verified')");
 
                     //SEND OTP VIA SMS GATEWAY
-                    string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP PT SMI bila Anda tidak merasa meminta OTP ini.";
+                    string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP PT SMI bila Anda tidak merasa meminta OTP ini.\n\n\n\nPT SMI";
 
                     string SMS_Respon = Helper.SendSMSSingle(SMS_Body, aes.Dec(Mobile));
                     if (SMS_Respon == "Success")
@@ -1252,7 +1252,7 @@ namespace BO_SPP.Controllers
                     mssql.ExecuteNonQuery("INSERT INTO tblT_OTP (ID, UserID, Mobile, OTP, Status) VALUES ('" + New_OTP_ID + "', '" + UserID + "', '" + Mobile + "', '" + OTP + "', 'Not verified')");
 
                     //SEND OTP VIA SMS GATEWAY
-                    string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP PT SMI bila Anda tidak merasa meminta OTP ini.";
+                    string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP PT SMI bila Anda tidak merasa meminta OTP ini.\n\n\n\nPT SMI";
 
                     string SMS_Respon = Helper.SendSMSSingle(SMS_Body, Mobile);
                     if (SMS_Respon == "Success")

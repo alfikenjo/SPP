@@ -332,9 +332,9 @@ namespace Frontend_SPP.Controllers
                     mssql.ExecuteNonQuery("INSERT INTO tblT_OTP (ID, UserID, Mobile, OTP, Status) VALUES ('" + New_OTP_ID + "', '" + UserID + "', '" + aes.Dec(Mobile) + "', '" + OTP + "', 'Not verified')");
 
                     //SEND OTP VIA SMS GATEWAY
-                    string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP bila Anda tidak merasa meminta OTP ini.";
+                    string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP bila Anda tidak merasa meminta OTP ini.\n\n\n\nPT SMI";
                     if (culture == "en")
-                        SMS_Body = "Your OTP : " + OTP + "\n\nContact the WBS Helpdesk if you don't think you're asking for this OTP.";
+                        SMS_Body = "Your OTP : " + OTP + "\n\nContact the WBS Helpdesk if you don't think you're asking for this OTP.\n\n\n\nPT SMI";
 
                     string SMS_Respon = Helper.SendSMSSingle(SMS_Body, aes.Dec(Mobile));
                     if (SMS_Respon == "Success")
@@ -814,9 +814,9 @@ namespace Frontend_SPP.Controllers
                 mssql.ExecuteNonQuery("INSERT INTO tblT_User_Password_Forgotten (ID, UserID, Email, Remarks, Status) VALUES ('" + New_User_Password_Forgotten_ID + "', '" + UserID + "', '" + Mobile + "', '" + OTP + "', 'Not verified')");
 
                 //SEND OTP VIA SMS GATEWAY
-                string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP bila Anda tidak merasa meminta OTP ini.";
+                string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP bila Anda tidak merasa meminta OTP ini.\n\n\n\nPT SMI";
                 if (culture == "en")
-                    SMS_Body = "Your OTP : " + OTP + "\n\nContact the WBS Helpdesk if you don't think you're asking for this OTP.";
+                    SMS_Body = "Your OTP : " + OTP + "\n\nContact the WBS Helpdesk if you don't think you're asking for this OTP.\n\n\n\nPT SMI";
 
 
                 string SMS_Respon = Helper.SendSMSSingle(SMS_Body, aes.Dec(Mobile));
@@ -1002,9 +1002,9 @@ namespace Frontend_SPP.Controllers
 
                 //SEND OTP VIA SMS GATEWAY
 
-                string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP bila Anda tidak merasa meminta OTP ini.";
+                string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP bila Anda tidak merasa meminta OTP ini.\n\n\n\nPT SMI";
                 if (culture == "en")
-                    SMS_Body = "Your OTP : " + OTP + "\n\nContact the WBS Helpdesk if you don't think you're asking for this OTP.";
+                    SMS_Body = "Your OTP : " + OTP + "\n\nContact the WBS Helpdesk if you don't think you're asking for this OTP.\n\n\n\nPT SMI";
 
                 string SMS_Respon = Helper.SendSMSSingle(SMS_Body, aes.Dec(Mobile));
                 if (SMS_Respon == "Success")
@@ -1146,9 +1146,9 @@ namespace Frontend_SPP.Controllers
                     mssql.ExecuteNonQuery("INSERT INTO tblT_OTP (ID, UserID, Mobile, OTP, Status) VALUES ('" + New_OTP_ID + "', '" + UserID + "', '" + aes.Dec(Mobile) + "', '" + OTP + "', 'Not verified')");
 
                     //SEND OTP VIA SMS GATEWAY
-                    string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP bila Anda tidak merasa meminta OTP ini.";
+                    string SMS_Body = "Kode OTP : " + OTP + "\n\nHubungi Administrator SPP bila Anda tidak merasa meminta OTP ini.\n\n\n\nPT SMI";
                     if (culture == "en")
-                        SMS_Body = "Your OTP : " + OTP + "\n\nContact the WBS Helpdesk if you don't think you're asking for this OTP.";
+                        SMS_Body = "Your OTP : " + OTP + "\n\nContact the WBS Helpdesk if you don't think you're asking for this OTP.\n\n\n\nPT SMI";
 
                     string SMS_Respon = Helper.SendSMSSingle(SMS_Body, aes.Dec(Mobile));
                     if (SMS_Respon == "Success")
