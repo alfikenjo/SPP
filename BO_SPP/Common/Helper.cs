@@ -349,8 +349,7 @@ namespace BO_SPP.Common
                 var pesan = Regex.Replace(message, @"\r|\n", "\n");
                 var pesan2 = Regex.Replace(pesan, @"\n\n", "\\n");
 
-                var client = new RestClient(URL);
-                //var client = new RestClient("https://api.smsviro.com/restapi/sms/1/text/single");
+                var client = new RestClient(URL);                
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
                 RestRequest request = new RestRequest();
